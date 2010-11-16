@@ -3,10 +3,16 @@
 # Chris's .bash_profile
 # loaded by bash when any login shell started
 #
-# Various bits borrowews from:
+# Various bits borrowed from:
 #
 # Grabbed from https://github.com/ciaranm/dotfiles-ciaranm
 # https://github.com/stsquad/dotfiles
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+
+
 
 #
 # Source global definitions
@@ -211,33 +217,26 @@ BROWSER=$(find_alternatives "chromium-browser" "chrome" "firefox-4.0" "firefox" 
 # Environent Variables
 ######################
 
-# One editor
 export EDITOR=emacs
 
-# set CFLAGS for debugging - autoconf usually picks it up.
-#export CFLAGS=-g3
-
-# CVS exports
-export CVS_RSH=ssh
-export CVSEDITOR=ec
-
-# Setup history control - hard to get right, could do with
-# bashcompletion as well. Just make sure I don't repeatedly delete stuff
-
-# append (as I use lots of shells)
+# Append to history file
 shopt -s histappend
 
 # Dump history to the file each prompt
 #PROMPT_COMMAND='history -a'
 
-export HISTCONTROL=ignoredups
+export HISTCONTROL=ignoredups:ignorespace
 export HISTIGNORE="rm *"
+export HISTSIZE=10000
 export HISTFILESIZE=10000
 
 
 # GNU systems usually use less by default for
 # man pages, however not all unix-a-likes do
 export PAGER=less
+
+# and while we're at it make less handle non text...
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 #
 # GIT Stuff
@@ -504,4 +503,6 @@ if [ -f /sw/etc/bash_completion ] && ! shopt -oq posix; then
     . /sw/etc/bash_completion
 fi
 
-
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
