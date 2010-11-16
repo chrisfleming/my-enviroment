@@ -31,27 +31,30 @@ fi
 #
 #######################################################################
 case "${TERM}" in
-    xterm*)
-# export TERM=xterm-256color
-case "${TERM_PROGRAM}" in
-Apple_Terminal)
-cache_term_colours=16
-;;
-*)
-cache_term_colours=256
-;;
-esac
-        ;;
-    screen)
-        cache_term_colours=256
-        ;;
-    dumb)
-        cache_term_colours=2
-        ;;
+  xterm-color)
+    cache_term_colours=16
+  xterm*)
+  case "${TERM_PROGRAM}" in
+    Apple_Terminal)
+      cache_term_colours=16
+    ;;
     *)
-        cache_term_colours=16
+      cache_term_colours=256
+    ;;
+  esac
         ;;
+  screen)
+    cache_term_colours=256
+  ;;
+  dumb)
+     cache_term_colours=2
+  ;;
+  *)
+    cache_term_colours=16
+  ;;
 esac
+
+
 case "${cache_term_colours}" in
     256)
         cache_colour_l_blue='\033[38;5;33m'
