@@ -11,9 +11,6 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-
-
-
 #
 # Source global definitions
 #
@@ -39,6 +36,7 @@ fi
 case "${TERM}" in
   xterm-color)
     cache_term_colours=16
+  ;;
   xterm*)
   case "${TERM_PROGRAM}" in
     Apple_Terminal)
@@ -114,12 +112,13 @@ set +x
 case "${TERM}" in
     xterm*)
         PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
-        ;;
+    ;;
     screen)
         PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\"'
-        ;;
-	*)        PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
-        ;;
+    ;;
+    *)        
+        PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
+    ;;
 esac
 
 
@@ -266,11 +265,11 @@ fi
 
 
 ps_wrk_f() {
-    #if [[ "${PWD/ciaranm\/snow}" != "${PWD}" ]] ; then
-    #    local p="snow${PWD#*/ciaranm/snow}"
-    #    p="${p%%/*}"
-    #    echo "@${p}"
-    #fi
+    if [[ "${PWD/ciaranm\/snow}" != "${PWD}" ]] ; then
+        local p="snow${PWD#*/ciaranm/snow}"
+        p="${p%%/*}"
+        echo "@${p}"
+    fi
 }
 
 ps_retc_f() {
