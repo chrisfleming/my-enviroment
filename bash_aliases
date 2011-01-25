@@ -12,3 +12,5 @@ alias sshbeisles9-2='ssh fle56202@beisles9i32-2.bei.ds.jdsu.net'
 alias sshbeisles10-1='ssh fle56202@beisles10i32-1.bei.ds.jdsu.net'
 alias sshbeisles10-2='ssh fle56202@beisles10i32-2.bei.ds.jdsu.net'
 alias sshbeisles10-3='ssh fle56202@beisles10i32-3.bei.ds.jdsu.net'
+
+alias pasteintranet='nopaste-it -u http://chrisfl-laptop.ds.jdsu.net/pnopaste/ -n Chris'
