@@ -21,4 +21,16 @@ function epoch2date() {
 
 }
 
+# Get my IP address
+function myip() {
 
+if [ -d /sw/ ]; then
+  ifconfig en0 | awk '/inet / {split ($2,A," "); print A[1]}'
+fi
+
+if [ -d /proc ]; then
+  ifconfig | awk '/inet addr/ {split ($2,A,":"); print A[2]}'
+fi
+
+
+}
