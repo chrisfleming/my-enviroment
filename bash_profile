@@ -20,6 +20,7 @@ if [ -f /sw/bin/init.sh ]; then
   .  /sw/bin/init.sh
 fi
 
+
 #######################################################################
 # Terminal Setup
 #
@@ -505,3 +506,5 @@ fi
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
+
+
