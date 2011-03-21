@@ -12,3 +12,13 @@ alias sshbeisles9-2='ssh fle56202@beisles9i32-2.bei.ds.jdsu.net'
 alias sshbeisles10-1='ssh fle56202@beisles10i32-1.bei.ds.jdsu.net'
 alias sshbeisles10-2='ssh fle56202@beisles10i32-2.bei.ds.jdsu.net'
 alias sshbeisles10-3='ssh fle56202@beisles10i32-3.bei.ds.jdsu.net'
+
+alias pasteintranet='nopaste-it -u http://chrisfl-laptop.ds.jdsu.net/pnopaste/ -n Chris'
+
+# slightly nasty EPOCH to date
+function epoch2date() { 
+   perl -e '($sec,$min,$hour,$day,$month,$year)= localtime($ARGV[0]); printf "%02d/%02d/%02d %02d:%02d:%02d\n", $year +1900, $month++, $day, $hour, $min, $sec;' $1
+
+}
+
+
