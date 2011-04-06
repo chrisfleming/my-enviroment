@@ -129,18 +129,6 @@ esac
 # Aliases
 #############
 
-# I like a quick grep of history
-alias h="history | grep"
-
-# Find a given export in history
-function he
-{
-    if [ "$1" ]
-    then
-history | grep -E "^ [0-9]+ export $1" | uniq -s 6 -u
-    fi
-}
-
 # Search through a list of alternative binaries, returning the first match
 function find_alternatives ()
 {
