@@ -1,6 +1,7 @@
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
+alias lr='ls -lr'
 alias l='ls -CF'
 
 alias p='ps -ef | grep'
