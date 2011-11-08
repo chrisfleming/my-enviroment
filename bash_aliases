@@ -44,15 +44,14 @@ function gmtime2epoch() {
        -e 'print "$time\n";' $1 $2
 }
 
-
-
-
-
 # Get my IP address
 function myip() {
 
-if [ -d /sw/ ]; then
-  ifconfig en0 | awk '/inet / {split ($2,A," "); print A[1]}'
+if [ -d /Applications ]; then
+  for i in `ifconfig -l`; do
+    y=`ifconfig $i | awk '/inet / {split ($2,A," "); print A[1]}'`
+    test "$y"  && echo $i: $y
+  done
 fi
 
 if [ -d /proc ]; then
