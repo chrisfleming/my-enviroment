@@ -129,18 +129,6 @@ esac
 # Aliases
 #############
 
-# I like a quick grep of history
-alias h="history | grep"
-
-# Find a given export in history
-function he
-{
-    if [ "$1" ]
-    then
-history | grep -E "^ [0-9]+ export $1" | uniq -s 6 -u
-    fi
-}
-
 # Search through a list of alternative binaries, returning the first match
 function find_alternatives ()
 {
@@ -507,9 +495,11 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+<<<<<<< HEAD
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
 
 # todo.txt setup
  
@@ -520,3 +510,6 @@ if [ -f $HOME/src/todo.txt-cli/todo.sh ]; then
 else 
   alias t='ssh -qt chrisfl@flat.chrisfleming.org todo.sh' 
 fi
+=======
+
+>>>>>>> 12c523b9a5e1349788295215bf3c7fefd87b0cd6
