@@ -496,3 +496,10 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 
+
+[[ -s "/Users/chrisfl/.rvm/scripts/rvm" ]] && source "/Users/chrisfl/.rvm/scripts/rvm"
+
+# Setting PATH for JRuby 1.6.6
+# The orginal version is saved in .bash_profile.jrubysave
+PATH="${PATH}:/Library/Frameworks/JRuby.framework/Versions/Current/bin"
+export PATH
