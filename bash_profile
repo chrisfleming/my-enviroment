@@ -129,6 +129,18 @@ esac
 # Aliases
 #############
 
+# I like a quick grep of history
+alias h="history | grep"
+
+# Find a given export in history
+function he
+{
+    if [ "$1" ]
+    then
+history | grep -E "^ [0-9]+ export $1" | uniq -s 6 -u
+    fi
+}
+
 # Search through a list of alternative binaries, returning the first match
 function find_alternatives ()
 {
@@ -495,6 +507,7 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 
 [[ -s "/Users/chrisfl/.rvm/scripts/rvm" ]] && source "/Users/chrisfl/.rvm/scripts/rvm"
@@ -503,3 +516,14 @@ fi
 # The orginal version is saved in .bash_profile.jrubysave
 PATH="${PATH}:/Library/Frameworks/JRuby.framework/Versions/Current/bin"
 export PATH
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# todo.txt setup
+ 
+if [ -f $HOME/src/todo.txt-cli/todo.sh ]; then
+  export PATH=$PATH:"$HOME/src/todo.txt-cli/"
+  export TODOTXT_DEFAULT_ACTION=ls
+  alias t='todo.sh -d $HOME/src/todo.txt-cli/todo.cfg'
+else 
+  alias t='ssh -qt chrisfl@flat.chrisfleming.org todo.sh' 
+fi
