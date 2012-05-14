@@ -217,7 +217,7 @@ BROWSER=$(find_alternatives "chromium-browser" "chrome" "firefox-4.0" "firefox" 
 # Environent Variables
 ######################
 
-export EDITOR=emacs
+export EDITOR=$(find_alternatives "mvim" "vim" "vi")
 
 # Append to history file
 shopt -s histappend
