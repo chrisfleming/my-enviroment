@@ -15,9 +15,10 @@ chmod a+x birdseye
 
 # Review
 curl https://raw.github.com/emilerl/emilerl/master/todo.actions.d/review > review
-curl https://raw.github.com/emilerl/emilerl/master/todo.actions.d/review.py > review.py
-curl https://raw.github.com/emilerl/emilerl/todo.actions.d/todotxt.py > todotxt.py
+curl https://raw.github.com/chrisfleming/emilerl/master/todo.actions.d/review.py > review.py
+curl https://raw.github.com/emilerl/emilerl/master/todo.actions.d/todotxt.py > todotxt.py
 curl https://raw.github.com/emilerl/emilerl/master/scripts/imapls.py > imapls.py
+curl https://raw.github.com/chrisfleming/emilerl/master/todo.actions.d/mdown.py > mdown.py
 chmod a+x review
 
 
