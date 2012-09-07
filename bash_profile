@@ -51,6 +51,9 @@ case "${TERM}" in
   screen)
     cache_term_colours=256
   ;;
+  cygwin)
+    cache_term_colours=256
+  ;;
   dumb)
      cache_term_colours=2
   ;;
