@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 #
 # Chris's .bash_profile
 # loaded by bash when any login shell started
@@ -58,7 +58,6 @@ case "${TERM}" in
     cache_term_colours=16
   ;;
 esac
-
 
 case "${cache_term_colours}" in
     256)
@@ -217,7 +216,7 @@ BROWSER=$(find_alternatives "chromium-browser" "chrome" "firefox-4.0" "firefox" 
 # Environent Variables
 ######################
 
-export EDITOR=emacs
+export EDITOR=$(find_alternatives "vim" "vi")
 
 # Append to history file
 shopt -s histappend
@@ -515,8 +514,12 @@ fi
 # Setting PATH for JRuby 1.6.6
 # The orginal version is saved in .bash_profile.jrubysave
 PATH="${PATH}:/Library/Frameworks/JRuby.framework/Versions/Current/bin"
-export PATH
+
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+[[ -s "$HOME/usr/bin" ]] && PATH=$PATH:/$HOME/usr/bin
+
+export PATH
 
 # todo.txt setup
  

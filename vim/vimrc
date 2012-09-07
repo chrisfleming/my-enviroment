@@ -3,6 +3,9 @@ filetype off                   " required!
 
 " Call in Pathogen
 call pathogen#infect()
+call pathogen#helptags()
+
+filetype plugin indent on
 
 set nowrap        " don't wrap lines
 set tabstop=4     " a tab is four spaces
@@ -37,4 +40,8 @@ set listchars=tab:>.,trail:.,extends:#,nbsp:.
 set pastetoggle=<F9>
 
 syntax on
-filetype plugin indent on
+
+set background=dark
+colorscheme solarized
+
+
