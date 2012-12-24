@@ -51,6 +51,9 @@ case "${TERM}" in
   screen)
     cache_term_colours=256
   ;;
+  cygwin)
+    cache_term_colours=256
+  ;;
   dumb)
      cache_term_colours=2
   ;;
@@ -507,10 +510,10 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 
-[[ -s "/Users/chrisfl/.rvm/scripts/rvm" ]] && source "/Users/chrisfl/.rvm/scripts/rvm"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "/Users/chrisfl/.rvm/scripts/rvm"
 
 # Setting PATH for JRuby 1.6.6
 # The orginal version is saved in .bash_profile.jrubysave
