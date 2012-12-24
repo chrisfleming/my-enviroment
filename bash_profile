@@ -521,9 +521,18 @@ export PATH
 # todo.txt setup
  
 if [ -f $HOME/src/todo.txt-cli/todo.sh ]; then
-  export PATH=$PATH:"$HOME/src/todo.txt-cli/"
+  export PATH=$PATH:"$HOME/src/todo.txt-cli"
   export TODOTXT_DEFAULT_ACTION=ls
   alias t='todo.sh -d $HOME/src/todo.txt-cli/todo.cfg'
 else 
   alias t='ssh -qt chrisfl@flat.chrisfleming.org todo.sh' 
 fi
+
+##
+# Your previous /Users/chrisfl/.bash_profile file was backed up as /Users/chrisfl/.bash_profile.macports-saved_2012-06-26_at_13:57:09
+##
+
+# MacPorts Installer addition on 2012-06-26_at_13:57:09: adding an appropriate PATH variable for use with MacPorts.
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+# Finished adapting your PATH environment variable for use with MacPorts.
+
