@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 #
 # Chris's .bash_profile
 # loaded by bash when any login shell started
@@ -61,7 +61,6 @@ case "${TERM}" in
     cache_term_colours=16
   ;;
 esac
-
 
 case "${cache_term_colours}" in
     256)
@@ -220,15 +219,18 @@ BROWSER=$(find_alternatives "chromium-browser" "chrome" "firefox-4.0" "firefox" 
 # Environent Variables
 ######################
 
+<<<<<<< HEAD
 export EDITOR=$(find_alternatives "mvim" "vim" "vi")
+=======
+export EDITOR=$(find_alternatives "vim" "vi")
+>>>>>>> 73c98178fdba8b415c6da7e007f9281d290f7dea
 
 # Append to history file
 shopt -s histappend
 
 # Dump history to the file each prompt
-PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+#PROMPT_COMMAND='history -a'
 
-export HISTFILE=~/.bash_history
 export HISTCONTROL=ignoredups:ignorespace
 export HISTIGNORE="rm *"
 export HISTSIZE=10000
@@ -519,8 +521,12 @@ fi
 # Setting PATH for JRuby 1.6.6
 # The orginal version is saved in .bash_profile.jrubysave
 PATH="${PATH}:/Library/Frameworks/JRuby.framework/Versions/Current/bin"
-export PATH
+
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+[[ -s "$HOME/usr/bin" ]] && PATH=$PATH:/$HOME/usr/bin
+
+export PATH
 
 # todo.txt setup
  
