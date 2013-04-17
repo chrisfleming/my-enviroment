@@ -222,8 +222,9 @@ export EDITOR=$(find_alternatives "vim" "vi")
 shopt -s histappend
 
 # Dump history to the file each prompt
-#PROMPT_COMMAND='history -a'
+PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
 
+export HISTFILE=~/.bash_history
 export HISTCONTROL=ignoredups:ignorespace
 export HISTIGNORE="rm *"
 export HISTSIZE=10000
