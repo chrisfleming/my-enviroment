@@ -51,6 +51,9 @@ case "${TERM}" in
   screen)
     cache_term_colours=256
   ;;
+  cygwin)
+    cache_term_colours=256
+  ;;
   dumb)
      cache_term_colours=2
   ;;
@@ -217,14 +220,15 @@ BROWSER=$(find_alternatives "chromium-browser" "chrome" "firefox-4.0" "firefox" 
 # Environent Variables
 ######################
 
-export EDITOR=emacs
+export EDITOR=$(find_alternatives "mvim" "vim" "vi")
 
 # Append to history file
 shopt -s histappend
 
 # Dump history to the file each prompt
-#PROMPT_COMMAND='history -a'
+PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
 
+export HISTFILE=~/.bash_history
 export HISTCONTROL=ignoredups:ignorespace
 export HISTIGNORE="rm *"
 export HISTSIZE=10000
@@ -521,7 +525,7 @@ export PATH
 # todo.txt setup
  
 if [ -f $HOME/src/todo.txt-cli/todo.sh ]; then
-  export PATH=$PATH:"$HOME/src/todo.txt-cli/"
+  export PATH=$PATH:"$HOME/src/todo.txt-cli"
   export TODOTXT_DEFAULT_ACTION=ls
   alias t='todo.sh -d $HOME/src/todo.txt-cli/todo.cfg'
 else 
@@ -550,3 +554,11 @@ if [ -f "${SSH_ENV}" ]; then
 else
      start_agent;
 fi
+##
+# Your previous /Users/chrisfl/.bash_profile file was backed up as /Users/chrisfl/.bash_profile.macports-saved_2012-06-26_at_13:57:09
+##
+
+# MacPorts Installer addition on 2012-06-26_at_13:57:09: adding an appropriate PATH variable for use with MacPorts.
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+# Finished adapting your PATH environment variable for use with MacPorts.
+
