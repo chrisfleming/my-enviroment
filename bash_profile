@@ -10,6 +10,8 @@
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
+echo `date` ": Started bashrc"
+
 
 #
 # Source global definitions
@@ -109,7 +111,7 @@ cache_colour_lda=${cache_colour_m_yell}
 cache_colour_scr=${cache_colour_l_blue}
 cache_colour_scm=${cache_colour_m_orng}
 
-set +x
+
 
 
 # Setup the TERM Title
@@ -546,6 +548,28 @@ else
   alias t='ssh -qt chrisfl@flat.chrisfleming.org todo.sh' 
 fi
 
+SSH_ENV="$HOME/.ssh/environment"
+
+function start_agent {
+     echo "Initialising new SSH agent..."
+     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     echo succeeded
+     chmod 600 "${SSH_ENV}"
+     . "${SSH_ENV}" > /dev/null
+     /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+
+if [ -f "${SSH_ENV}" ]; then
+     . "${SSH_ENV}" > /dev/null
+     #ps ${SSH_AGENT_PID} doesn't work under cywgin
+     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+         start_agent;
+     }
+else
+     start_agent;
+fi
 ##
 # Your previous /Users/chrisfl/.bash_profile file was backed up as /Users/chrisfl/.bash_profile.macports-saved_2012-06-26_at_13:57:09
 ##
@@ -553,4 +577,4 @@ fi
 # MacPorts Installer addition on 2012-06-26_at_13:57:09: adding an appropriate PATH variable for use with MacPorts.
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
-
+echo `date` ": Finished bashrc"
