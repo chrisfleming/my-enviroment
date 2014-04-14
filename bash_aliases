@@ -38,7 +38,7 @@ alias vmdk_defrag_shrink='find ./ -name "*.vmdk" -print0 -exec vmware-vdiskmanag
 
 # slightly nasty EPOCH to date
 function epoch2date() { 
-   perl -e '($sec,$min,$hour,$day,$month,$year)= localtime($ARGV[0]); printf "%02d/%02d/%02d %02d:%02d:%02d\n", $year +1900, $month++, $day, $hour, $min, $sec;' $1
+   perl -e 'use POSIX; print strftime("%a, %d %b %Y %T %z\n", localtime($ARGV[0]))' $1
 }
 
 function date2epoch() {
