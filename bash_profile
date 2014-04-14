@@ -225,14 +225,28 @@ export EDITOR=$(find_alternatives "mvim" "vim" "vi")
 # Append to history file
 shopt -s histappend
 
-# Dump history to the file each prompt
-PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
-
 export HISTFILE=~/.bash_history
 export HISTCONTROL=ignoredups:ignorespace
 export HISTIGNORE="rm *"
 export HISTSIZE=10000
 export HISTFILESIZE=10000
+
+# From solution under: http://unix.stackexchange.com/a/48116
+
+history() {
+	  _bash_history_sync
+	   builtin history "$@"
+}
+_bash_history_sync() {
+  builtin history -a         #1
+  HISTFILESIZE=$HISTSIZE     #2
+  builtin history -c         #3
+  builtin history -r         #4
+}
+
+# Dump history to the file each prompt
+PROMPT_COMMAND="_bash_history_sync; $PROMPT_COMMAND"
+
 
 
 # GNU systems usually use less by default for
