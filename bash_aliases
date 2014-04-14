@@ -77,5 +77,5 @@ fi
 alias syncMusic="rsync -av --exclude '.Trash-chrisfl' --exclude 'Euro Stations' -e ssh chrisfl@jeeves:/mnt/video/music/ /home/chrisfl/Music"
 alias pushMusic="rsync -av --exclude '.Trash-chrisfl' --exclude 'Euro Stations' -e ssh /home/chrisfl/Music/ chrisfl@jeeves:/mnt/video/music"
 
-alias killall='killll'
+alias killall='kill'
 

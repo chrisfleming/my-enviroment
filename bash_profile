@@ -10,6 +10,8 @@
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
+echo `date` ": Started bashrc"
+
 
 #
 # Source global definitions
@@ -109,7 +111,7 @@ cache_colour_lda=${cache_colour_m_yell}
 cache_colour_scr=${cache_colour_l_blue}
 cache_colour_scm=${cache_colour_m_orng}
 
-set +x
+
 
 
 # Setup the TERM Title
@@ -561,4 +563,4 @@ fi
 # MacPorts Installer addition on 2012-06-26_at_13:57:09: adding an appropriate PATH variable for use with MacPorts.
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
-
+echo `date` ": Finished bashrc"
