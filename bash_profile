@@ -577,4 +577,15 @@ fi
 # MacPorts Installer addition on 2012-06-26_at_13:57:09: adding an appropriate PATH variable for use with MacPorts.
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 # Finished adapting your PATH environment variable for use with MacPorts.
+
+# Check that enviroment files don't have an update.
+# TODO: only do this once a day.
+if [ -d "~/projects/my-enviroment" ]; then
+  pushd ~/projects/my-enviroment/
+  git remote update | grep -v "Fetching origin" && git status -uno | grep -v "On branch master" | grep -v "nothing to commit"
+  popd
+end
+
+
+
 echo `date` ": Finished bashrc"
