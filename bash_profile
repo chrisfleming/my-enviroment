@@ -572,10 +572,11 @@ export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
 # Check that enviroment files don't have an update.
 # TODO: only do this once a day.
-if [ -d "~/projects/my-enviroment" ]; then
-  pushd ~/projects/my-enviroment/
-  git remote update | grep -v "Fetching origin" && git status -uno | grep -v "On branch master" | grep -v "nothing to commit"
-  popd
+if [ -d ~/projects/my-enviroment ]; then
+  pushd ~/projects/my-enviroment/ > /dev/null
+  git remote  update > /dev/null 
+  git status -uno | grep -v "On branch master" | grep -v "nothing to commit"
+  popd > /dev/null
 fi
 
 
