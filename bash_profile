@@ -587,5 +587,4 @@ if [ -d "~/projects/my-enviroment" ]; then
 fi
 
 
-
 echo `date` ": Finished bashrc"
