@@ -574,7 +574,10 @@ export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 # TODO: only do this once a day.
 if [ -d ~/projects/my-enviroment ]; then
   pushd ~/projects/my-enviroment/ > /dev/null
-  git remote  update > /dev/null 
+  if test "`find ./.git/FETCH_HEAD -mmin +600`"; then
+    echo `date` ": git remote update"
+    git remote  update > /dev/null 
+  fi
   git status -uno | grep -v "On branch master" | grep -v "nothing to commit"
   popd > /dev/null
 fi
