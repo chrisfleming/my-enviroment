@@ -229,7 +229,7 @@ shopt -s histappend
 
 export HISTFILE=~/.bash_history
 export HISTCONTROL=ignoredups:ignorespace
-export HISTIGNORE="rm *"
+export HISTIGNORE="rm *:h *:history"
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 
