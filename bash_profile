@@ -128,6 +128,15 @@ case "${TERM}" in
 esac
 
 
+# If we are in a screen session then set the Window Name to Hostname
+case "${TERM}" in
+	screen)
+		echo -ne '\033k'`hostname | cut -d . -f1`'\033\\'
+		;;
+esac
+
+
+
 #setxkbmap -option "ctrl:nocaps"
 
 #############
@@ -464,6 +473,18 @@ if [[ -f $EMACS && -f $HOME/.bashrc_emacs ]]; then
 source $HOME/.bashrc_emacs
 fi
 unset EMACS
+
+
+VIM=$(find_alternatives "vim")
+if [[ (-f $VIM && $TERM==screen)  ]]; then
+function vim ()
+{
+  echo -ne '\033k'`hostname | cut -d . -f1`:"$*"'\033\\'
+  $VIM $*
+  echo -ne '\033k'`hostname | cut -d . -f1`'\033\\'
+}
+fi
+
 
   # If we have apt on this system I'll want some
   # debian like shortcuts
