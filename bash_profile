@@ -571,9 +571,17 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# Source rvm
+#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "/Users/chrisfl/.rvm/scripts/rvm"
+
+# Setting PATH for JRuby 1.6.6
+# The orginal version is saved in .bash_profile.jrubysave
+
+
+[[ -s "/Library/Frameworks/JRuby.framework/Versions/Current/bin" ]] && PATH="${PATH}:/Library/Frameworks/JRuby.framework/Versions/Current/bin"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+export PATH
 # todo.txt setup
  
 if [ -f $HOME/src/todo.txt-cli/todo.sh ]; then
