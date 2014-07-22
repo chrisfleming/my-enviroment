@@ -100,6 +100,7 @@ case "${cache_term_colours}" in
 esac
 
 cache_colour_usr=${cache_colour_l_yell}
+cache_colour_hst=${cache_colour_l_yell}
 cache_colour_cwd=${cache_colour_m_gren}
 cache_colour_wrk=${cache_colour_m_teal}
 cache_colour_rok=${cache_colour_l_yell}
@@ -339,7 +340,7 @@ ps_scr_f() {
 
 ps_scm_f() {
     local s=
-    if [ $CLEARCASE_ROOT ] ; then
+    if [[ -f $CLEARCASE_ROOT ]] ; then
         s="($(basename $CLEARCASE_ROOT))"
     elif [[ -d ".svn" ]] ; then
         local r=$(svn info | sed -n -e '/^Revision: \([0-9]*\).*$/s//\1/p' )
@@ -422,7 +423,7 @@ ps_dir="\[${cache_colour_dir}\]\$(ps_dir_f)"
 ps_scr="\[${cache_colour_scr}\]\$(ps_scr_f)"
 ps_scm="\[${cache_colour_scm}\]\$(ps_scm_f)"
 #export PS1="${ps_sav}${ps_usr}${ps_hst}${ps_cwd}${ps_ret}${ps_lda}${ps_job}${ps_dir}${ps_scr}${ps_scm}"
-export PS1="${ps_sav}${ps_usr}${ps_hst}${ps_cwd}${ps_ret}${ps_job}${ps_dir}${ps_scr}${ps_scm}"
+export PS1="${ps_usr}${ps_hst}${ps_cwd}${ps_ret}${ps_job}${ps_dir}${ps_scr}${ps_scm}"
 export PS1="${PS1}${ps_mrk}${ps_end}"
 
 
@@ -593,7 +594,9 @@ export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
 # Check that enviroment files don't have an update.
 # TODO: only do this once a day.
-if [ -d ~/projects/my-enviroment ]; then
+
+GIT=$(find_alternatives "git")
+if [[ -f $GIT && -d ~/projects/my-enviroment ]]; then
   pushd ~/projects/my-enviroment/ > /dev/null
   if test "`find ./.git/FETCH_HEAD -mmin +600`"; then
     echo `date` ": git remote update"
@@ -602,6 +605,8 @@ if [ -d ~/projects/my-enviroment ]; then
   git status -uno | grep -v "On branch master" | grep -v "nothing to commit"
   popd > /dev/null
 fi
+unset GIT
+
 
 
 echo `date` ": Finished bashrc"
