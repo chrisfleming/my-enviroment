@@ -130,13 +130,16 @@ esac
 
 
 # If we are in a screen session then set the Window Name to Hostname
+function reset_screen_title()
+{
 case "${TERM}" in
 	screen)
 		echo -ne '\033k'`hostname | cut -d . -f1`'\033\\'
 		;;
 esac
+}
 
-
+reset_screen_title
 
 #setxkbmap -option "ctrl:nocaps"
 
