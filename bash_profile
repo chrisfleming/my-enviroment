@@ -235,6 +235,27 @@ BROWSER=$(find_alternatives "chromium-browser" "chrome" "firefox-4.0" "firefox" 
 # Environent Variables
 ######################
 
+# Add /opt/local/bin and /opt/local/sbin to path if they exsit, needed for macports and generally 
+pathadd () 
+{
+  if ! echo $PATH | /bin/egrep -q "(^|:)$1($|:)" ; then
+  	if [[ -d "$1" ]]
+		then 
+			if [ "$2" = "after" ] ; then
+        PATH=$PATH:$1
+      else
+        PATH=$1:$PATH
+      fi
+		fi
+  fi
+}
+
+pathadd /opt/local/sbin
+pathadd /opt/local/bin
+pathadd $HOME/bin
+
+export PATH
+
 export EDITOR=$(find_alternatives "mvim" "vim" "vi")
 
 # Append to history file
@@ -490,6 +511,7 @@ function vim ()
 fi
 
 
+
   # If we have apt on this system I'll want some
   # debian like shortcuts
 APT=$(find_alternatives "apt-get")
@@ -552,9 +574,17 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# Source rvm
+#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "/Users/chrisfl/.rvm/scripts/rvm"
+
+# Setting PATH for JRuby 1.6.6
+# The orginal version is saved in .bash_profile.jrubysave
+
+
+[[ -s "/Library/Frameworks/JRuby.framework/Versions/Current/bin" ]] && PATH="${PATH}:/Library/Frameworks/JRuby.framework/Versions/Current/bin"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+export PATH
 # todo.txt setup
  
 if [ -f $HOME/src/todo.txt-cli/todo.sh ]; then
@@ -587,13 +617,6 @@ if [ -f "${SSH_ENV}" ]; then
 else
      start_agent;
 fi
-##
-# Your previous /Users/chrisfl/.bash_profile file was backed up as /Users/chrisfl/.bash_profile.macports-saved_2012-06-26_at_13:57:09
-##
-
-# MacPorts Installer addition on 2012-06-26_at_13:57:09: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-# Finished adapting your PATH environment variable for use with MacPorts.
 
 # Check that enviroment files don't have an update.
 # TODO: only do this once a day.
