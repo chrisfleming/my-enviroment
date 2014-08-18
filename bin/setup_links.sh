@@ -1,6 +1,8 @@
 ln -s ~/projects/my-enviroment/bash_aliases ~/.bash_aliases
 mv  ~/.bashrc  ~/.bashrc_orig
-ln -s ~/projects/my-enviroment/bash_profile ~/.bashrc
+mv ~/.bash_profile ~/.bash_profile
+ln -s ~/projects/my-enviroment/bashrc ~/.bashrc
+ln -s ~/projects/my-enviroment/bash_profile ~/.bash_profile
 ln -s ~/projects/my-enviroment/vim/vim ~/.vim
 ln -s ~/projects/my-enviroment/vim/vimrc ~/.vimrc
 
