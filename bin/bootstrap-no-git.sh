@@ -1,7 +1,7 @@
 #!/bin/bash
 # 
 # Bootstrap a new system
-# curl https://raw.githubusercontent.com/chrisfleming/my-enviroment/master/bin/bootstrap-no-git.sh  | bash
+# curl -k https://raw.githubusercontent.com/chrisfleming/my-enviroment/master/bin/bootstrap-no-git.sh  | bash
 #
 set -e
 
