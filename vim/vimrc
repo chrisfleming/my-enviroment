@@ -49,4 +49,12 @@ syntax on
 set background=dark
 colorscheme solarized
 
+" Reselect text after indent/oudent
+vnoremap < <gv
+vnoremap > >gv
+
+" Snipmate use a local directory as well:
+
+" work with snipmate
+let g:SuperTabDefaultCompletionType = "context"
 
