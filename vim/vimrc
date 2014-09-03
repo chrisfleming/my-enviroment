@@ -44,6 +44,9 @@ au BufRead,BufNewFile *.py set expandtab
 "paste on F9
 set pastetoggle=<F9>
 
+set t_Co=256
+
+
 syntax on
 
 set background=dark
