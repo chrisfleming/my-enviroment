@@ -32,6 +32,9 @@ set title                " change the terminal's title
 set visualbell           " don't beep
 set noerrorbells         " don't beep
 
+execute "set colorcolumn=" . join(range(81,335), ',')
+
+
 "show whitespace
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
@@ -61,3 +64,11 @@ vnoremap > >gv
 " work with snipmate
 let g:SuperTabDefaultCompletionType = "context"
 
+
+
+" Sntastic Syntax Checker.
+let g:syntastic_python_checkers = [ 'flake8', 'pep8', 'pyflakes' ]
+
+
+" Python Settings
+au FileType python setl sw=4 sts=4 et

@@ -28,7 +28,9 @@ git_bundles = [
 #  "https://github.com/Lokaltog/vim-powerline.git",
   "https://github.com/bling/vim-airline.git",
   "https://github.com/sjl/gundo.vim.git",
-  "https://github.com/klen/python-mode.git",
+#  "https://github.com/klen/python-mode.git",
+	 "https://github.com/davidhalter/jedi-vim.git",
+	 "https://github.com/scrooloose/syntastic.git",
 ]
 
 vim_org_scripts = [
@@ -49,7 +51,7 @@ Dir["*"].each {|d| FileUtils.rm_rf d }
 git_bundles.each do |url|
   dir = url.split('/').last.sub(/\.git$/, '')
   puts "unpacking #{url} into #{dir}"
-  `git clone #{url} #{dir}`
+  `git clone --recursive #{url} #{dir}`
   FileUtils.rm_rf(File.join(dir, ".git"))
 end
 
