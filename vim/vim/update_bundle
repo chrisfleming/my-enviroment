@@ -38,7 +38,7 @@ git_bundles = [
 vim_org_scripts = [
   ["IndexedSearch", "7062",  "plugin"],
   ["jquery",        "15712", "syntax"],
-  ["dbext",         "20843", "plugin"],
+#  ["dbext",         "20843", "plugin"],
 ]
 
 require 'fileutils'
