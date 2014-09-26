@@ -72,3 +72,7 @@ let g:syntastic_python_checkers = [ 'flake8', 'pep8', 'pyflakes' ]
 
 " Python Settings
 au FileType python setl sw=4 sts=4 et
+
+" Email Settings
+au FileType mail set tw=72 spell spelllang=en_gb
+
