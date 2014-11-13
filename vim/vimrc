@@ -32,7 +32,7 @@ set title                " change the terminal's title
 set visualbell           " don't beep
 set noerrorbells         " don't beep
 
-let mapleader=";"
+let mapleader=","
 
 " Colour columns 80 onward:
 execute "set colorcolumn=" . join(range(81,335), ',')
@@ -85,4 +85,14 @@ nnoremap <silent> <Leader>b :TagbarToggle<CR>
 " Ctrlp shortcut:
 nnoremap <leader>. :CtrlPTag<cr>
 
+" Notes Plugin
 let g:notes_directories = ['~/Dropbox/notes']
+" Lets go with utf-8 - seems to be needed for Notes plugin on Widow s
+set encoding=utf-8
+let g:notes_suffix = '.txt'
+
+au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
+au BufEnter *.org call org#SetOrgFileType()
+
+let g:org_command_for_emacsclient = "C:\\Users\\chflemin.KEYSIGHT\\Documents\\emacs-24.3\\bin\\runemacs"
+

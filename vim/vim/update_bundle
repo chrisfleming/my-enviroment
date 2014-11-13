@@ -37,14 +37,20 @@ git_bundles = [
 	 "https://github.com/scrooloose/syntastic.git",
 	 # VOoM and vim notes for outlining and notes
 	 "https://github.com/vim-voom/VOoM.git",
-     "https://github.com/xolox/vim-misc.git",
-	 "https://github.com/xolox/vim-notes.git",
+     #"https://github.com/xolox/vim-misc.git",
+	 #"https://github.com/xolox/vim-notes.git",
+     #"https://github.com/jceb/vim-orgmode.git",
+     #"https://github.com/dhruvasagar/vim-dotoo.git",
+     "https://github.com/hsitz/VimOrganizer.git",
+     "https://github.com/chrisbra/NrrwRgn.git",
 ]
 
+git_bundles = []
 vim_org_scripts = [
   ["IndexedSearch", "7062",  "plugin"],
-  ["jquery",        "15712", "syntax"],
-#  ["dbext",         "20843", "plugin"],
+  ["jquery",        "15752", "syntax"],
+  ["calendar",      "19707", ""],
+  ["dbext",         "20843", ""],
 ]
 
 require 'fileutils'
@@ -64,6 +70,8 @@ git_bundles.each do |url|
   FileUtils.rm_rf(File.join(dir, ".git"))
 end
 
+
+
 vim_org_scripts.each do |name, script_id, script_type|
   puts "downloading #{name}"
   local_file = File.join(name, script_type, "#{name}.vim")
@@ -71,4 +79,14 @@ vim_org_scripts.each do |name, script_id, script_type|
   File.open(local_file, "w") do |file|
     file << open("http://www.vim.org/scripts/download_script.php?src_id=#{script_id}").read
   end
+  filetype = %x( file -b --mime-type -0 #{local_file})
+  filetype.strip!
+  if filetype == "application/zip"
+  	  `unzip #{local_file}`
+  elsif filetype == "application/x-gzip"
+  	  `gunzip -S .vim #{local_file}`
+  elsif filetype != "text/plain"
+  	  print "WARNING: #{local_file} is type #{filetype}.\n"
+  end
+   
 end
