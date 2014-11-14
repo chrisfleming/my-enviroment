@@ -45,12 +45,12 @@ git_bundles = [
      "https://github.com/chrisbra/NrrwRgn.git",
 ]
 
-git_bundles = []
 vim_org_scripts = [
   ["IndexedSearch", "7062",  "plugin"],
   ["jquery",        "15752", "syntax"],
   ["calendar",      "19707", ""],
   ["dbext",         "20843", ""],
+  ["outlookvim",    "20951", ""],
 ]
 
 require 'fileutils'
