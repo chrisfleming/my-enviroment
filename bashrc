@@ -37,20 +37,12 @@ fi
 #
 #######################################################################
 case "${TERM}" in
-  xterm-color)
-    cache_term_colours=16
-  ;;
   xterm*)
-  case "${TERM_PROGRAM}" in
-    Apple_Terminal)
-      cache_term_colours=16
-    ;;
-    *)
-      cache_term_colours=256
-    ;;
-  esac
-        ;;
-  screen)
+  	 echo "XTERM"
+     export TERM=xterm-256color
+     cache_term_colours=256
+  ;;
+  screen*)
     cache_term_colours=256
   ;;
   cygwin)

@@ -1,6 +1,7 @@
 ln -s ~/projects/my-enviroment/bash_aliases ~/.bash_aliases
 mv  ~/.bashrc  ~/.bashrc_orig
 mv ~/.bash_profile ~/.bash_profile
+ln -s ~/projects/my-enviroment/tmux.conf ~/.tmux.conf
 ln -s ~/projects/my-enviroment/bashrc ~/.bashrc
 ln -s ~/projects/my-enviroment/bash_profile ~/.bash_profile
 ln -s ~/projects/my-enviroment/inputrc ~/.inputrc
