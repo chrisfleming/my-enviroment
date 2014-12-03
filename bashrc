@@ -38,7 +38,6 @@ fi
 #######################################################################
 case "${TERM}" in
   xterm*)
-  	 echo "XTERM"
      export TERM=xterm-256color
      cache_term_colours=256
   ;;
@@ -230,21 +229,28 @@ BROWSER=$(find_alternatives "chromium-browser" "chrome" "firefox-4.0" "firefox" 
 # Add /opt/local/bin and /opt/local/sbin to path if they exsit, needed for macports and generally 
 pathadd () 
 {
-  if ! echo $PATH | /bin/egrep -q "(^|:)$1($|:)" ; then
-  	if [[ -d "$1" ]]
-		then 
-			if [ "$2" = "after" ] ; then
-        PATH=$PATH:$1
-      else
-        PATH=$1:$PATH
-      fi
+    if [[ -d "$1" ]]; then
+        if ! echo $PATH | egrep -q "(^|:)$1($|:)" 
+        then 
+		    if [ "$2" = "after" ] ; then
+                PATH=$PATH:$1
+            else
+                PATH=$1:$PATH
+            fi
 		fi
-  fi
+    fi
+    set +x
 }
 
-pathadd /opt/local/sbin
-pathadd /opt/local/bin
-pathadd $HOME/bin
+paths=("/opt/local/sbin" "/opt/local/bin" "$HOME/bin")
+
+for d in "${paths[@]}"
+do
+    pathadd $d
+done
+
+# Lets setup rvm
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 export PATH
 
@@ -564,27 +570,6 @@ fi
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
-fi
-
-#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "/Users/chrisfl/.rvm/scripts/rvm"
-
-# Setting PATH for JRuby 1.6.6
-# The orginal version is saved in .bash_profile.jrubysave
-
-
-[[ -s "/Library/Frameworks/JRuby.framework/Versions/Current/bin" ]] && PATH="${PATH}:/Library/Frameworks/JRuby.framework/Versions/Current/bin"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-export PATH
-# todo.txt setup
- 
-if [ -f $HOME/src/todo.txt-cli/todo.sh ]; then
-  export PATH=$PATH:"$HOME/src/todo.txt-cli"
-  export TODOTXT_DEFAULT_ACTION=ls
-  alias t='todo.sh -d $HOME/src/todo.txt-cli/todo.cfg'
-else 
-  alias t='ssh -qt chrisfl@flat.chrisfleming.org todo.sh' 
 fi
 
 SSH_ENV="$HOME/.ssh/environment"

@@ -50,8 +50,14 @@ vim_org_scripts = [
   ["jquery",        "15752", "syntax"],
   ["calendar",      "19707", ""],
   ["dbext",         "20843", ""],
-  ["outlookvim",    "20951", ""],
 ]
+
+# Only include outlookvim on windows:
+require 'rbconfig'
+is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
+if is_windows then
+    vim_org_scripts.push( ["outlookvim",    "20951", ""] )
+end
 
 require 'fileutils'
 require 'open-uri'
@@ -82,9 +88,9 @@ vim_org_scripts.each do |name, script_id, script_type|
   filetype = %x( file -b --mime-type -0 #{local_file})
   filetype.strip!
   if filetype == "application/zip"
-  	  `unzip #{local_file}`
+  	  `cd #{File.dirname(local_file)}; unzip #{name}.vim; popd`
   elsif filetype == "application/x-gzip"
-  	  `gunzip -S .vim #{local_file}`
+  	  `pushd #{File.dirname(local_file)}; gunzip -S .vim #{name}.vim; popd`
   elsif filetype != "text/plain"
   	  print "WARNING: #{local_file} is type #{filetype}.\n"
   end
