@@ -8,13 +8,13 @@ call pathogen#helptags()
 filetype plugin indent on
 
 set nowrap        " don't wrap lines
-set tabstop=2     " a tab is two spaces
+set tabstop=4     " a tab is two spaces
 set backspace=indent,eol,start
                   " allow backspacing over everything in insert mode
 set autoindent    " always set autoindenting on
 set copyindent    " copy the previous indentation on autoindenting
 set number        " always show line numbers
-set shiftwidth=2  " number of spaces to use for autoindenting
+set shiftwidth=4  " number of spaces to use for autoindenting
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
 set showmatch     " set show matching parenthesis
 set ignorecase    " ignore case when searching
@@ -32,6 +32,12 @@ set title                " change the terminal's title
 set visualbell           " don't beep
 set noerrorbells         " don't beep
 
+let mapleader=","
+
+" Colour columns 80 onward:
+execute "set colorcolumn=" . join(range(81,335), ',')
+
+
 "show whitespace
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
@@ -44,9 +50,55 @@ au BufRead,BufNewFile *.py set expandtab
 "paste on F9
 set pastetoggle=<F9>
 
+set t_Co=256
+
+
 syntax on
 
 set background=dark
 colorscheme solarized
+
+" Reselect text after indent/oudent
+vnoremap < <gv
+vnoremap > >gv
+
+" Snipmate use a local directory as well:
+
+" work with snipmate
+let g:SuperTabDefaultCompletionType = "context"
+
+
+
+" Sntastic Syntax Checker.
+let g:syntastic_python_checkers = [ 'flake8', 'pep8', 'pyflakes' ]
+
+
+" Python Settings
+au FileType python setl sw=4 sts=4 et
+
+" Email Settings
+au FileType mail set tw=72 spell spelllang=en_gb
+
+" Enable Tagbar
+nnoremap <silent> <Leader>b :TagbarToggle<CR>
+
+" Ctrlp shortcut:
+nnoremap <leader>. :CtrlPTag<cr>
+
+" Notes Plugin
+let g:notes_directories = ['~/Dropbox/notes']
+" Lets go with utf-8 - seems to be needed for Notes plugin on Widow s
+let g:notes_suffix = '.txt'
+
+au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
+au BufEnter *.org call org#SetOrgFileType()
+
+let g:org_command_for_emacsclient = "C:\\Users\\chflemin.KEYSIGHT\\Documents\\emacs-24.3\\bin\\runemacs"
+
+if has("multi_byte")  
+         set encoding=utf-8
+         set fileencodings=ucs-bom
+""         set guifont=DejaVu_Sans_Mono:h11:b:cANSI
+endif
 
 

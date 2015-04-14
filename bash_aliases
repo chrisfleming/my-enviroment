@@ -57,6 +57,16 @@ if [ -d /proc ]; then
   ifconfig | awk '/inet addr/ {split ($2,A,":"); print A[2]}'
 fi
 
+}
+
+# Calculator
+function ccc() {
+
+bc << EOF
+scale=4
+$@
+quit
+EOF
 
 }
 

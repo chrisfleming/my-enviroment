@@ -2,36 +2,62 @@
 
 git_bundles = [ 
 	"git://github.com/altercation/vim-colors-solarized.git",
-  "git://github.com/astashov/vim-ruby-debugger.git",
+#  "git://github.com/astashov/vim-ruby-debugger.git",
   "git://github.com/ervandew/supertab.git",
   "git://github.com/godlygeek/tabular.git",
-  "git://github.com/hallison/vim-rdoc.git",
+#  "git://github.com/hallison/vim-rdoc.git",
   "git://github.com/msanders/snipmate.vim.git",
-  "git://github.com/pangloss/vim-javascript.git",
+#  "git://github.com/pangloss/vim-javascript.git",
   "git://github.com/scrooloose/nerdtree.git",
-  "git://github.com/timcharper/textile.vim.git",
-  "git://github.com/tpope/vim-cucumber.git",
+#  "git://github.com/timcharper/textile.vim.git",
+#  "git://github.com/tpope/vim-cucumber.git",
   "git://github.com/tpope/vim-fugitive.git",
   "git://github.com/tpope/vim-git.git",
-  "git://github.com/tpope/vim-haml.git",
-  "git://github.com/tpope/vim-markdown.git",
-  "git://github.com/tpope/vim-rails.git",
-  "git://github.com/tpope/vim-repeat.git",
-  "git://github.com/tpope/vim-surround.git",
-  "git://github.com/tsaleh/taskpaper.vim.git",
-  "git://github.com/tsaleh/vim-matchit.git",
-  "git://github.com/tsaleh/vim-shoulda.git",
-  "git://github.com/tsaleh/vim-tcomment.git",
-  "git://github.com/tsaleh/vim-tmux.git",
-  "git://github.com/vim-ruby/vim-ruby.git",
-  "git://github.com/vim-scripts/Gist.vim.git",
-  "https://github.com/Lokaltog/vim-powerline.git",
+#  "git://github.com/tpope/vim-haml.git",
+#  "git://github.com/tpope/vim-markdown.git",
+   "git://github.com/tpope/vim-rails.git",
+   "git://github.com/tpope/vim-bundler.git",
+   "https://github.com/tpope/vim-abolish.git",
+   "https://github.com/kien/ctrlp.vim",
+   "git://github.com/majutsushi/tagbar",
+#  "git://github.com/tpope/vim-repeat.git",
+#  "git://github.com/tpope/vim-surround.git",
+#  "git://github.com/tsaleh/taskpaper.vim.git",
+#  "git://github.com/tsaleh/vim-matchit.git",
+#  "git://github.com/tsaleh/vim-shoulda.git",
+#  "git://github.com/tsaleh/vim-tcomment.git",
+#  "git://github.com/tsaleh/vim-tmux.git",
+#  "git://github.com/vim-ruby/vim-ruby.git",
+#  "git://github.com/vim-scripts/Gist.vim.git",
+#  "https://github.com/Lokaltog/vim-powerline.git",
+  "https://github.com/bling/vim-airline.git",
+  "https://github.com/sjl/gundo.vim.git",
+#  "https://github.com/klen/python-mode.git",
+	 "https://github.com/davidhalter/jedi-vim.git",
+	 "https://github.com/scrooloose/syntastic.git",
+	 # VOoM and vim notes for outlining and notes
+	 "https://github.com/vim-voom/VOoM.git",
+     #"https://github.com/xolox/vim-misc.git",
+	 #"https://github.com/xolox/vim-notes.git",
+     #"https://github.com/jceb/vim-orgmode.git",
+     #"https://github.com/dhruvasagar/vim-dotoo.git",
+     "https://github.com/hsitz/VimOrganizer.git",
+     "https://github.com/chrisbra/NrrwRgn.git",
 ]
 
 vim_org_scripts = [
   ["IndexedSearch", "7062",  "plugin"],
-  ["jquery",        "12107", "syntax"],
+  ["jquery",        "15752", "syntax"],
+  ["calendar",      "19707", ""],
+  ["dbext",         "20843", ""],
 ]
+
+# Only include outlookvim on windows:
+require 'rbconfig'
+is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
+if is_windows then
+    vim_org_scripts.push( ["outlookvim",    "20951", ""] )
+end
 
 require 'fileutils'
 require 'open-uri'
@@ -46,9 +72,11 @@ Dir["*"].each {|d| FileUtils.rm_rf d }
 git_bundles.each do |url|
   dir = url.split('/').last.sub(/\.git$/, '')
   puts "unpacking #{url} into #{dir}"
-  `git clone #{url} #{dir}`
+  `git clone --recursive #{url} #{dir}`
   FileUtils.rm_rf(File.join(dir, ".git"))
 end
+
+
 
 vim_org_scripts.each do |name, script_id, script_type|
   puts "downloading #{name}"
@@ -57,4 +85,14 @@ vim_org_scripts.each do |name, script_id, script_type|
   File.open(local_file, "w") do |file|
     file << open("http://www.vim.org/scripts/download_script.php?src_id=#{script_id}").read
   end
+  filetype = %x( file -b --mime-type -0 #{local_file})
+  filetype.strip!
+  if filetype == "application/zip"
+  	  `cd #{File.dirname(local_file)}; unzip #{name}.vim; popd`
+  elsif filetype == "application/x-gzip"
+  	  `pushd #{File.dirname(local_file)}; gunzip -S .vim #{name}.vim; popd`
+  elsif filetype != "text/plain"
+  	  print "WARNING: #{local_file} is type #{filetype}.\n"
+  end
+   
 end
