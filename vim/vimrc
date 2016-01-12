@@ -90,6 +90,10 @@ let g:notes_directories = ['~/Dropbox/notes']
 " Lets go with utf-8 - seems to be needed for Notes plugin on Widow s
 let g:notes_suffix = '.txt'
 
+
+let g:pad#dir = "~/Dropbox/pad-notes/"
+
+
 au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
 au BufEnter *.org call org#SetOrgFileType()
 
@@ -100,5 +104,10 @@ if has("multi_byte")
          set fileencodings=ucs-bom
 ""         set guifont=DejaVu_Sans_Mono:h11:b:cANSI
 endif
+
+if filereadable(glob("~/.simplenoterc"))
+	source ~/.simplenoterc
+endif
+
 
 
