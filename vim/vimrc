@@ -132,6 +132,13 @@ let g:org_agenda_select_dirs=["~/Dropbox/notes"]
 let g:org_agenda_files = split(glob("~/Dropbox/notes/org-mod*.org"),"\n")
 
 
+"PAD notetaking
+"
+
+let g:pad#dir = '~/Dropbox/notes/pad/'
+
+
+
 "----------------------
 " Custom Agenda Searches
 " ----------------------
@@ -160,6 +167,5 @@ endif
 if filereadable(glob("~/.simplenoterc"))
 	source ~/.simplenoterc
 endif
-
 
 
