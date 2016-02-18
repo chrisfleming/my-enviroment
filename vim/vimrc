@@ -5,6 +5,9 @@ filetype off                   " required!
 call pathogen#infect()
 call pathogen#helptags()
 
+
+let g:ft_ignore_pat = '\.org'
+
 filetype plugin indent on
 
 set nowrap        " don't wrap lines
@@ -90,15 +93,79 @@ let g:notes_directories = ['~/Dropbox/notes']
 " Lets go with utf-8 - seems to be needed for Notes plugin on Widow s
 let g:notes_suffix = '.txt'
 
+
+let g:pad#dir = "~/Dropbox/pad-notes/"
+
+
 au! BufRead,BufWrite,BufWritePost,BufNewFile *.org
 au BufEnter *.org call org#SetOrgFileType()
 
 let g:org_command_for_emacsclient = "C:\\Users\\chflemin.KEYSIGHT\\Documents\\emacs-24.3\\bin\\runemacs"
 
+let g:org_capture_file = '~/Dropbox/notes/mycaptures.org'
+command! OrgCapture :call org#CaptureBuffer()
+command! OrgCaptureFile :call org#OpenCaptureFile()
+
+
+" The variables below are used to define the default Todo list and
+" default Tag list. Both of these can also be defined
+" on a document-specific basis by config lines in a file.
+" See :h vimorg-todo-metadata and/or :h vimorg-tag-metadata
+" 'TODO | DONE' is the default, so not really necessary to define it at all
+let g:org_todo_setup='TODO | INPROGRESS | DONE'
+
+" OR, e.g.,:
+"let g:org_todo_setup='TODO NEXT STARTED | DONE CANCELED'
+" include a tags setup string if you want:
+let g:org_tags_alist='{@home(h) @work(w) @kings(t)} {easy(e) hard(d)} {computer(c) phone(p)}'
+
+
+" g:org_agenda_dirs specify directories that, along with
+" their subtrees, are searched for list of .org files when
+" accessing EditAgendaFiles(). Specify your own here, otherwise
+" default will be for g:org_agenda_dirs to hold single
+" directory which is directory of the first .org file opened
+" in current Vim instance:
+" Below is line I use in my Windows install:
+" NOTE: case sensitive even on windows.
+let g:org_agenda_select_dirs=["~/Dropbox/notes"]
+let g:org_agenda_files = split(glob("~/Dropbox/notes/org-mod*.org"),"\n")
+
+
+"PAD notetaking
+"
+
+let g:pad#dir = '~/Dropbox/notes/pad/'
+
+
+
+"----------------------
+" Custom Agenda Searches
+" ----------------------
+" The assignment to g:org_custom_searches below defines searches that a
+" a user can then easily access from the Org menu or the Agenda Dashboard.
+" (Still need to add help on how to define them, assignment below
+" is hopefully illustrative for now. . . . )
+let g:org_custom_searches = [
+             \ { 'name':"Next week's agenda", 'type':'agenda',
+             \ 'agenda_date':'+1w', 'agenda_duration':'w' }
+             \, { 'name':"Next week's TODOS", 'type':'agenda',
+             \ 'agenda_date':'+1w', 'agenda_duration':'w',
+             \ 'spec':'+UNFINISHED_TODOS' }
+             \, { 'name':'Home tags', 'type':'heading_list', 'spec':'+HOME' }
+             \, { 'name':'Home tags', 'type':'sparse_tree', 'spec':'+HOME' }
+             \ ]
+
+
+
 if has("multi_byte")  
          set encoding=utf-8
          set fileencodings=ucs-bom
 ""         set guifont=DejaVu_Sans_Mono:h11:b:cANSI
+endif
+
+if filereadable(glob("~/.simplenoterc"))
+	source ~/.simplenoterc
 endif
 
 
