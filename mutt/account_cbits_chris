@@ -1,0 +1,17 @@
+## Recieve Options
+set imap_user = "chris@coherentbits.com"
+set imap_pass =`pass show "Mail/chris@coherentbits.com"`
+set folder = "imaps://mail.coherentbits.co.uk:993/"
+set spoolfile = "+Inbox"
+set postponed ="+Drafts"
+set trash = "+Trash"
+set record = "+Sent"
+
+set from = "chris@coherentnbits.com"
+set realname = "Chris Fleming"
+
+set signature=""
+
+## Hook -- IMPORTANT!
+account-hook $folder "set imap_user=chris@coherentbits.com imap_pass=`pass show  'Mail/chris@coherentbits.com'`"
+

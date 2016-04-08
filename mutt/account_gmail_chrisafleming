@@ -1,0 +1,19 @@
+## Recieve Options
+set imap_user = "chrisafleming@gmail.com"
+set imap_pass =`pass show "Google/chrisafleming@gmail.com/imap"`
+set folder = "imaps://imap.gmail.com:993/"
+set spoolfile = "+INBOX"
+set postponed ="+[Gmail]/Drafts"
+#set trash = "imaps://imap.gmail.com:993/[GMail]/Bin"
+set trash = "+[GMail]/Bin"
+set record = "+[Gmail]/Sent Mail"
+
+set from = "me@chrisfleming.org"
+set realname = "Chris Fleming"
+
+set signature=""
+
+## Hook -- IMPORTANT!
+account-hook $folder "set imap_user=chrisafleming@gmail.com imap_pass=`pass show 'Google/chrisafleming@gmail.com/imap'`"
+
+

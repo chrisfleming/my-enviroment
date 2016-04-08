@@ -8,6 +8,9 @@ ln -s ~/projects/my-enviroment/inputrc ~/.inputrc
 ln -s ~/projects/my-enviroment/vim/vim ~/.vim
 ln -s ~/projects/my-enviroment/vim/vimrc ~/.vimrc
 
+ln -s  ~/projects/my-enviroment/mutt ~/.mutt
+ln -s ~/projects/my-enviroment/muttrc ~/.muttrc
+
 cd ~/projects/my-enviroment/
 
 

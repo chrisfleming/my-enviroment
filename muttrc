@@ -1,0 +1,68 @@
+
+
+set header_cache =~/.mutt/cache/headers
+set message_cachedir =~/.mutt/cache/bodies
+set certificate_file =~/.mutt/certificates
+
+bind editor <space> noop
+
+# Basic config, you can leave this as is
+set imap_check_subscribed
+set hostname = gmail.com
+set mail_check = 120
+set timeout = 300
+set imap_keepalive = 300
+set move = no
+set include
+set sort = 'threads'
+set sort_aux = 'reverse-last-date-received'
+set auto_tag = yes
+ignore "Authentication-Results:"
+ignore "DomainKey-Signature:"
+ignore "DKIM-Signature:"
+hdr_order Date From To Cc
+alternative_order text/plain text/html *
+auto_view text/html
+#bind editor <Tab> complete-query
+#bind editor ^T complete
+bind editor <space> noop
+
+source ~/.mutt/mutt-colors-solarized/mutt-colors-solarized-dark-16.muttrc
+
+set alias_file= ~/.mutt/aliases
+set sort_alias= alias
+set reverse_alias=yes
+source $alias_file
+
+
+# Sidebar
+set sidebar_short_path                   
+set sidebar_delim_chars="/"             # Delete everything up to the last / character
+set sidebar_folder_indent               # Indent folders whose names we've shortened
+set sidebar_indent_string="  "          # Indent with two spaces
+set sidebar_visible = yes
+#macro index,pager G "<group-reply>" "Group Reply"
+
+#SPam
+spam "X-Spam-Score: (.*)"   "%1"
+
+# Formats
+set date_format         = "%d/%m/%y at %I:%M%P"
+set index_format        = "%3C %5H  %S   %D  •  %-25.25L %s %> %c"
+set pager_format        = "Reading message %C of %m %> %lL [%P]" # pager statusbar
+set folder_format       = "%2C %t %N %8s %d %f"                  # mailbox list view
+set status_format       = " %?M?%M/?%m Mails %?n?%n new, ?%?u?%u unread, ?%?p?%p drafts, ?%?t?%t +tagged, ?%?d?%d deleted, ?[%f %l]  %?b?%b unread messages. ?%>  %V  [%P]"
+set alias_format        = "%4n %t %-20a  %r"
+
+
+## ACCOUNT1
+source "~/.mutt/account_gmail_chrisafleming"
+## Here we use the $folder variable that has just been set in the sourced file.
+## We must set it right now otherwise the 'folder' variable will change in the next sourced file.
+folder-hook $folder 'source ~/.mutt/account_gmail_chrisafleming'
+macro index <ESC>C1 "<change-folder>$folder<enter>"
+
+## ACCOUNT2
+source "~/.mutt/account_cbits_chris"
+folder-hook $folder 'source ~/.mutt/account_cbits_chris'
+macro index <ESC>C2 "<change-folder>$folder<enter>"

@@ -595,6 +595,25 @@ else
      start_agent;
 fi
 
+GPG_ENV="$HOME/.gpg-agent-info"
+GPGAGENT=$(find_alternatives "gpg-agent")
+if [[ -f $GPGAGENT ]]; then
+
+    GPG_TTY=$(tty)
+    export GPG_TTY
+	# If file exisits and gpg is running just source file, otherwise start
+	if test -f "${GPG_ENV}" && kill -0 `cut -d: -f 2 $GPG_ENV | head -n 1` 2>/dev/null; then
+        . "${HOME}/.gpg-agent-info"
+        export GPG_AGENT_INFO
+        export SSH_AUTH_SOCK
+        export SSH_AGENT_PID
+	else
+        eval `gpg-agent --daemon --enable-ssh-support --write-env-file ${GPG_ENV}`
+	fi
+
+fi
+
+
 # Check that enviroment files don't have an update.
 # TODO: only do this once a day.
 
@@ -613,3 +632,5 @@ unset GIT
 
 
 echo `date` ": Finished bashrc"
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
