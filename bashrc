@@ -242,17 +242,17 @@ pathadd ()
     set +x
 }
 
-paths=("/opt/local/sbin" "/opt/local/bin" "$HOME/bin")
+paths=("/opt/local/sbin" "/opt/local/bin" "$HOME/bin", "$HOME/.rvm/bin")
 
 for d in "${paths[@]}"
 do
     pathadd $d
 done
 
+export PATH
 # Lets setup rvm
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-export PATH
 
 export EDITOR=$(find_alternatives "mvim" "vim" "vi")
 
