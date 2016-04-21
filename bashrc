@@ -229,7 +229,6 @@ BROWSER=$(find_alternatives "chromium-browser" "chrome" "firefox-4.0" "firefox" 
 # Add /opt/local/bin and /opt/local/sbin to path if they exsit, needed for macports and generally 
 pathadd () 
 {
-	set -x
     if [[ -d "$1" ]]; then
         if ! echo $PATH | egrep -q "(^|:)$1($|:)" 
         then 
@@ -240,7 +239,6 @@ pathadd ()
             fi
 		fi
     fi
-    set +x
 }
 
 paths=("/opt/local/sbin" "/opt/local/bin" "$HOME/bin" "$HOME/.rvm/bin")
