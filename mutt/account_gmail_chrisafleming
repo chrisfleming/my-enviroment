@@ -13,6 +13,23 @@ set realname = "Chris Fleming"
 
 set signature=""
 
+# Shortcuts
+
+macro index a "<tag-prefix><save-message>=8-Year<enter><enter>"
+macro pager a "<save-message>=8-Year<enter><enter>"
+
+macro index z1b "<tag-prefix><save-message>=1-projects/bfo<enter><enter>"
+macro pager z1b "<save-message>=1-projetcs/bfo<enter><enter>"
+
+macro index za9 "<tag-prefix><save-message>=Archives/friends/csae1999<enter><enter>"
+macro pager za9 "<save-message>=Archives/friends/csae1999<enter><enter>"
+#macros index zc9 "<tag-prefix><save-message>=archives/friends/csae1999<enter>" 
+#macros pager zc9 "<save-message>=archives/friends/csae1999<enter><enter>"
+
+#macros index zc0 "<tag-prefix><save-message>=archives/friends/csae2000<enter><enter>" "csae2000 archive"
+#macros pager zc0 "<save-message>=archives/friends/csae2000<enter><enter>" "csae2000 archive"
+
+
 ## Hook -- IMPORTANT!
 account-hook $folder "set imap_user=chrisafleming@gmail.com imap_pass=`pass show 'Google/chrisafleming@gmail.com/imap'`"
 

@@ -44,7 +44,7 @@ set sidebar_visible = yes
 #macro index,pager G "<group-reply>" "Group Reply"
 
 #SPam
-spam "X-Spam-Score: (.*)"   "%1"
+#spam "X-Spam-Score: (.*)"   "%1"
 
 # Formats
 set date_format         = "%d/%m/%y at %I:%M%P"
@@ -55,14 +55,8 @@ set status_format       = " %?M?%M/?%m Mails %?n?%n new, ?%?u?%u unread, ?%?p?%p
 set alias_format        = "%4n %t %-20a  %r"
 
 
-## ACCOUNT1
-source "~/.mutt/account_gmail_chrisafleming"
-## Here we use the $folder variable that has just been set in the sourced file.
-## We must set it right now otherwise the 'folder' variable will change in the next sourced file.
-folder-hook $folder 'source ~/.mutt/account_gmail_chrisafleming'
-macro index <ESC>C1 "<change-folder>$folder<enter>"
+# We set A to get aliases, so a can be archive 
+macro index,pager A "<create-alias>" "Create Aliases"
 
-## ACCOUNT2
-source "~/.mutt/account_cbits_chris"
-folder-hook $folder 'source ~/.mutt/account_cbits_chris'
-macro index <ESC>C2 "<change-folder>$folder<enter>"
+source "~/.mutt/accounts"
+
