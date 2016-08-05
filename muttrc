@@ -5,6 +5,7 @@ set message_cachedir =~/.mutt/cache/bodies
 set certificate_file =~/.mutt/certificates
 
 bind editor <space> noop
+set editor="vim -c 'set ft=mail'"
 
 # Basic config, you can leave this as is
 set imap_check_subscribed
@@ -15,13 +16,18 @@ set imap_keepalive = 300
 set move = no
 set include
 set sort = 'threads'
-set sort_aux = 'reverse-last-date-received'
+set sort_aux = 'date-received'
 set auto_tag = yes
-ignore "Authentication-Results:"
-ignore "DomainKey-Signature:"
-ignore "DKIM-Signature:"
+
+#ignore "Authentication-Results:"
+ignore *
+
+unignore date from to cc subject x-mailer resent-from reply-to
+#ignore "DomainKey-Signature:"
+#ignore "DKIM-Signature:"
 hdr_order Date From To Cc
-alternative_order text/plain text/html *
+
+alternative_order text/html text/plain *
 auto_view text/html
 #bind editor <Tab> complete-query
 #bind editor ^T complete
@@ -34,14 +40,30 @@ set sort_alias= alias
 set reverse_alias=yes
 source $alias_file
 
+charset-hook ^iso-8859-1$ windows-1252
 
 # Sidebar
 set sidebar_short_path                   
 set sidebar_delim_chars="/"             # Delete everything up to the last / character
 set sidebar_folder_indent               # Indent folders whose names we've shortened
 set sidebar_indent_string="  "          # Indent with two spaces
-set sidebar_visible = yes
+set sidebar_visible = no
 #macro index,pager G "<group-reply>" "Group Reply"
+set sidebar_width = 35
+
+color sidebar_new yellow default
+bind index <left> sidebar-prev
+bind index <right> sidebar-next
+bind index <space> sidebar-open
+bind index <Esc>S sidebar-toggle-visible
+# b toggles sidebar visibility
+macro index b '<enter-command>toggle sidebar_visible<enter>'
+macro pager b '<enter-command>toggle sidebar_visible<enter>'
+#
+# Remap bounce-message function to “B”
+bind index B bounce-message
+
+
 
 #SPam
 spam "X-Spam-Score: (.*)"   "%1"
@@ -55,14 +77,17 @@ set status_format       = " %?M?%M/?%m Mails %?n?%n new, ?%?u?%u unread, ?%?p?%p
 set alias_format        = "%4n %t %-20a  %r"
 
 
+## ACCOUNT2
+source "~/.mutt/account_keysight_iss_support"
+folder-hook "~/Mail-ISS/iss_support/" 'source ~/.mutt/account_keysight_iss_support'
+macro index <ESC>C2 "<change-folder>~/Mail-ISS/iss_support/INBOX<enter><enter-command>source ~/.mutt/account_keysight_iss_support<enter>"
+
 ## ACCOUNT1
-source "~/.mutt/account_gmail_chrisafleming"
+source "~/.mutt/account_keysight_chris_fleming"
 ## Here we use the $folder variable that has just been set in the sourced file.
 ## We must set it right now otherwise the 'folder' variable will change in the next sourced file.
-folder-hook $folder 'source ~/.mutt/account_gmail_chrisafleming'
-macro index <ESC>C1 "<change-folder>$folder<enter>"
+folder-hook $folder 'source ~/.mutt/account_keysight_chris_fleming'
+#macro index <ESC>C1 "<change-folder>$folder<enter><change-vfolder>INBOX<enter>"
+macro index <ESC>C1 "<change-folder>/home/chflemin/Mail/Exchange/INBOX<enter><change-vfolder>INBOX<enter>"
 
-## ACCOUNT2
-source "~/.mutt/account_cbits_chris"
-folder-hook $folder 'source ~/.mutt/account_cbits_chris'
-macro index <ESC>C2 "<change-folder>$folder<enter>"
+
