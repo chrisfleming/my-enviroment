@@ -18,6 +18,7 @@ set include
 set sort = 'threads'
 set sort_aux = 'reverse-last-date-received'
 set auto_tag = yes
+set pager_index_lines=6
 
 #ignore "Authentication-Results:"
 ignore *
