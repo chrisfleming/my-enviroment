@@ -36,3 +36,6 @@ Temporary Items
 # Mutt cache and aliases
 /mutt/cache
 /mutt/aliases
+
+# No binary spell files
+.add.spl
