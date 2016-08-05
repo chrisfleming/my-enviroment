@@ -36,3 +36,7 @@ Temporary Items
 # Mutt cache and aliases
 /mutt/cache
 /mutt/aliases
+
+mutt/account*
+mutt/certificates
+mutt/mailboxes
