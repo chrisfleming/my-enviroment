@@ -46,8 +46,8 @@ git_bundles = [
      "https://github.com/chrisbra/NrrwRgn.git",
      # Trying out vimpad and quicktask
      "https://github.com/vim-scripts/vim-pad.git",
-     "https://github.com/aaronbieber/vim-quicktask.git",
-     "https://github.com/blindFS/vim-taskwarrior.git",
+#     "https://github.com/aaronbieber/vim-quicktask.git",
+#     "https://github.com/blindFS/vim-taskwarrior.git",
 ]
 
 vim_org_scripts = [
