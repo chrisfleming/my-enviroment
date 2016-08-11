@@ -8,7 +8,10 @@ set postponed ="+[Gmail]/Drafts"
 set trash = "+[GMail]/Bin"
 set record = "+[Gmail]/Sent Mail"
 
+set reverse_name=yes
+
 set from = "me@chrisfleming.org"
+alternates "amazon@chrisfleming\.org|me2@chrisfleming\.org"
 set realname = "Chris Fleming"
 
 set signature=""
