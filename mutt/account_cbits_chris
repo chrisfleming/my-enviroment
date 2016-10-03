@@ -7,7 +7,7 @@ set postponed ="+Drafts"
 set trash = "+Trash"
 set record = "+Sent"
 
-set from = "chris@coherentnbits.com"
+set from = "chris@coherentbits.com"
 set realname = "Chris Fleming"
 
 set signature=""
