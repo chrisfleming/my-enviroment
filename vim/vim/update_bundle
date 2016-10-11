@@ -121,6 +121,8 @@ vim_org_scripts.each do |name, script_id, script_type|
   elsif filetype == "application/x-gzip"
   	  `cd #{File.dirname(local_file)}; gunzip -S .vim #{name}.vim`
   elsif filetype != "text/plain"
+  	  # If just a plain file, put into plugin dir
+  	  `cd #{File.dirname(local_file)}; mkdir plugin; mv *.vim plugin`
   	  print "WARNING: #{local_file} is type #{filetype}.\n"
   end
    
