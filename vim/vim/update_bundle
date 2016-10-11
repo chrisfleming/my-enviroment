@@ -23,7 +23,7 @@ git_bundles = [
    "git://github.com/tpope/vim-rails.git",
    "git://github.com/tpope/vim-bundler.git",
    "https://github.com/tpope/vim-abolish.git",
-   "https://github.com/kien/ctrlp.vim",
+   "https://github.com/ctrlpvim/ctrlp.vim",
    "git://github.com/majutsushi/tagbar",
 #  "git://github.com/tpope/vim-repeat.git",
 #  "git://github.com/tpope/vim-surround.git",
