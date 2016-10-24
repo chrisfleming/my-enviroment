@@ -6,8 +6,12 @@ git_bundles = [
   "git://github.com/ervandew/supertab.git",
   "git://github.com/godlygeek/tabular.git",
 #  "git://github.com/hallison/vim-rdoc.git",
-  "https://github.com/garbas/vim-snipmate",
-  "git://github.com/msanders/snipmate.vim.git",
+  #
+  # VIM SNippits
+   "https://github.com/MarcWeber/vim-addon-mw-utils.git",
+   "https://github.com/tomtom/tlib_vim.git",
+   "https://github.com/garbas/vim-snipmate.git",
+   "https://github.com/honza/vim-snippets.git",
 #  "git://github.com/pangloss/vim-javascript.git",
   "git://github.com/scrooloose/nerdtree.git",
 #  "git://github.com/timcharper/textile.vim.git",
@@ -19,7 +23,7 @@ git_bundles = [
    "git://github.com/tpope/vim-rails.git",
    "git://github.com/tpope/vim-bundler.git",
    "https://github.com/tpope/vim-abolish.git",
-   "https://github.com/kien/ctrlp.vim",
+   "https://github.com/ctrlpvim/ctrlp.vim",
    "git://github.com/majutsushi/tagbar",
 #  "git://github.com/tpope/vim-repeat.git",
 #  "git://github.com/tpope/vim-surround.git",
@@ -46,8 +50,6 @@ git_bundles = [
      "https://github.com/chrisbra/NrrwRgn.git",
      # Trying out vimpad and quicktask
      "https://github.com/vim-scripts/vim-pad.git",
-#     "https://github.com/aaronbieber/vim-quicktask.git",
-#     "https://github.com/blindFS/vim-taskwarrior.git",
 ]
 
 vim_org_scripts = [
@@ -56,6 +58,28 @@ vim_org_scripts = [
   ["calendar",      "19707", ""],
   ["dbext",         "20843", ""],
 ]
+
+# Functions
+# Cross-platform way of finding an executable in the $PATH.
+#
+#   which('ruby') #=> /usr/bin/ruby
+def which(cmd)
+  exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+  ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
+    exts.each { |ext|
+      exe = File.join(path, "#{cmd}#{ext}")
+      return exe if File.executable?(exe) && !File.directory?(exe)
+    }
+  end
+  return nil
+end
+
+# if we have clearcase add vim clearcase:
+# http://www.vim.org/scripts/script.php?script_id=15
+if which("cc") then
+    vim_org_scripts.push(["ccase", "3420", ""])
+end
+
 
 # Only include outlookvim on windows:
 require 'rbconfig'
@@ -93,10 +117,12 @@ vim_org_scripts.each do |name, script_id, script_type|
   filetype = %x( file -b --mime-type -0 #{local_file})
   filetype.strip!
   if filetype == "application/zip"
-  	  `cd #{File.dirname(local_file)}; unzip #{name}.vim; popd`
+  	  `cd #{File.dirname(local_file)}; unzip #{name}.vim`
   elsif filetype == "application/x-gzip"
-  	  `pushd #{File.dirname(local_file)}; gunzip -S .vim #{name}.vim; popd`
+  	  `cd #{File.dirname(local_file)}; gunzip -S .vim #{name}.vim`
   elsif filetype != "text/plain"
+  	  # If just a plain file, put into plugin dir
+  	  `cd #{File.dirname(local_file)}; mkdir plugin; mv *.vim plugin`
   	  print "WARNING: #{local_file} is type #{filetype}.\n"
   end
    
