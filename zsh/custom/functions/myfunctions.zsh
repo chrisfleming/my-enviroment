@@ -33,6 +33,8 @@ function pathadd ()
 # Get my IP address
 function myip() {
 
+blacklist=(sit0 lo teql0 gre0 ip6tnl0 eql)
+
 if [ -d /Applications ]; then
   for i in `ifconfig -l`; do
     ic=`ifconfig $i`
@@ -61,26 +63,27 @@ fi
 
 if [ -d /sys/class/net ]; then
     ls /sys/class/net | while read i; do
+        if [[ -d /sys/class/net/$i && ! ${blacklist[*]} =~ $i ]]; then
+	    # Are we connected
+	    if grep -Fxq '1' /sys/class/net/$i/carrier 2> /dev/null; then
+	        printf '\e[38;5;022m ✔\033[0;0m %8s:\n' $i
+	    else
+                printf '\e[38;5;088m ✘\033[0;0m %8s:\n' $i
+	    fi
 
-			# Are we connected
-			if grep -Fxq '1' /sys/class/net/$i/carrier 2> /dev/null; then
-					printf '\e[38;5;022m ✔\033[0;0m %8s:\n' $i
-			else
-					printf '\e[38;5;088m ✘\033[0;0m %8s:\n' $i
-			fi
+	    y=`ifconfig $i | awk '/inet addr/ {split ($2,A,":"); print A[2]}'`
+	    z=`ifconfig $i | awk '/inet6 addr/ {split ($2,A,":"); print A[2]}'`
 
-			y=`ifconfig $i | awk '/inet addr/ {split ($2,A,":"); print A[2]}'`
-			z=`ifconfig $i | awk '/inet6 addr/ {split ($2,A,":"); print A[2]}'`
+	    echo $y | while read ip; do
+    	        test "$ip" && printf '         IP:   %s\n' $ip
+	    done
 
-			echo $y | while read ip; do
-    			test "$ip" && printf '         IP:   %s\n' $ip
-			done
-
-			echo $z | while read ip; do
-	    		test "$ip" && printf '         IPv6: %s\n' $ip
-			done
-
-        done
+	    echo $z | while read ip; do
+	        test "$ip" && printf '         IPv6: %s\n' $ip
+	    done
+	
+        fi
+    done
 fi
 
 
