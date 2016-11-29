@@ -633,3 +633,5 @@ unset GIT
 echo `date` ": Finished bashrc"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+export PYTHONSTARTUP=$HOME/projects/my-enviroment/pythonstartup
