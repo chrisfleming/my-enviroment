@@ -53,6 +53,15 @@ if [ -d /Applications ]; then
   done
 fi
 
+if [ -d /sys/class/net ]; then
+  il=`ls /sys/class/net`
+  for i in $il; do
+  	  echo $i
+  done
+fi
+
+
+
 if [ -d /proc ]; then
   ifconfig | awk '/inet addr/ {split ($2,A,":"); print A[2]}'
 fi
