@@ -50,6 +50,8 @@ git_bundles = [
      "https://github.com/chrisbra/NrrwRgn.git",
      # Trying out vimpad and quicktask
      "https://github.com/vim-scripts/vim-pad.git",
+     # vim and tmux
+     "https://github.com/christoomey/vim-tmux-navigator.git",
 ]
 
 vim_org_scripts = [

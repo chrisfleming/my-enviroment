@@ -97,6 +97,17 @@ nnoremap <C-[> <C-t>
 " Ctrlp shortcut:
 nnoremap <leader>. :CtrlPTag<cr>
 
+" Fix the naviagation shortcuts works in tandem with tmux. May need some work
+" on the tmux config for nested tmux sessions.
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <C-l> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>
+
+
 " Notes Plugin
 let g:notes_directories = ['~/Dropbox/notes']
 " Lets go with utf-8 - seems to be needed for Notes plugin on Widow s
@@ -176,5 +187,6 @@ endif
 if filereadable(glob("~/.simplenoterc"))
 	source ~/.simplenoterc
 endif
+
 
 
