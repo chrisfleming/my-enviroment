@@ -16,7 +16,7 @@ set imap_keepalive = 300
 set move = no
 set include
 set sort = 'threads'
-set sort_aux = 'reverse-last-date-received'
+set sort_aux = 'last-date-received'
 set auto_tag = yes
 set pager_index_lines=6
 
