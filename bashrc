@@ -584,15 +584,15 @@ function start_agent {
 
 # Source SSH settings, if applicable
 
-if [ -f "${SSH_ENV}" ]; then
-     . "${SSH_ENV}" > /dev/null
-     #ps ${SSH_AGENT_PID} doesn't work under cywgin
-     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-         start_agent;
-     }
-else
-     start_agent;
-fi
+#if [ -f "${SSH_ENV}" ]; then
+#     . "${SSH_ENV}" > /dev/null
+#     #ps ${SSH_AGENT_PID} doesn't work under cywgin
+#     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+#         start_agent;
+#     }
+#else
+#     start_agent;
+#fi
 
 GPG_ENV="$HOME/.gpg-agent-info"
 GPGAGENT=$(find_alternatives "gpg-agent")
@@ -633,3 +633,5 @@ unset GIT
 echo `date` ": Finished bashrc"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+export PYTHONSTARTUP=$HOME/projects/my-enviroment/pythonstartup

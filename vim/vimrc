@@ -37,6 +37,9 @@ set noerrorbells         " don't beep
 
 let mapleader=","
 
+" Fixing BackSpace from putty
+set t_kb=
+
 " Colour columns 80 onward:
 execute "set colorcolumn=" . join(range(81,335), ',')
 
@@ -70,11 +73,14 @@ vnoremap > >gv
 " work with snipmate
 let g:SuperTabDefaultCompletionType = "context"
 
-
+" Syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " Sntastic Syntax Checker.
-let g:syntastic_python_checkers = [ 'flake8', 'pep8', 'pyflakes' ]
-
+let g:syntastic_python_checkers = [ 'flake8', 'pyflakes', 'pylint', 'python' ]
 
 " Python Settings
 au FileType python setl sw=4 sts=4 et
@@ -85,8 +91,22 @@ au FileType mail set tw=72 spell spelllang=en_gb
 " Enable Tagbar
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
 
+" Ctags map back to C-[ 
+nnoremap <C-[> <C-t>
+
 " Ctrlp shortcut:
 nnoremap <leader>. :CtrlPTag<cr>
+
+" Fix the naviagation shortcuts works in tandem with tmux. May need some work
+" on the tmux config for nested tmux sessions.
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <C-l> :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>
+
 
 " Notes Plugin
 let g:notes_directories = ['~/Dropbox/notes']
@@ -167,5 +187,6 @@ endif
 if filereadable(glob("~/.simplenoterc"))
 	source ~/.simplenoterc
 endif
+
 
 

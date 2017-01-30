@@ -1,0 +1,6 @@
+  for i in `ifconfig -l`; do
+    ip = `ifconfig $i`
+    y=`ifconfig $i | awk '/inet / {split ($2,A," "); print A[1]}'`
+    test "$y"  && echo $i: $y
+  done
+
