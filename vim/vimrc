@@ -68,6 +68,12 @@ colorscheme solarized
 vnoremap < <gv
 vnoremap > >gv
 
+" MOve through buffers
+noremap <C-v> :bprev!<CR>
+noremap <C-b> :bnext!<CR>
+
+
+
 " Snipmate use a local directory as well:
 
 " work with snipmate
@@ -75,12 +81,14 @@ let g:SuperTabDefaultCompletionType = "context"
 
 " Syntastic
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_aggregate_errors = 1
 
 " Sntastic Syntax Checker.
-let g:syntastic_python_checkers = [ 'flake8', 'pyflakes', 'pylint', 'python' ]
+" let g:syntastic_python_checkers = [ 'flake8', 'pyflakes', 'pylint', 'python' ]
+let g:syntastic_python_checkers = [ 'pylint', 'python' ]
 
 " Python Settings
 au FileType python setl sw=4 sts=4 et
@@ -106,6 +114,11 @@ nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>
+
+" Needed for airline
+set laststatus=2
+set ttimeoutlen=50
+let g:airline#extensions#tabline#enabled = 1
 
 
 " Notes Plugin
