@@ -1,17 +1,7 @@
 # some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias lr='ls -lr'
-alias l='ls -CF'
-
-alias p='ps -ef | grep'
 alias h='history | grep'
 
 # Clearcase alias
-
-#checking all files
-alias ctadd='cleartool lsco -cview -avobs -short | xargs cleartool ci'
-
 
 alias sshtunnel='ssh -L 1993:imap.gmail.com:993 -L 1465:mail.chrisfleming.org:465 -L 3128:localhost:3128  -L 5222:talk.google.com:5222 -L 1863:messenger.hotmail.com:1863 -L 5223:chat.facebook.com:5222 -L 6667:irc.oftc.net:6667 -D 3129 shell.chrisfleming.org'
 

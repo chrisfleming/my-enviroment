@@ -13,6 +13,9 @@
 echo `date` ": Started bashrc"
 
 
+# Source aliases
+. $HOME/projects/my-enviroment/bin/aliases.sh
+
 #
 # Source global definitions
 #
@@ -21,6 +24,7 @@ echo `date` ": Started bashrc"
 if [ -f /sw/bin/init.sh ]; then
   .  /sw/bin/init.sh
 fi
+
 
 
 #######################################################################
@@ -114,22 +118,13 @@ case "${TERM}" in
     screen)
         PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\"'
     ;;
-    *)        
+    *)
         PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
     ;;
 esac
 
 
 # If we are in a screen session then set the Window Name to Hostname
-function reset_screen_title()
-{
-case "${TERM}" in
-	screen)
-		echo -ne '\033k'`hostname | cut -d . -f1`'\033\\'
-		;;
-esac
-}
-
 reset_screen_title
 
 #setxkbmap -option "ctrl:nocaps"
@@ -150,38 +145,18 @@ history | grep -E "^ [0-9]+ export $1" | uniq -s 6 -u
     fi
 }
 
-# Search through a list of alternative binaries, returning the first match
-function find_alternatives ()
-{
-    for arg in "$@"
-    do
-      # --skip-alias only works with GNU which
-      # file=`which --skip-alias $arg 2> /dev/null`
-      file=`which $arg 2> /dev/null`
-      if [ -x "$file" ]; then
-echo "$file"
-return
-fi
-done
-}
-
 
 #
 # Lets see if we have a decent "grep"
-#
 GREP=$(find_alternatives "ggrep" "grep" "/bin/grep")
 alias grep="$GREP"
 
 #
 # Look for a decent diff
-#
 DIFF=$(find_alternatives "gdiff" "diff")
 alias diff="$DIFF"
 
-#
 # Some systems I use don't have a decent 'find' implentation so
-#
-
 # Lets look for gfind first (The GNU find on Solaris)
 FIND=$(find_alternatives "gfind" "find")
 alias find="$FIND"
@@ -196,7 +171,6 @@ if [ "${FIND_VERSION:0:8}" == "GNU find" ]; then
     FIND_CHEAD=" -iname '*.h' "
         
     # and search code for stuff (when I figure out proper expansion and quuting I'll make this neater)
-    
     #alias sc="find . -iname '*.[chS]' -or -iname '*.cc' -and -not \( -name '.#' -o -name '#*#' -o -name '*\.~*.~' -o -path '*./CVS/*.' \) -print0 | xargs -0 grep -H "
 
     alias f="$FIND -iname"
@@ -227,20 +201,6 @@ BROWSER=$(find_alternatives "chromium-browser" "chrome" "firefox-4.0" "firefox" 
 ######################
 
 # Add /opt/local/bin and /opt/local/sbin to path if they exsit, needed for macports and generally 
-pathadd () 
-{
-    if [[ -d "$1" ]]; then
-        if ! echo $PATH | egrep -q "(^|:)$1($|:)" 
-        then 
-		    if [ "$2" = "after" ] ; then
-                PATH=$PATH:$1
-            else
-                PATH=$1:$PATH
-            fi
-		fi
-    fi
-}
-
 paths=("/opt/local/sbin" "/opt/local/bin" "$HOME/bin" "$HOME/.rvm/bin")
 
 for d in "${paths[@]}"
@@ -467,15 +427,6 @@ if [[ "$TERM" == "xterm" || "$TERM" == "screen" ]]; then
     export PROMPT_COMMAND="$PROMPT_COMMAND; ps_xterm_f"
 fi
 
-# Screen can loose connections to the root ssh-agent. Either we could create and agent for
-# every screen or just try and dink it out again.
-
-find_ssh_agent()
-{
-    KEYS=`ssh-add -l`
-    
-}
-
 ########################
 # Miscelaneous Stuff
 ########################
@@ -572,45 +523,35 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 SSH_ENV="$HOME/.ssh/environment"
-
-function start_agent {
-     echo "Initialising new SSH agent..."
-     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-     echo succeeded
-     chmod 600 "${SSH_ENV}"
-     . "${SSH_ENV}" > /dev/null
-     /usr/bin/ssh-add;
-}
-
 # Source SSH settings, if applicable
 
-#if [ -f "${SSH_ENV}" ]; then
-#     . "${SSH_ENV}" > /dev/null
-#     #ps ${SSH_AGENT_PID} doesn't work under cywgin
-#     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-#         start_agent;
-#     }
-#else
-#     start_agent;
-#fi
-
-GPG_ENV="$HOME/.gpg-agent-info"
-GPGAGENT=$(find_alternatives "gpg-agent")
-if [[ -f $GPGAGENT ]]; then
-
-    GPG_TTY=$(tty)
-    export GPG_TTY
-	# If file exisits and gpg is running just source file, otherwise start
-	if test -f "${GPG_ENV}" && kill -0 `cut -d: -f 2 $GPG_ENV | head -n 1` 2>/dev/null; then
-        . "${HOME}/.gpg-agent-info"
-        export GPG_AGENT_INFO
-        export SSH_AUTH_SOCK
-        export SSH_AGENT_PID
-	else
-        eval `gpg-agent --daemon --enable-ssh-support --write-env-file ${GPG_ENV}`
-	fi
-
+if [ -f "${SSH_ENV}" ]; then
+     . "${SSH_ENV}" > /dev/null
+     #ps ${SSH_AGENT_PID} doesn't work under cywgin
+     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+         start_agent;
+     }
+else
+     start_agent;
 fi
+
+# GPG_ENV="$HOME/.gpg-agent-info"
+# GPGAGENT=$(find_alternatives "gpg-agent")
+# if [[ -f $GPGAGENT ]]; then
+
+#    GPG_TTY=$(tty)
+#    export GPG_TTY
+	# If file exisits and gpg is running just source file, otherwise start
+#	if test -f "${GPG_ENV}" && kill -0 `cut -d: -f 2 $GPG_ENV | head -n 1` 2>/dev/null; then
+#        . "${HOME}/.gpg-agent-info"
+#        export GPG_AGENT_INFO
+#        export SSH_AUTH_SOCK
+#        export SSH_AGENT_PID
+#	else
+#        eval `gpg-agent --daemon --enable-ssh-support --write-env-file ${GPG_ENV}`
+#	fi
+#
+#fi
 
 
 # Check that enviroment files don't have an update.
