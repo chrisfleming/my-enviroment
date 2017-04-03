@@ -1,0 +1,137 @@
+#!/usr/bin/env ruby
+
+git_bundles = [ 
+	"git://github.com/altercation/vim-colors-solarized.git",
+#  "git://github.com/astashov/vim-ruby-debugger.git",
+  "git://github.com/ervandew/supertab.git",
+<<<<<<< HEAD
+  "git://github.com/godlygeek/tabular.git",
+  "https://github.com/dhruvasagar/vim-table-mode.git",
+=======
+  #"git://github.com/godlygeek/tabular.git",
+  "git@github.com:dhruvasagar/vim-table-mode.git",
+>>>>>>> d28da964cf98d2af6c7ebe07dfb02c9097b1d1a5
+#  "git://github.com/hallison/vim-rdoc.git",
+  #
+  # VIM SNippits
+   "https://github.com/MarcWeber/vim-addon-mw-utils.git",
+   "https://github.com/tomtom/tlib_vim.git",
+   "https://github.com/garbas/vim-snipmate.git",
+   "https://github.com/honza/vim-snippets.git",
+#  "git://github.com/pangloss/vim-javascript.git",
+  "git://github.com/scrooloose/nerdtree.git",
+#  "git://github.com/timcharper/textile.vim.git",
+#  "git://github.com/tpope/vim-cucumber.git",
+  "git://github.com/tpope/vim-fugitive.git",
+  "git://github.com/tpope/vim-git.git",
+#  "git://github.com/tpope/vim-haml.git",
+#  "git://github.com/tpope/vim-markdown.git",
+   "git://github.com/tpope/vim-rails.git",
+   "git://github.com/tpope/vim-bundler.git",
+   "https://github.com/tpope/vim-abolish.git",
+   "https://github.com/ctrlpvim/ctrlp.vim",
+   "git://github.com/majutsushi/tagbar",
+#  "git://github.com/tpope/vim-repeat.git",
+#  "git://github.com/tpope/vim-surround.git",
+#  "git://github.com/tsaleh/taskpaper.vim.git",
+#  "git://github.com/tsaleh/vim-matchit.git",
+#  "git://github.com/tsaleh/vim-shoulda.git",
+#  "git://github.com/tsaleh/vim-tcomment.git",
+#  "git://github.com/tsaleh/vim-tmux.git",
+#  "git://github.com/vim-ruby/vim-ruby.git",
+#  "git://github.com/vim-scripts/Gist.vim.git",
+#  "https://github.com/Lokaltog/vim-powerline.git",
+  "https://github.com/bling/vim-airline.git",
+  "https://github.com/sjl/gundo.vim.git",
+#  "https://github.com/klen/python-mode.git",
+	 "https://github.com/davidhalter/jedi-vim.git",
+	 "https://github.com/scrooloose/syntastic.git",
+	 # VOoM and vim notes for outlining and notes
+	 "https://github.com/vim-voom/VOoM.git",
+     #"https://github.com/xolox/vim-misc.git",
+	 #"https://github.com/xolox/vim-notes.git",
+     #"https://github.com/jceb/vim-orgmode.git",
+     #"https://github.com/dhruvasagar/vim-dotoo.git",
+     #"https://github.com/hsitz/VimOrganizer.git",
+     "https://github.com/chrisbra/NrrwRgn.git",
+     # Trying out vimpad and quicktask
+     "https://github.com/vim-scripts/vim-pad.git",
+     # vim and tmux
+     "https://github.com/christoomey/vim-tmux-navigator.git",
+]
+
+vim_org_scripts = [
+  ["IndexedSearch", "7062",  "plugin"],
+  ["jquery",        "15752", "syntax"],
+  ["calendar",      "19707", ""],
+  ["dbext",         "20843", ""],
+]
+
+# Functions
+# Cross-platform way of finding an executable in the $PATH.
+#
+#   which('ruby') #=> /usr/bin/ruby
+def which(cmd)
+  exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+  ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
+    exts.each { |ext|
+      exe = File.join(path, "#{cmd}#{ext}")
+      return exe if File.executable?(exe) && !File.directory?(exe)
+    }
+  end
+  return nil
+end
+
+# if we have clearcase add vim clearcase:
+# http://www.vim.org/scripts/script.php?script_id=15
+if which("cc") then
+    vim_org_scripts.push(["ccase", "3420", ""])
+end
+
+
+# Only include outlookvim on windows:
+require 'rbconfig'
+is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
+if is_windows then
+    vim_org_scripts.push( ["outlookvim",    "20951", ""] )
+end
+
+require 'fileutils'
+require 'open-uri'
+
+bundles_dir = File.join(File.dirname(__FILE__), "bundle")
+
+FileUtils.cd(bundles_dir)
+
+puts "trashing everything (lookout!)"
+Dir["*"].each {|d| FileUtils.rm_rf d }
+
+git_bundles.each do |url|
+  dir = url.split('/').last.sub(/\.git$/, '')
+  puts "unpacking #{url} into #{dir}"
+  `git clone --recursive #{url} #{dir}`
+  FileUtils.rm_rf(File.join(dir, ".git"))
+end
+
+
+
+vim_org_scripts.each do |name, script_id, script_type|
+  puts "downloading #{name}"
+  local_file = File.join(name, script_type, "#{name}.vim")
+  FileUtils.mkdir_p(File.dirname(local_file))
+  File.open(local_file, "w") do |file|
+    file << open("http://www.vim.org/scripts/download_script.php?src_id=#{script_id}").read
+  end
+  filetype = %x( file -b --mime-type -0 #{local_file})
+  filetype.strip!
+  if filetype == "application/zip"
+  	  `cd #{File.dirname(local_file)}; unzip #{name}.vim`
+  elsif filetype == "application/x-gzip"
+  	  `cd #{File.dirname(local_file)}; gunzip -S .vim #{name}.vim`
+  elsif filetype != "text/plain"
+  	  # If just a plain file, put into plugin dir
+  	  `cd #{File.dirname(local_file)}; mkdir plugin; mv *.vim plugin`
+  	  print "WARNING: #{local_file} is type #{filetype}.\n"
+  end
+   
+end

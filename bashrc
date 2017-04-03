@@ -488,7 +488,7 @@ echo "loading .bashrc_`hostname`"
     source $HOST_BASHRC
 fi
 
-  # Generic local configs for work and stuff
+# Generic local configs for work and stuff
 if [ -f $HOME/.bashrc_local ]; then
 echo "loading .bashrc_local"
     source $HOME/.bashrc_local
