@@ -8,6 +8,16 @@ setopt appendhistory autocd extendedglob
 
 export SHELL=`which zsh`
 
+# Source aliases
+. $HOME/projects/my-enviroment/bin/aliases.sh
+
+# Generic local configs for work and stuff
+if [ -f $HOME/.rc_local ]; then
+echo "loading .rc_local"
+    source $HOME/.rc_local
+fi
+
+
 set -o vi
 
 # Path to your oh-my-zsh installation.

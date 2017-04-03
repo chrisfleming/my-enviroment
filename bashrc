@@ -16,6 +16,23 @@ echo `date` ": Started bashrc"
 # Source aliases
 . $HOME/projects/my-enviroment/bin/aliases.sh
 
+# Generic local configs for work and stuff
+if [ -f $HOME/.bashrc_local ]; then
+echo "loading .bashrc_local"
+    source $HOME/.bashrc_local
+fi
+
+
+# Source aliases
+. $HOME/projects/my-enviroment/bin/aliases.sh
+
+# Generic local configs for work and stuff
+if [ -f $HOME/.bashrc_local ]; then
+echo "loading .bashrc_local"
+    source $HOME/.bashrc_local
+fi
+
+
 #
 # Source global definitions
 #
@@ -488,12 +505,6 @@ echo "loading .bashrc_`hostname`"
     source $HOST_BASHRC
 fi
 
-  # Generic local configs for work and stuff
-if [ -f $HOME/.bashrc_local ]; then
-echo "loading .bashrc_local"
-    source $HOME/.bashrc_local
-fi
-
 # Put some colour into my life
 
 # enable color support of ls and also add handy aliases
@@ -573,6 +584,6 @@ unset GIT
 
 echo `date` ": Finished bashrc"
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+pathadd "$HOME/.rvm/bin" append
 
 export PYTHONSTARTUP=$HOME/projects/my-enviroment/pythonstartup
