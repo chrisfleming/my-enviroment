@@ -1,3 +1,4 @@
+
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
@@ -75,6 +76,7 @@ function find_alternatives ()
             return
         fi
     done
+    return 1
 }
 
 function pathadd () 

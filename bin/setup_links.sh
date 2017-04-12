@@ -1,21 +1,52 @@
-ln -s ~/projects/my-enviroment/bash_aliases ~/.bash_aliases
-mv  ~/.bashrc  ~/.bashrc_orig
-mv ~/.bash_profile ~/.bash_profile
-ln -s ~/projects/my-enviroment/tmux.conf ~/.tmux.conf
-ln -s ~/projects/my-enviroment/bashrc ~/.bashrc
-ln -s ~/projects/my-enviroment/bash_profile ~/.bash_profile
-ln -s ~/projects/my-enviroment/inputrc ~/.inputrc
-ln -s ~/projects/my-enviroment/vim/vim ~/.vim
-ln -s ~/projects/my-enviroment/vim/vimrc ~/.vimrc
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
 
-ln -s  ~/projects/my-enviroment/mutt ~/.mutt
-ln -s ~/projects/my-enviroment/muttrc ~/.muttrc
 
-cd ~/projects/my-enviroment/
+function makelink() {
+   sourcef=$1
+   destf=$2
+
+   if [[ -e $destf && (`readlink $destf` == $sourcef) ]]; then
+       echo "$destf is already linked to $sourcef"
+       return
+   fi
+
+   if [[ -e $destf || -h $destf ]]; then
+       echo "backing up $destf"
+       mv $destf "$destf.myenvbak"
+   fi
+
+   echo "creating link $sourcef $destf"
+   ln -s $sourcef $destf
+}
+
+
+makelink ~/projects/my-enviroment/bash_aliases ~/.bash_aliases
+
+#ln -s ~/projects/my-enviroment/bash_aliases ~/.bash_aliases
+#mv  ~/.bashrc  ~/.bashrc_orig
+#mv ~/.bash_profile ~/.bash_profile
+makelink ~/projects/my-enviroment/tmux.conf ~/.tmux.conf
+makelink ~/projects/my-enviroment/bashrc ~/.bashrc
+makelink ~/projects/my-enviroment/bash_profile ~/.bash_profile
+makelink ~/projects/my-enviroment/dot_zshrc ~/.zshrc
+makelink ~/projects/my-enviroment/inputrc ~/.inputrc
+makelink ~/projects/my-enviroment/vim/vim ~/.vim
+makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
+
+makelink  ~/projects/my-enviroment/mutt ~/.mutt
+makelink ~/projects/my-enviroment/muttrc ~/.muttrc
+
+makelink ~/projects/my-enviroment/bin/myip ~/bin/myip
+
+
+#
+#cd ~/projects/my-enviroment/
 
 
 # Do an initial remote update which populates .git/FETCH_HEAD and prevents errors
-pushd ~/projects/my-enviroment
+pushd ~/projects/my-enviroment >/dev/null
 git remote  update
-popd
+popd >/dev/null
 

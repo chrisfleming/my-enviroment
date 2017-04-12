@@ -17,6 +17,7 @@ echo "loading .rc_local"
     source $HOME/.rc_local
 fi
 
+pathadd $HOME/bin
 
 set -o vi
 # Source Aliases
@@ -82,7 +83,24 @@ ZSH_CUSTOM=$HOME/projects/my-enviroment/zsh/custom
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 fpath=($fpath $ZSH_CUSTOM/functions/)
-plugins=(git brew autojump gpg-agent history osx pass python rails rvm sudo tmux tmuxinator wd)
+
+#plugins=(git brew autojump gpg-agent history osx pass python rails rvm sudo tmux tmuxinator wd)
+
+plugins=(history autojump vi-mode wd)
+
+if find_alternatives git > /dev/null; then plugins+=git; fi
+if find_alternatives brew > /dev/null; then plugins+=brew; fi
+if find_alternatives ssh-agent > /dev/null; then plugins+=ssh-agent; fi
+if find_alternatives gpg-agent > /dev/null; then plugins+=gpg-agent; fi
+# TODO: osx
+#
+if find_alternatives pass > /dev/null; then plugins+=pass; fi
+if find_alternatives python > /dev/null; then plugins+=python; fi
+if find_alternatives ruby > /dev/null; then plugins+=(ruby rails rvm); fi
+if [ -z "$DISABLE_QUICK_SUDO" ]; then plugins+=(sudo); fi
+if find_alternatives tmux > /dev/null; then plugins+=(tmux); fi
+if find_alternatives tmuxinator > /dev/null; then plugins+=(tmuxinator); fi
+
 
 source $ZSH/oh-my-zsh.sh
 
