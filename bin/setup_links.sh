@@ -40,10 +40,17 @@ makelink ~/projects/my-enviroment/muttrc ~/.muttrc
 
 makelink ~/projects/my-enviroment/bin/myip ~/bin/myip
 
+theme_dir=$HOME/projects/my-enviroment/zsh/custom/themes/
+geometry_theme_dir=$theme_dir/geometry.zsh-theme
 
-#
-#cd ~/projects/my-enviroment/
-
+if [ -d $geometry_theme_dir ]; then
+	cd $geometry_theme_dir
+	git pull origin master
+else
+	mkdir -p $theme_dir
+	cd $theme_dir
+	git clone https://github.com/fribmendes/geometry.git geometry.zsh-theme
+fi
 
 # Do an initial remote update which populates .git/FETCH_HEAD and prevents errors
 pushd ~/projects/my-enviroment >/dev/null
