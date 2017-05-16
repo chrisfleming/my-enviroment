@@ -46,11 +46,14 @@ geometry_theme_dir=$theme_dir/geometry
 if [ -d $geometry_theme_dir ]; then
 	cd $geometry_theme_dir
 	git pull origin master
+	git submodule update --init --recursive
 else
 	mkdir -p $theme_dir
 	cd $theme_dir
 	git clone https://github.com/fribmendes/geometry.git geometry
 	ln -s geometry/geometry.zsh-theme .
+	cd  geometry
+	git submodule update --init --recursive
 fi
 
 # Do an initial remote update which populates .git/FETCH_HEAD and prevents errors
