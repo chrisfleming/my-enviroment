@@ -7,6 +7,9 @@ set postponed ="+Drafts"
 set trash = "+Trash"
 set record = "+Sent"
 
+macro index a "<tag-prefix><save-message>=Archive/2017<enter><enter>"
+macro pager a "<save-message>=Archive/2017<enter><enter>"
+
 set from = "chris@coherentbits.com"
 set realname = "Chris Fleming"
 
