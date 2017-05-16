@@ -6,7 +6,6 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory autocd extendedglob
 
-export SHELL=`which zsh`
 
 # Source aliases
 . $HOME/projects/my-enviroment/bin/aliases.sh
@@ -19,7 +18,9 @@ fi
 
 pathadd $HOME/bin
 
-set -o vi
+export SHELL=`which zsh`
+
+bindkey -v
 # Source Aliases
 . $HOME/projects/my-enviroment/bin/aliases.sh
 
