@@ -7,7 +7,7 @@ geometry_prompt_clearcase_check() {
 }
 
 geometry_prompt_clearcase_render() {
-	echo $(basename $CLEARCASE_ROOT)
+	# echo $(basename $CLEARCASE_ROOT)
 }
 
 geometry_plugin_register clearcase

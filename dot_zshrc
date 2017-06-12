@@ -140,7 +140,9 @@ source $ZSH_CUSTOM/clearcase_prompt.zsh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-#
+
+# nfty if possible
+if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration)"; fi
 
 # Make sure completions are all loaded needed for autojump completion to work
 autoload -U compinit && compinit
