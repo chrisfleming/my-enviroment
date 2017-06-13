@@ -3,11 +3,13 @@
 geometry_prompt_clearcase_setup() {}
 
 geometry_prompt_clearcase_check() {
-	[ -f $CLEARCASE_ROOT ] || return 1
+	return 0
+    # [[ -n $CLEARCASE_ROOT ]] || return 1
 }
 
 geometry_prompt_clearcase_render() {
-	echo $(basename $CLEARCASE_ROOT)
+	echo "ROOT"
+	# echo $(basename $CLEARCASE_ROOT)
 }
 
 geometry_plugin_register clearcase
