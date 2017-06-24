@@ -38,7 +38,9 @@ makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
 makelink  ~/projects/my-enviroment/mutt ~/.mutt
 makelink ~/projects/my-enviroment/muttrc ~/.muttrc
 
+# link bin files
 makelink ~/projects/my-enviroment/bin/myip ~/bin/myip
+makelink ~/projects/my-enviroment/bin/tmux-vim-select-pane ~/bin/tmux-vim-select-pane
 
 theme_dir=$HOME/projects/my-enviroment/zsh/custom/themes/
 geometry_theme_dir=$theme_dir/geometry
@@ -55,6 +57,14 @@ else
 	cd  geometry
 	git submodule update --init --recursive
 fi
+
+if [ -d ~/.tmux/plugins/tpm ]; then
+	cd ~/.tmux/plugins/tpm
+	git pull origin masyer
+else
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
 
 # Do an initial remote update which populates .git/FETCH_HEAD and prevents errors
 pushd ~/projects/my-enviroment >/dev/null
