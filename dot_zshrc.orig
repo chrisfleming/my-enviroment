@@ -33,8 +33,11 @@ echo "loading .rc_local"
     source $HOME/.rc_local
 fi
 
+<<<<<<< HEAD
 GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git hg +clearcase)
+=======
 export PYTHONSTARTUP=$HOME/projects/my-enviroment/pythonstartup
+>>>>>>> eb5d572e3c01e5688051b576fe035204d476419e
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
