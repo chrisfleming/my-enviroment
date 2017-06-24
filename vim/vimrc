@@ -68,6 +68,11 @@ colorscheme solarized
 vnoremap < <gv
 vnoremap > >gv
 
+" Enable mouse, useful for resizing splits
+if has('mouse')
+    set mouse=a
+endif
+
 " MOve through buffers
 noremap <C-v> :bprev!<CR>
 noremap <C-b> :bnext!<CR>
