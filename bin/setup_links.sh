@@ -60,7 +60,7 @@ fi
 
 if [ -d ~/.tmux/plugins/tpm ]; then
 	cd ~/.tmux/plugins/tpm
-	git pull origin masyer
+	git pull origin master
 else
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
