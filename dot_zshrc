@@ -1,6 +1,5 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 HISTFILE=~/.histfilezsh
 HISTSIZE=10000
 SAVEHIST=10000
@@ -24,16 +23,9 @@ pathadd "$HOME/.rvm/bin" append
 export SHELL=`which zsh`
 
 bindkey -v
-# Source Aliases
-. $HOME/projects/my-enviroment/bin/aliases.sh
 
-# Generic local configs for work and stuff
-if [ -f $HOME/.rc_local ]; then
-echo "loading .rc_local"
-    source $HOME/.rc_local
-fi
-
-GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git hg +clearcase)
+#GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git hg +clearcase)
+GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git hg)
 export PYTHONSTARTUP=$HOME/projects/my-enviroment/pythonstartup
 
 # Path to your oh-my-zsh installation.
@@ -109,10 +101,10 @@ if find_alternatives ruby > /dev/null; then plugins+=(ruby rails rvm); fi
 if [ -z "$DISABLE_QUICK_SUDO" ]; then plugins+=(sudo); fi
 if find_alternatives tmux > /dev/null; then plugins+=(tmux); fi
 if find_alternatives tmuxinator > /dev/null; then plugins+=(tmuxinator); fi
-
-
 source $ZSH/oh-my-zsh.sh
-source $ZSH_CUSTOM/clearcase_prompt.zsh
+
+source $ZSH_CUSTOM/themes/geometry/geometry.zsh
+#if find_alternatives clearcase > /dev/null && find_alternatives geometry_plugin_register > /dev/null; then source $ZSH_CUSTOM/clearcase_prompt.geometry
 
 # User configuration
 
@@ -148,3 +140,4 @@ if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration)"; fi
 
 # Make sure completions are all loaded needed for autojump completion to work
 autoload -U compinit && compinit
+
