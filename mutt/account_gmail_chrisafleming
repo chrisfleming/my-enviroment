@@ -8,6 +8,9 @@ set postponed ="+[Gmail]/Drafts"
 set trash = "+[GMail]/Bin"
 set record = "+[Gmail]/Sent Mail"
 
+set smtp_url="smtp://login\@chrisfleming.org@mail.chrisfleming.org:25/"
+set smtp_pass=`pass show "general/email/login@mail.chrisfleming.org"`
+
 set reverse_name=yes
 
 set from = "me@chrisfleming.org"

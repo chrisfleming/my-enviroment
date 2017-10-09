@@ -7,6 +7,10 @@ set postponed ="+Drafts"
 set trash = "+Trash"
 set record = "+Sent"
 
+set smtp_url="smtp://chris\@coherentbits.com@mail.coherentbits.co.uk:587/"
+set ssl_starttls=yes
+set smtp_pass=`pass show "Mail/chris@coherentbits.com"`
+
 macro index a "<tag-prefix><save-message>=Archive/2017<enter><enter>"
 macro pager a "<save-message>=Archive/2017<enter><enter>"
 
