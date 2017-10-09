@@ -40,17 +40,6 @@ function gmtime2epoch() {
        -e 'print "$time\n";' $1 $2
 }
 
-# Calculator
-function ccc() {
-
-bc << EOF
-scale=4
-$@
-quit
-EOF
-
-}
-
 alias syncMusic="rsync -av --exclude '.Trash-chrisfl' --exclude 'Euro Stations' -e ssh chrisfl@jeeves:/mnt/video/music/ /home/chrisfl/Music"
 alias pushMusic="rsync -av --exclude '.Trash-chrisfl' --exclude 'Euro Stations' -e ssh /home/chrisfl/Music/ chrisfl@jeeves:/mnt/video/music"
 
@@ -92,6 +81,20 @@ function pathadd ()
         fi
     fi
 }
+
+# Calculator
+function = {
+
+bc << EOF
+scale=4
+$@
+quit
+EOF
+
+}
+
+alias ccc="="
+alias calc=$(find_alternatives qalc bc gcalccmd)
 
 # Screen can loose connections to the root ssh-agent. Either we could create and agent for
 # every screen or just try and dink it out again.

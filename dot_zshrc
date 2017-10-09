@@ -1,6 +1,5 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 HISTFILE=~/.histfilezsh
 HISTSIZE=10000
 SAVEHIST=10000
@@ -24,21 +23,13 @@ pathadd "$HOME/.rvm/bin" append
 export SHELL=`which zsh`
 
 bindkey -v
-# Source Aliases
-. $HOME/projects/my-enviroment/bin/aliases.sh
 
-# Generic local configs for work and stuff
-if [ -f $HOME/.rc_local ]; then
-echo "loading .rc_local"
-    source $HOME/.rc_local
-fi
-
-GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git hg +clearcase)
+#GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git hg clearcase test)
+GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git clearcase)
 export PYTHONSTARTUP=$HOME/projects/my-enviroment/pythonstartup
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -85,6 +76,9 @@ COMPLETION_WAITING_DOTS="true"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=$HOME/projects/my-enviroment/zsh/custom
 
+source $ZSH_CUSTOM/themes/geometry/geometry.zsh
+if (find_alternatives cleartool > /dev/null) && (typeset -f geometry_plugin_register > /dev/null); then source $ZSH_CUSTOM/geometry/clearcase_prompt.zsh; fi
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -97,8 +91,11 @@ plugins=(history autojump vi-mode wd)
 
 if find_alternatives git > /dev/null; then plugins+=git; fi
 if find_alternatives brew > /dev/null; then plugins+=brew; fi
-if find_alternatives ssh-agent > /dev/null; then plugins+=ssh-agent; fi
-if find_alternatives gpg-agent > /dev/null; then plugins+=gpg-agent; fi
+if find_alternatives ssh-agent > /dev/null; then 
+    zstyle :omz:plugins:ssh-agent agent-forwarding on
+	plugins+=ssh-agent
+fi
+# if find_alternatives gpg-agent > /dev/null; then plugins+=gpg-agent; fi
 # TODO: osx
 #
 if find_alternatives pass > /dev/null; then plugins+=pass; fi
@@ -109,10 +106,7 @@ if find_alternatives ruby > /dev/null; then plugins+=(ruby rails rvm); fi
 if [ -z "$DISABLE_QUICK_SUDO" ]; then plugins+=(sudo); fi
 if find_alternatives tmux > /dev/null; then plugins+=(tmux); fi
 if find_alternatives tmuxinator > /dev/null; then plugins+=(tmuxinator); fi
-
-
 source $ZSH/oh-my-zsh.sh
-source $ZSH_CUSTOM/clearcase_prompt.zsh
 
 # User configuration
 
@@ -144,7 +138,9 @@ source $ZSH_CUSTOM/clearcase_prompt.zsh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # nfty if possible
+export AUTO_NTFY_DONE_IGNORE="vim screen top nvim mutt golab ssh mosh tmuxinator ruby python"
 if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration)"; fi
 
 # Make sure completions are all loaded needed for autojump completion to work
 autoload -U compinit && compinit
+
