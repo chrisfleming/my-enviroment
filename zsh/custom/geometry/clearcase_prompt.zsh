@@ -3,8 +3,8 @@
 geometry_prompt_clearcase_setup() {}
 
 geometry_prompt_clearcase_check() {
-	[ -f $CLEARCASE_ROOT ] || return 1
-	return 0
+	[ -f $CLEARCASE_ROOT ] || return 0
+	return 1
 }
 
 geometry_prompt_clearcase_render() {

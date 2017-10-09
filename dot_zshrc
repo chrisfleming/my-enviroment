@@ -24,13 +24,12 @@ export SHELL=`which zsh`
 
 bindkey -v
 
-#GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git hg +clearcase)
-GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git hg)
+#GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git hg clearcase test)
+GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git clearcase)
 export PYTHONSTARTUP=$HOME/projects/my-enviroment/pythonstartup
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -77,6 +76,9 @@ COMPLETION_WAITING_DOTS="true"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=$HOME/projects/my-enviroment/zsh/custom
 
+source $ZSH_CUSTOM/themes/geometry/geometry.zsh
+if (find_alternatives cleartool > /dev/null) && (typeset -f geometry_plugin_register > /dev/null); then source $ZSH_CUSTOM/geometry/clearcase_prompt.zsh; fi
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -105,9 +107,6 @@ if [ -z "$DISABLE_QUICK_SUDO" ]; then plugins+=(sudo); fi
 if find_alternatives tmux > /dev/null; then plugins+=(tmux); fi
 if find_alternatives tmuxinator > /dev/null; then plugins+=(tmuxinator); fi
 source $ZSH/oh-my-zsh.sh
-
-source $ZSH_CUSTOM/themes/geometry/geometry.zsh
-#if find_alternatives clearcase > /dev/null && find_alternatives geometry_plugin_register > /dev/null; then source $ZSH_CUSTOM/clearcase_prompt.geometry
 
 # User configuration
 
