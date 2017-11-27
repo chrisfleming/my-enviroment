@@ -95,7 +95,7 @@ if find_alternatives ssh-agent > /dev/null; then
     zstyle :omz:plugins:ssh-agent agent-forwarding on
 	plugins+=ssh-agent
 fi
-# if find_alternatives gpg-agent > /dev/null; then plugins+=gpg-agent; fi
+if find_alternatives gpg-agent > /dev/null; then plugins+=gpg-agent; fi
 # TODO: osx
 #
 if find_alternatives pass > /dev/null; then plugins+=pass; fi
