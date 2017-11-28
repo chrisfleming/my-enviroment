@@ -145,6 +145,7 @@ if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration)"; fi
 
 if find_alternatives gpg-agent > /dev/null && [ -S `gpgconf --list-dirs | grep agent-socket | cut -d : -f 2`.ssh ]; then
   alias ssh="gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1; ssh"
+  alias git="gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1; git"
 fi
 
 # Make sure completions are all loaded needed for autojump completion to work
