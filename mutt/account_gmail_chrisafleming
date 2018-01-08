@@ -35,6 +35,17 @@ macro pager za9 "<save-message>=Archives/friends/csae1999<enter><enter>"
 #macros index zc0 "<tag-prefix><save-message>=archives/friends/csae2000<enter><enter>" "csae2000 archive"
 #macros pager zc0 "<save-message>=archives/friends/csae2000<enter><enter>" "csae2000 archive"
 
+macro index zt "<tag-prefix><save-message>=*OnHold/tomorrow<enter><enter>"
+macro pager zt "<save-message>=*OnHold/tomorrow<enter><enter>"
+
+macro index zw "<tag-prefix><save-message>=*OnHold/next week<enter><enter>"
+macro pager zw "<save-message>=*OnHold/next week<enter><enter>"
+
+macro index zm "<tag-prefix><save-message>=*OnHold/month<enter><enter>"
+macro pager zm "<save-message>=*OnHold/month<enter><enter>"
+
+macro index zl "<tag-prefix><save-message>=*OnHold/later-today<enter><enter>"
+macro pager zl "<save-message>=*OnHold/later-today<enter><enter>"
 
 ## Hook -- IMPORTANT!
 account-hook $folder "set imap_user=chrisafleming@gmail.com imap_pass=`pass show 'Google/chrisafleming@gmail.com/imap'`"

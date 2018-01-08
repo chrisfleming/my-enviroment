@@ -17,7 +17,7 @@ macro pager a "<save-message>=Archive/2017<enter><enter>"
 set from = "chris@coherentbits.com"
 set realname = "Chris Fleming"
 
-set signature=""
+set signature="~/.mutt/cbits.signature"
 
 ## Hook -- IMPORTANT!
 account-hook $folder "set imap_user=chris@coherentbits.com imap_pass=`pass show  'Mail/chris@coherentbits.com'`"
