@@ -91,17 +91,16 @@ plugins=(history autojump vi-mode wd)
 
 if find_alternatives git > /dev/null; then plugins+=git; fi
 if find_alternatives brew > /dev/null; then plugins+=brew; fi
-#if find_alternatives ssh-agent > /dev/null; then 
-#    zstyle :omz:plugins:ssh-agent agent-forwarding on
-#	plugins+=ssh-agent
-#fi
+if find_alternatives ssh-agent > /dev/null; then 
+    zstyle :omz:plugins:ssh-agent agent-forwarding on
+    plugins+=ssh-agent
+fi
 if find_alternatives gpg-agent > /dev/null; then plugins+=gpg-agent; fi
 # TODO: osx
 #
 if find_alternatives pass > /dev/null; then plugins+=pass; fi
 if find_alternatives python > /dev/null; then plugins+=python; fi
 if find_alternatives ruby > /dev/null; then plugins+=(ruby rails rvm); fi
-
 
 if [ -z "$DISABLE_QUICK_SUDO" ]; then plugins+=(sudo); fi
 if find_alternatives tmux > /dev/null; then plugins+=(tmux); fi
@@ -143,10 +142,10 @@ if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration)"; fi
 
 # If we're using pinentry then make sure it appears in the right place.
 
-if find_alternatives gpg-agent > /dev/null && [ -S `gpgconf --list-dirs | grep agent-socket | cut -d : -f 2`.ssh ]; then
-  alias ssh="gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1; ssh"
-  alias git="gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1; git"
-fi
+# if find_alternatives gpg-agent > /dev/null && [ -S `gpgconf --list-dirs | grep agent-socket | cut -d : -f 2`.ssh ]; then
+#  alias ssh="gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1; ssh"
+#  alias git="gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1; git"
+# fi
 
 # Make sure completions are all loaded needed for autojump completion to work
 autoload -U compinit && compinit
