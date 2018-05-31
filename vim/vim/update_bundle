@@ -54,6 +54,9 @@ git_bundles = [
      "https://github.com/vim-scripts/vim-pad.git",
      # vim and tmux
      "https://github.com/christoomey/vim-tmux-navigator.git",
+     # RST  Files
+	 "https://github.com/gu-fan/riv.vim.git",
+	 "https://github.com/gu-fan/InstantRst.git",
 ]
 
 vim_org_scripts = [
