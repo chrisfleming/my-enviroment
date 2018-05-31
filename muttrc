@@ -2,7 +2,7 @@
 
 set header_cache =~/.mutt/cache/headers
 set message_cachedir =~/.mutt/cache/bodies
-set certificate_file =~/.mutt/certificates
+# set certificate_file =~/.mutt/certificates
 
 bind editor <space> noop
 set editor="vim -c 'set ft=mail'"
@@ -41,6 +41,9 @@ set sort_alias= alias
 set reverse_alias=yes
 source $alias_file
 
+set text_flowed=yes
+
+
 charset-hook ^iso-8859-1$ windows-1252
 
 # Sidebar
@@ -64,6 +67,9 @@ macro pager b '<enter-command>toggle sidebar_visible<enter>'
 # Remap bounce-message function to “B”
 bind index B bounce-message
 
+bind index - collapse-thread
+bind index _ collapse-all
+
 
 
 #SPam
@@ -81,5 +87,11 @@ set alias_format        = "%4n %t %-20a  %r"
 # We set A to get aliases, so a can be archive 
 macro index,pager A "<create-alias>" "Create Aliases"
 
+set smime_certificates=~/.smime/certificates
+set smime_keys=~/.smime/keys
+# set smime_ca_file_path=/etc/ssl/certs/ca-certificates.crt
+set smime_ca_location=/etc/ssl/certs/ca-certificates.crt
+
+bind index <Esc>C noop
 source "~/.mutt/accounts"
 
