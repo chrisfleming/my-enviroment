@@ -3,20 +3,42 @@
 # running in the current pane, or only one pane exists.
 set -e
 
-cmd="$(tmux display -p '#{pane_current_command}')"
-echo $cmd >> ~/panedebug
-cmd="$(basename "$cmd" | tr A-Z a-z)"
-echo $cmd >> ~/panedebug
-pane_count="$(printf %d $(tmux list-panes | wc -l))"
-echo $pane_count >> ~/panedebug
+echo >> ~/panedebug
+echo "tmux select panel called" >> ~/panedebug
+echo "------------------------" >> ~/panedebug
+echo "TMUX=$TMUX" >> ~/panedebug
+echo "SESSION=$SESSION" >> ~/panedebug
+echo "TMUX_INNER=$TMUX_INNER" >> ~/panedebug
+echo "IN=$(tmux show-enviroment TMUX_INNER)" >> ~/panedebug
+echo "IN2=$(tmux run-shell \"echo $TMUX_INNER\")" >> ~/panedebug
 
-if [[ "${cmd%m}" = "vi" || ($pane_count = 1) ]]; then
+
+cmd="$(tmux display -p '#{pane_current_command}')"
+echo "Pane current commabd $cmd" >> ~/panedebug
+cmd="$(basename "$cmd" | tr A-Z a-z)"
+echo "basename for $cmd" >> ~/panedebug
+pane_count="$(printf %d $(tmux list-panes | wc -l))"
+echo "pane count $pane_count" >> ~/panedebug
+
+
+if [[ "${cmd%m}" = "ssh" && ($pane_count = 1) ]]; then
+  # tmux send-keys "C-a $direction"
+  direction="$(echo "${1#-}" | tr 'lLDUR' '\\hjkl')"
+  tmux send-keys "C-t"
+  tmux send-keys "$direction"
+  echo "to nested: tmux send-keys C-$direction" >> ~/panedebug
+elif [[ ($SESSION = outer) ]]; then
+  direction="$(echo "${1#-}" | tr 'lLDUR' '\\hjkl')"
+  tmux send-keys "C-t"
+  tmux send-keys "$direction"
+  echo "to nested - via SESSION: tmux send-keys C-$direction" >> ~/panedebug
+elif [[ "${cmd%m}" = "vi" || ($pane_count = 1) ]]; then
   direction="$(echo "${1#-}" | tr 'lLDUR' '\\hjkl')"
   echo direction >> ~/panedebug
   # forward the keystroke to Vim
   tmux send-keys "C-$direction"
-  echo "to vim tmux send-keys C-$direction" >> ~/panedebug
+  echo "to vim: tmux send-keys C-$direction" >> ~/panedebug
 else
-  tmux select-pane "$@" 
-  echo "tmux select-pane $@" >> ~/panedebug
+  #tmux select-pane "$@" 
+  echo "--tmux select-pane $@" >> ~/panedebug
 fi
