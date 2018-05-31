@@ -206,5 +206,9 @@ if filereadable(glob("~/.simplenoterc"))
 	source ~/.simplenoterc
 endif
 
+let g:riv_python_rst_hl=1
 
+" Load project .vimrc
+set exrc
+set secure
 

@@ -10,7 +10,8 @@ alias p='ps -ef | grep'
 # Clearcase alias
 
 #checking all files
-alias ctadd='cleartool lsco -cview -avobs -short | xargs cleartool ci'
+alias ctadd='cleartool lsco -cview -rec -short | xargs cleartool ci'
+alias lsco='cleartool lsco -cview -rec'
 
 
 alias sshtunnel='ssh -L 1993:imap.gmail.com:993 -L 1465:mail.chrisfleming.org:465 -L 3128:localhost:3128  -L 5222:talk.google.com:5222 -L 1863:messenger.hotmail.com:1863 -L 5223:chat.facebook.com:5222 -L 6667:irc.oftc.net:6667 -D 3129 shell.chrisfleming.org'
@@ -115,4 +116,10 @@ function start_agent {
      /usr/bin/ssh-add;
 }
 
+function working_display {
+    if ! xset q &>/dev/null; then
+    	echo "No X Server at \$DISPLAY [$DISPLAY]" >&2
+    	exit 1
+	fi
 
+}
