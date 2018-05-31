@@ -138,8 +138,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # nfty if possible
-export AUTO_NTFY_DONE_IGNORE="vim screen top nvim mutt golab ssh mosh tmuxinator ruby python"
-if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration)"; fi
+export AUTO_NTFY_DONE_IGNORE="vim screen top nvim mutt golab ssh mosh tmuxinator ruby python nvim zsh fg ct tmux"
+if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration -L30)"; fi
 
 # If we're using pinentry then make sure it appears in the right place.
 
