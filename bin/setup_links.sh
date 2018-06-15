@@ -31,6 +31,7 @@ makelink ~/projects/my-enviroment/tmux.conf ~/.tmux.conf
 makelink ~/projects/my-enviroment/bashrc ~/.bashrc
 makelink ~/projects/my-enviroment/bash_profile ~/.bash_profile
 makelink ~/projects/my-enviroment/dot_zshrc ~/.zshrc
+makelink ~/projects/my-enviroment/dot_keybinding ~/.keybinding
 makelink ~/projects/my-enviroment/inputrc ~/.inputrc
 makelink ~/projects/my-enviroment/vim/vim ~/.vim
 makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc

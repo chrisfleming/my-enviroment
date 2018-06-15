@@ -5,7 +5,6 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory autocd extendedglob
 
-
 # Source aliases
 . $HOME/projects/my-enviroment/bin/aliases.sh
 
@@ -22,10 +21,8 @@ pathadd "$HOME/.rvm/bin" append
 
 export SHELL=`which zsh`
 
-bindkey -v
-
 #GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git hg clearcase test)
-GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git clearcase)
+GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git clearcase RPS1 test)
 export PYTHONSTARTUP=$HOME/projects/my-enviroment/pythonstartup
 
 # Path to your oh-my-zsh installation.
@@ -78,6 +75,7 @@ ZSH_CUSTOM=$HOME/projects/my-enviroment/zsh/custom
 
 source $ZSH_CUSTOM/themes/geometry/geometry.zsh
 if (find_alternatives cleartool > /dev/null) && (typeset -f geometry_plugin_register > /dev/null); then source $ZSH_CUSTOM/geometry/clearcase_prompt.zsh; fi
+source $ZSH_CUSTOM/geometry/RPS1_prompt.zsh;
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -105,6 +103,7 @@ if find_alternatives ruby > /dev/null; then plugins+=(ruby rails rvm); fi
 if [ -z "$DISABLE_QUICK_SUDO" ]; then plugins+=(sudo); fi
 if find_alternatives tmux > /dev/null; then plugins+=(tmux); fi
 if find_alternatives tmuxinator > /dev/null; then plugins+=(tmuxinator); fi
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -140,12 +139,7 @@ source $ZSH/oh-my-zsh.sh
 export AUTO_NTFY_DONE_IGNORE="vim screen top nvim mutt golab ssh mosh tmuxinator ruby python nvim zsh fg ct tmux"
 if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration -L30)"; fi
 
-# If we're using pinentry then make sure it appears in the right place.
-
-# if find_alternatives gpg-agent > /dev/null && [ -S `gpgconf --list-dirs | grep agent-socket | cut -d : -f 2`.ssh ]; then
-#  alias ssh="gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1; ssh"
-#  alias git="gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1; git"
-# fi
+source .keybinding
 
 # Make sure completions are all loaded needed for autojump completion to work
 autoload -U compinit && compinit

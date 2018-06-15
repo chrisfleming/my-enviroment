@@ -1,4 +1,5 @@
 
+echo "input rc"
 # Use Vi, not Emacs, style editing
 set editing-mode vi
 
@@ -17,8 +18,8 @@ set keymap vi-command
 # Insert the arguments from the last command
 "p": "i !!*\r"
 
-"\e[A": history-search-backward
-"\e[B": history-search-forward
+#"\e[A": history-search-backward
+#"\e[B": history-search-forward
 
 
 ###########################################################
@@ -32,8 +33,8 @@ TAB: menu-complete
 "\e[Z": menu-complete-backward
 
 # Option-up/option-down should also apply to insert mode
-"\e[A": history-search-backward
-"\e[B": history-search-forward
+#"\e[A": history-search-backward
+#"\e[B": history-search-forward
 
 # Needed because binding 'p' in command mode above wipes its insert mode
 # function, too. This fixes that, and will insert 'p' when you type 'p'.
