@@ -17,8 +17,9 @@ set keymap vi-command
 # Insert the arguments from the last command
 "p": "i !!*\r"
 
-"\e[A": history-search-backward
-"\e[B": history-search-forward
+# SEEMS to be wrong mapping? - see read command and arrow keys
+#"\e[A": history-search-backward
+#"\e[B": history-search-forward
 
 
 ###########################################################
@@ -31,6 +32,7 @@ TAB: menu-complete
 # Shift-TAB cycles completions backward
 "\e[Z": menu-complete-backward
 
+# SEEMS to be wrong mapping? - see read command and arrow keys
 # Option-up/option-down should also apply to insert mode
 "\e[A": history-search-backward
 "\e[B": history-search-forward
