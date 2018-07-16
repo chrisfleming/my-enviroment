@@ -40,7 +40,12 @@ git_bundles = [
   "https://github.com/vim-airline/vim-airline-themes.git",
   "https://github.com/sjl/gundo.vim.git",
 #  "https://github.com/klen/python-mode.git",
-	 "https://github.com/davidhalter/jedi-vim.git",
+
+  # Completions
+	 # "https://github.com/davidhalter/jedi-vim.git",
+     "https://github.com/Shougo/deoplete.nvim.git",
+     "https://github.com/zchee/deoplete-jedi.git",
+
 	 "https://github.com/scrooloose/syntastic.git",
 	 # VOoM and vim notes for outlining and notes
 	 "https://github.com/vim-voom/VOoM.git",

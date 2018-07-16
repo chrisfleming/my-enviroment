@@ -208,6 +208,8 @@ endif
 
 let g:riv_python_rst_hl=1
 
+let g:deoplete#enable_at_startup = 1
+
 " Load project .vimrc
 set exrc
 set secure
