@@ -2,7 +2,7 @@
 filetype off                   " required!
 let g:python3_host_prog = "/users/chflemin/.pyenv/versions/neovim3/bin/python3"
 
-call plug#begin('.vim-plugged')
+call plug#begin('~/.vim-plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'ervandew/supertab'
 Plug 'dhruvasagar/vim-table-mode'

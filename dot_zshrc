@@ -76,7 +76,7 @@ COMPLETION_WAITING_DOTS="true"
 ZSH_CUSTOM=$HOME/projects/my-enviroment/zsh/custom
 
 #source $ZSH_CUSTOM/themes/geometry/geometry.zsh
-GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git)
+GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git display)
 #source $ZSH_CUSTOM/geometry/RPS1_prompt.zsh;
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
@@ -111,6 +111,8 @@ if (find_alternatives cleartool > /dev/null); then
     source $ZSH_CUSTOM/geometry/clearcase_prompt.zsh;
 	GEOMETRY_PROMPT_PLUGINS+=clearcase;
 fi
+
+source $ZSH_CUSTOM/geometry/display_prompt.zsh;
 
 # User configuration
 

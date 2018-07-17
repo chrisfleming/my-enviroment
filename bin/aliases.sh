@@ -118,8 +118,7 @@ function start_agent {
 
 function working_display {
     if ! xset q &>/dev/null; then
-    	echo "No X Server at \$DISPLAY [$DISPLAY]" >&2
-    	exit 1
-	fi
-
+        echo "No X Server at \$DISPLAY [$DISPLAY]" >&2
+        return 1
+    fi
 }
