@@ -119,13 +119,6 @@ fi
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -140,6 +133,11 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+
+EDITOR=$(find_alternatives "nvim" "vim" "vi")
+alias vim="$EDITOR"
+
 
 # nfty if possible
 export AUTO_NTFY_DONE_IGNORE="vim screen top nvim mutt golab ssh mosh tmuxinator ruby python nvim zsh fg ct tmux"
