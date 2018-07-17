@@ -1,6 +1,7 @@
 "neovim config
 filetype off                   " required!
-let g:python3_host_prog = "/users/chflemin/.pyenv/versions/neovim3/bin/python3"
+let g:python3_host_prog = glob('~/.pyenv/versions/neovim3/bin/python3')
+"let g:python2_host_prog = "$HOME/.pyenv/versions/neovim2/bin/python"
 
 call plug#begin('~/.vim-plugged')
 Plug 'altercation/vim-colors-solarized'
