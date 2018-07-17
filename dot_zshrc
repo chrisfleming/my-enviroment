@@ -24,6 +24,12 @@ export SHELL=`which zsh`
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
+if [ -d $HOME/.pyenv/bin ]; then
+  pathadd "$HOME/.pyenv/bin"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -70,7 +76,7 @@ COMPLETION_WAITING_DOTS="true"
 ZSH_CUSTOM=$HOME/projects/my-enviroment/zsh/custom
 
 #source $ZSH_CUSTOM/themes/geometry/geometry.zsh
-GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git)
+GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git display)
 #source $ZSH_CUSTOM/geometry/RPS1_prompt.zsh;
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
@@ -106,19 +112,14 @@ if (find_alternatives cleartool > /dev/null); then
 	GEOMETRY_PROMPT_PLUGINS+=clearcase;
 fi
 
+source $ZSH_CUSTOM/geometry/display_prompt.zsh;
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -134,6 +135,11 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+
+EDITOR=$(find_alternatives "nvim" "vim" "vi")
+alias vim="$EDITOR"
+
 
 # nfty if possible
 export AUTO_NTFY_DONE_IGNORE="vim screen top nvim mutt golab ssh mosh tmuxinator ruby python nvim zsh fg ct tmux"
