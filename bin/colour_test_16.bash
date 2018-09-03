@@ -1,4 +1,4 @@
-how available terminal colours.
+#/usr/bin/bash
 # Heavily modified version of the TLDP script here:
 # http://tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
 
