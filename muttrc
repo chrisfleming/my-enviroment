@@ -51,7 +51,9 @@ set sidebar_short_path
 set sidebar_delim_chars="/"             # Delete everything up to the last / character
 set sidebar_folder_indent               # Indent folders whose names we've shortened
 set sidebar_indent_string="  "          # Indent with two spaces
-set sidebar_visible = no
+set sidebar_visible = yes
+set sidebar_sort_method = unsorted
+set sidebar_format = '%B%?F? [%F]?%* %?N?%N/?%S'
 #macro index,pager G "<group-reply>" "Group Reply"
 set sidebar_width = 35
 
