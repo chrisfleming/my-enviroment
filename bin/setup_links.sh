@@ -46,6 +46,7 @@ makelink  ~/projects/my-enviroment/mutt ~/.mutt
 makelink ~/projects/my-enviroment/muttrc ~/.muttrc
 
 # link bin files
+mkdir -p ~/bin
 makelink ~/projects/my-enviroment/bin/myip ~/bin/myip
 makelink ~/projects/my-enviroment/bin/tmux-vim-select-pane ~/bin/tmux-vim-select-pane
 
