@@ -61,7 +61,7 @@ else
 	mkdir -p $theme_dir
 	cd $theme_dir
 	git clone https://github.com/fribmendes/geometry.git geometry
-	ln -s geometry/geometry.zsh-theme .
+	makelink -s geometry/geometry.zsh-theme $theme_dir/geometry.zsh-theme
 	cd  geometry
 	git submodule update --init --recursive
 fi
