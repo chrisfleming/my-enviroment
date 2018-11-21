@@ -16,6 +16,7 @@ fi
 
 pathadd $HOME/bin
 pathadd "$HOME/.rvm/bin" append
+pathadd "$HOME/.local/bin" append
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
