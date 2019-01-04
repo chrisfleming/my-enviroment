@@ -50,18 +50,22 @@ mkdir -p ~/bin
 makelink ~/projects/my-enviroment/bin/myip ~/bin/myip
 makelink ~/projects/my-enviroment/bin/tmux-vim-select-pane ~/bin/tmux-vim-select-pane
 
-theme_dir=$HOME/projects/my-enviroment/zsh/custom/themes/
+theme_dir=$HOME/projects/my-enviroment/zsh/custom/
 geometry_theme_dir=$theme_dir/geometry
 
+# Remove old custom/themes if it exists
+if [ -d $theme_dir/themes ]; then
+	rm -rf $theme_dir/themes
+fi
+
+set -x
 if [ -d $geometry_theme_dir ]; then
 	cd $geometry_theme_dir
 	git pull origin master
 	git submodule update --init --recursive
 else
-	mkdir -p $theme_dir
 	cd $theme_dir
 	git clone https://github.com/fribmendes/geometry.git geometry
-	makelink -s geometry/geometry.zsh-theme $theme_dir/geometry.zsh-theme
 	cd  geometry
 	git submodule update --init --recursive
 fi

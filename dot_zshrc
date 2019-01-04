@@ -35,7 +35,7 @@ fi
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #GEOMETRY_PROMPT_PREFIX="%M"
-ZSH_THEME="geometry"
+ZSH_THEME="geometry/geometry"
 #ZSH_THEME="pygmalion"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -109,11 +109,11 @@ if find_alternatives tmuxinator > /dev/null; then plugins+=(tmuxinator); fi
 source $ZSH/oh-my-zsh.sh
 
 if (find_alternatives cleartool > /dev/null); then
-    source $ZSH_CUSTOM/geometry/clearcase_prompt.zsh;
+    source $ZSH_CUSTOM/geometry_plugins/clearcase_prompt.zsh;
 	GEOMETRY_PROMPT_PLUGINS+=clearcase;
 fi
 
-source $ZSH_CUSTOM/geometry/display_prompt.zsh;
+source $ZSH_CUSTOM/geometry_plugins/display_prompt.zsh;
 
 # User configuration
 
@@ -146,7 +146,7 @@ alias vim="$EDITOR"
 export AUTO_NTFY_DONE_IGNORE="vim screen top nvim mutt golab ssh mosh tmuxinator ruby python nvim zsh fg ct tmux"
 if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration -L30)"; fi
 
-source .keybinding
+source ~/.keybinding
 
 # Make sure completions are all loaded needed for autojump completion to work
 autoload -U compinit && compinit
