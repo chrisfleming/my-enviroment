@@ -5,13 +5,16 @@ set folder = "imaps://imap.gmail.com:993/"
 set spoolfile = "+INBOX"
 set postponed ="+[Gmail]/Drafts"
 #set trash = "imaps://imap.gmail.com:993/[GMail]/Bin"
-set trash = "+[GMail]/Bin"
+set trash = ""
 set record = "+[Gmail]/Sent Mail"
 
-set smtp_url="smtp://login\@chrisfleming.org@mail.chrisfleming.org:25/"
-set smtp_pass=`pass show "general/email/login@mail.chrisfleming.org"`
+set ssl_force_tls = yes
+set ssl_starttls = yes
+set smtp_url="smtp://me\@chrisfleming.org@mail.coherentbits.co.uk:587/"
+set smtp_pass=`pass show "general/email/me@chrisfleming.org"`
 
 set reverse_name=yes
+set move = no
 
 set from = "me@chrisfleming.org"
 alternates "amazon@chrisfleming\.org|me2@chrisfleming\.org"
@@ -32,7 +35,7 @@ macro pager za9 "<save-message>=Archives/friends/csae1999<enter><enter>"
 #macros index zc9 "<tag-prefix><save-message>=archives/friends/csae1999<enter>" 
 #macros pager zc9 "<save-message>=archives/friends/csae1999<enter><enter>"
 
-#macros index zc0 "<tag-prefix><save-message>=archives/friends/csae2000<enter><enter>" "csae2000 archive"
+#macros index zc0 "<tag-prefix><save-message>=archives/friends/csae2000<enter><enter>" "csae2000 archive"`
 #macros pager zc0 "<save-message>=archives/friends/csae2000<enter><enter>" "csae2000 archive"
 
 macro index zt "<tag-prefix><save-message>=*OnHold/tomorrow<enter><enter>"
