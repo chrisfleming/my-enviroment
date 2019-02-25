@@ -85,6 +85,8 @@ set folder_format       = "%2C %t %N %8s %d %f"                  # mailbox list 
 set status_format       = " %?M?%M/?%m Mails %?n?%n new, ?%?u?%u unread, ?%?p?%p drafts, ?%?t?%t +tagged, ?%?d?%d deleted, ?[%f %l]  %?b?%b unread messages. ?%>  %V  [%P]"
 set alias_format        = "%4n %t %-20a  %r"
 
+macro index,pager \cb "<pipe-message> urlscan<Enter>" "call urlscan to extract URLs out of a message"
+macro attach,compose \cb "<pipe-entry> urlscan<Enter>" "call urlscan to extract URLs out of a message"
 
 # We set A to get aliases, so a can be archive 
 macro index,pager A "<create-alias>" "Create Aliases"
@@ -94,6 +96,8 @@ set smime_keys=~/.smime/keys
 # set smime_ca_file_path=/etc/ssl/certs/ca-certificates.crt
 set smime_ca_location=/etc/ssl/certs/ca-certificates.crt
 
+#set send_charset="us-ascii:iso-8859-1:utf-8"
+set send_charset="us-ascii:utf-8"
 bind index <Esc>C noop
 source "~/.mutt/accounts"
 
