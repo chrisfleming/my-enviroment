@@ -94,6 +94,9 @@ set smime_keys=~/.smime/keys
 # set smime_ca_file_path=/etc/ssl/certs/ca-certificates.crt
 set smime_ca_location=/etc/ssl/certs/ca-certificates.crt
 
+bind editor '> ' quote-char
+set content_type = "text/markdown"
+
 bind index <Esc>C noop
 source "~/.mutt/accounts"
 
