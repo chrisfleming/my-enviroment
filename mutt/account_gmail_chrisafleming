@@ -6,8 +6,8 @@ set spoolfile = "+INBOX"
 set postponed ="+[Gmail]/Drafts"
 #set trash = "imaps://imap.gmail.com:993/[GMail]/Bin"
 set trash = ""
-#set record = "+[Gmail]/Sent Mail"
-set record = ""
+set record = "+[Gmail]/Sent Mail"
+#set record = ""
 
 set ssl_force_tls = yes
 set ssl_starttls = yes
