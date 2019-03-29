@@ -38,6 +38,7 @@ makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
 # NeoVIM
 mkdir -p ~/.config/nvim/
 makelink ~/projects/my-enviroment/vim/init.vim ~/.config/nvim/init.vim
+makelink ~/.vim/snippets ~/.config/nvim/snippets
 
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -46,21 +47,26 @@ makelink  ~/projects/my-enviroment/mutt ~/.mutt
 makelink ~/projects/my-enviroment/muttrc ~/.muttrc
 
 # link bin files
+mkdir -p ~/bin
 makelink ~/projects/my-enviroment/bin/myip ~/bin/myip
 makelink ~/projects/my-enviroment/bin/tmux-vim-select-pane ~/bin/tmux-vim-select-pane
 
-theme_dir=$HOME/projects/my-enviroment/zsh/custom/themes/
+theme_dir=$HOME/projects/my-enviroment/zsh/custom/
 geometry_theme_dir=$theme_dir/geometry
 
+# Remove old custom/themes if it exists
+if [ -d $theme_dir/themes ]; then
+	rm -rf $theme_dir/themes
+fi
+
+set -x
 if [ -d $geometry_theme_dir ]; then
 	cd $geometry_theme_dir
 	git pull origin master
 	git submodule update --init --recursive
 else
-	mkdir -p $theme_dir
 	cd $theme_dir
 	git clone https://github.com/fribmendes/geometry.git geometry
-	ln -s geometry/geometry.zsh-theme .
 	cd  geometry
 	git submodule update --init --recursive
 fi

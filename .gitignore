@@ -44,4 +44,7 @@ mutt/certificates
 mutt/mailboxes
 
 # Instaled via git 
-zsh/custom/themes/geometry
+zsh/custom/geometry
+
+# Ignore modules - should bget installed elsewhere
+vim/vim/autoload/plug.vim

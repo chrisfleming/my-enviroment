@@ -30,7 +30,22 @@ if [ -d /Applications ]; then
   done
 fi
 
-if [ -d /sys/class/net ]; then
+if which ip > /dev/null; then
+	echo "IP"
+	ip -br addr | while read i; do
+	    interface=`echo $i |  awk '{print $1}'`
+	    if ! [[ ${blacklist[*]} =~ $interface ]]; then
+	    #    echo "$interface"
+	    	status=`echo $i |  awk '{print $2}'`
+	    	if [[ $status = "UP" ]]; then
+	    		printf '\e[38;5;022m ✔\033[0;0m %12s: ' $interface
+			else
+                printf '\e[38;5;088m ✘\033[0;0m %12s: ' $interface
+			fi
+		    echo $i | cut -f3- -d " "
+		fi
+	done
+elif [ -d /sys/class/net ]; then
 	# LINUX
     ls /sys/class/net | while read i; do
         if [[ -d /sys/class/net/$i && ! ${blacklist[*]} =~ $i ]]; then

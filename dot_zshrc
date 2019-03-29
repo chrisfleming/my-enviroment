@@ -16,6 +16,7 @@ fi
 
 pathadd $HOME/bin
 pathadd "$HOME/.rvm/bin" append
+pathadd "$HOME/.local/bin" append
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
@@ -34,7 +35,7 @@ fi
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #GEOMETRY_PROMPT_PREFIX="%M"
-ZSH_THEME="geometry"
+ZSH_THEME="geometry/geometry"
 #ZSH_THEME="pygmalion"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -108,11 +109,11 @@ if find_alternatives tmuxinator > /dev/null; then plugins+=(tmuxinator); fi
 source $ZSH/oh-my-zsh.sh
 
 if (find_alternatives cleartool > /dev/null); then
-    source $ZSH_CUSTOM/geometry/clearcase_prompt.zsh;
+    source $ZSH_CUSTOM/geometry_plugins/clearcase_prompt.zsh;
 	GEOMETRY_PROMPT_PLUGINS+=clearcase;
 fi
 
-source $ZSH_CUSTOM/geometry/display_prompt.zsh;
+source $ZSH_CUSTOM/geometry_plugins/display_prompt.zsh;
 
 # User configuration
 

@@ -1,1 +1,0 @@
-geometry/geometry.zsh-theme
