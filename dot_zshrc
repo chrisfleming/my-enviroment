@@ -7,6 +7,7 @@ setopt appendhistory autocd extendedglob
 
 # Source aliases
 . $HOME/projects/my-enviroment/bin/aliases.sh
+. $HOME/projects/my-enviroment/bin/common.sh
 
 # Generic local configs for work and stuff
 if [ -f $HOME/.rc_local ]; then

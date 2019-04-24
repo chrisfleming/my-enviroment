@@ -59,7 +59,6 @@ if [ -d $theme_dir/themes ]; then
 	rm -rf $theme_dir/themes
 fi
 
-set -x
 if [ -d $geometry_theme_dir ]; then
 	cd $geometry_theme_dir
 	git pull origin master
