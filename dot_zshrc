@@ -147,7 +147,7 @@ alias vim="$EDITOR"
 export AUTO_NTFY_DONE_IGNORE="vim screen top nvim mutt golab ssh mosh tmuxinator ruby python nvim zsh fg ct tmux"
 if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration -L30)"; fi
 
-source ~/.keybinding
+source $HOME/.keybinding
 
 # Make sure completions are all loaded needed for autojump completion to work
 autoload -U compinit && compinit
