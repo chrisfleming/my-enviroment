@@ -15,6 +15,7 @@ echo `date` ": Started bashrc"
 
 # Source aliases
 . $HOME/projects/my-enviroment/bin/aliases.sh
+. $HOME/projects/my-enviroment/bin/common.sh
 
 # Generic local configs for work and stuff
 if [ -f $HOME/.bashrc_local ]; then
