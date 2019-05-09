@@ -15,6 +15,12 @@ echo "loading .rc_local"
     source $HOME/.rc_local
 fi
 
+# Setup Browser if not already set.
+if [ -z "$BROWSER" ]
+then
+	export BROWSER="pushbullet"
+fi
+
 pathadd $HOME/bin
 pathadd "$HOME/.rvm/bin" append
 pathadd "$HOME/.local/bin" append
