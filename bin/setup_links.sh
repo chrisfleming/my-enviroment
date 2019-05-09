@@ -31,6 +31,9 @@ makelink ~/projects/my-enviroment/dot_zshrc ~/.zshrc
 makelink ~/projects/my-enviroment/dot_keybinding ~/.keybinding
 makelink ~/projects/my-enviroment/inputrc ~/.inputrc
 
+makelink ~/projects/my-enviroment/dot_ssh/config ~/.ssh/config
+makelink ~/projects/my-enviroment/dot_gitconfig ~/.gitconfig
+
 # VIM
 makelink ~/projects/my-enviroment/vim/vim ~/.vim
 makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
