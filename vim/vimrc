@@ -210,6 +210,16 @@ let g:riv_python_rst_hl=1
 
 let g:deoplete#enable_at_startup = 1
 
+# Floweed email
+setl tw=72
+setl fo=watqc
+setl nojs
+setl nosmartindent
+
+" Mark trailing spaces, so we know we are doing flowed format right
+match ErrorMsg '\s\+$
+
+
 " Load project .vimrc
 set exrc
 set secure

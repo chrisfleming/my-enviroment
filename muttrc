@@ -29,7 +29,7 @@ unignore date from to cc subject x-mailer resent-from reply-to
 hdr_order Date From To Cc
 
 alternative_order text/html text/plain *
-auto_view text/html
+auto_view text/markdown text/html text/plain
 #bind editor <Tab> complete-query
 #bind editor ^T complete
 bind editor <space> noop
