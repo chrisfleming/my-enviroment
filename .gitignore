@@ -42,6 +42,7 @@ vim/vim/spell/en.utf-8.add.spl
 mutt/account*
 mutt/certificates
 mutt/mailboxes
+mutt/scripts
 
 # Instaled via git 
 zsh/custom/geometry
