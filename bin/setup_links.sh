@@ -31,6 +31,9 @@ makelink ~/projects/my-enviroment/dot_zshrc ~/.zshrc
 makelink ~/projects/my-enviroment/dot_keybinding ~/.keybinding
 makelink ~/projects/my-enviroment/inputrc ~/.inputrc
 
+makelink ~/projects/my-enviroment/dot_ssh/config ~/.ssh/config
+makelink ~/projects/my-enviroment/dot_gitconfig ~/.gitconfig
+
 # VIM
 makelink ~/projects/my-enviroment/vim/vim ~/.vim
 makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
@@ -59,7 +62,6 @@ if [ -d $theme_dir/themes ]; then
 	rm -rf $theme_dir/themes
 fi
 
-set -x
 if [ -d $geometry_theme_dir ]; then
 	cd $geometry_theme_dir
 	git pull origin master

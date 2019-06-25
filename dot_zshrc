@@ -7,11 +7,18 @@ setopt appendhistory autocd extendedglob
 
 # Source aliases
 . $HOME/projects/my-enviroment/bin/aliases.sh
+. $HOME/projects/my-enviroment/bin/common.sh
 
 # Generic local configs for work and stuff
 if [ -f $HOME/.rc_local ]; then
 echo "loading .rc_local"
     source $HOME/.rc_local
+fi
+
+# Setup Browser if not already set.
+if [ -z "$BROWSER" ]
+then
+	export BROWSER="pushbullet"
 fi
 
 pathadd $HOME/bin
@@ -138,7 +145,8 @@ source $ZSH_CUSTOM/geometry_plugins/display_prompt.zsh;
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 
-EDITOR=$(find_alternatives "nvim" "vim" "vi")
+export EDITOR=$(find_alternatives "nvim" "vim" "vi")
+export VISUAL=$EDITOR
 alias vim="$EDITOR"
 
 
