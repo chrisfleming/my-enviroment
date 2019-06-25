@@ -34,8 +34,14 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'sjl/gundo.vim'
 
 " Completions
-Plug 'Shougo/deoplete.nvim'
-Plug 'zchee/deoplete-jedi'
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'zchee/deoplete-jedi'
+
+"Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+"Plug 'neoclide/coc.nvim', { 'tag': '0.0.71' }
+
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+
 
 Plug 'neomake/neomake'
 
@@ -163,6 +169,37 @@ let g:pad#dir = "~/Dropbox/pad-notes/"
 let g:riv_python_rst_hl=1
 
 let g:deoplete#enable_at_startup = 1
+
+:tnoremap <Esc> <C-\><C-n>
+:tnoremap <A-h> <C-\><C-N><C-w>h
+:tnoremap <A-j> <C-\><C-N><C-w>j
+:tnoremap <A-k> <C-\><C-N><C-w>k
+:tnoremap <A-l> <C-\><C-N><C-w>l
+:inoremap <A-h> <C-\><C-N><C-w>h
+:inoremap <A-j> <C-\><C-N><C-w>j
+:inoremap <A-k> <C-\><C-N><C-w>k
+:inoremap <A-l> <C-\><C-N><C-w>l
+:nnoremap <A-h> <C-w>h
+:nnoremap <A-j> <C-w>j
+:nnoremap <A-k> <C-w>k
+:nnoremap <A-l> <C-w>l
+
+
+" coc settings
+" " Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+
 
 " Load project .vimrc
 set exrc
