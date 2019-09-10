@@ -49,3 +49,4 @@ zsh/custom/geometry
 
 # Ignore modules - should bget installed elsewhere
 vim/vim/autoload/plug.vim
+vim/vim/pack
