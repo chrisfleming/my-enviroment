@@ -113,6 +113,8 @@ if [ -z "$DISABLE_QUICK_SUDO" ]; then plugins+=(sudo); fi
 if find_alternatives tmux > /dev/null; then plugins+=(tmux); fi
 if find_alternatives tmuxinator > /dev/null; then plugins+=(tmuxinator); fi
 
+if [ -d $HOME/.nvm ]; then plugins+=(nvm); fi
+
 source $ZSH/oh-my-zsh.sh
 
 if (find_alternatives cleartool > /dev/null); then
@@ -151,12 +153,10 @@ alias vim="$EDITOR"
 
 
 # nfty if possible
-export AUTO_NTFY_DONE_IGNORE="vim screen top nvim mutt golab ssh mosh tmuxinator ruby python nvim zsh fg ct tmux"
+export AUTO_NTFY_DONE_IGNORE="vim screen top nvim mutt neomutt golab ssh mosh tmuxinator ruby python zsh fg ct tmux"
 if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration -L30)"; fi
 
 source $HOME/.keybinding
 
 # Make sure completions are all loaded needed for autojump completion to work
 autoload -U compinit && compinit
-
-
