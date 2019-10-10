@@ -20,6 +20,8 @@ set sort_aux = 'last-date-received'
 set auto_tag = yes
 set pager_index_lines=6
 
+set tmpdir = "~/tmp/"
+
 #ignore "Authentication-Results:"
 ignore *
 
