@@ -9,4 +9,4 @@ geometry_prompt_display_check() {
 geometry_prompt_display_render() {
 }
 
-geometry_plugin_register display
+#geometry_plugin_register display

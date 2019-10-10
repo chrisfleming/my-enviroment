@@ -62,6 +62,12 @@ if [ -d $theme_dir/themes ]; then
 	rm -rf $theme_dir/themes
 fi
 
+# If we have a migration guide then force a pull.
+if [ -f $geometry_theme_dir/migration-guide.md ]; then
+	rm -rf  $geometry_theme_di
+fi
+
+
 if [ -d $geometry_theme_dir ]; then
 	cd $geometry_theme_dir
 	git pull origin master

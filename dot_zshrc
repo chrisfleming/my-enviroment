@@ -41,7 +41,6 @@ fi
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-#GEOMETRY_PROMPT_PREFIX="%M"
 ZSH_THEME="geometry/geometry"
 #ZSH_THEME="pygmalion"
 
@@ -83,9 +82,19 @@ COMPLETION_WAITING_DOTS="true"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=$HOME/projects/my-enviroment/zsh/custom
 
-#source $ZSH_CUSTOM/themes/geometry/geometry.zsh
-GEOMETRY_PROMPT_PLUGINS=(exec_time jobs git display)
-#source $ZSH_CUSTOM/geometry/RPS1_prompt.zsh;
+# Geometry COnfigurations
+GEOMETRY_SEPARATOR=" "
+
+GEOMETRY_STATUS_SYMBOL="▲"             # default prompt symbol
+GEOMETRY_STATUS_SYMBOL_ERROR="△"       # displayed when exit value is != 0
+GEOMETRY_STATUS_COLOR_ERROR="magenta"  # prompt symbol color when exit value is != 0
+GEOMETRY_STATUS_COLOR="default"        # prompt symbol color
+GEOMETRY_STATUS_COLOR_ROOT="red"       # root prompt symbol color
+GEOMETRY_STATUS_COLOR_HASH=true        # color status symbol based on hostname
+
+GEOMETRY_PROMPT=(geometry_echo geometry_status geometry_path)
+GEOMETRY_RPROMPT=( geometry_exec_time geometry_jobs geometry_git geometry_virtualenv geometry_node)
+
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
