@@ -64,7 +64,7 @@ fi
 
 # If we have a migration guide then force a pull.
 if [ -f $geometry_theme_dir/migration-guide.md ]; then
-	rm -rf  $geometry_theme_di
+	rm -rf  $geometry_theme_dir
 fi
 
 
