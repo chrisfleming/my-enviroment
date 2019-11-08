@@ -74,7 +74,7 @@ bind index B bounce-message
 bind index - collapse-thread
 bind index _ collapse-all
 
-
+bind index <ESC>t tag-pattern
 
 #SPam
 #spam "X-Spam-Score: (.*)"   "%1"

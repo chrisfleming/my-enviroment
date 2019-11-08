@@ -22,6 +22,8 @@ function makelink() {
 }
 
 
+chmod 600 ~/projects/my-enviroment/dot_ssh/config
+
 makelink ~/projects/my-enviroment/bash_aliases ~/.bash_aliases
 
 makelink ~/projects/my-enviroment/tmux.conf ~/.tmux.conf
@@ -67,10 +69,10 @@ if [ -f $geometry_theme_dir/migration-guide.md ]; then
 	rm -rf  $geometry_theme_dir
 fi
 
-
+set -x
 if [ -d $geometry_theme_dir ]; then
 	cd $geometry_theme_dir
-	git pull origin master
+	git pull origin
 	git submodule update --init --recursive
 else
 	cd $theme_dir
@@ -86,9 +88,33 @@ else
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
-
 # Do an initial remote update which populates .git/FETCH_HEAD and prevents errors
 pushd ~/projects/my-enviroment >/dev/null
 git remote  update
 popd >/dev/null
 
+# Are we is WSL?
+
+if grep -Fq Microsoft /proc/sys/kernel/osrelease
+then
+	echo "WSL Detected"
+	roaming=`wslpath -a $APPDATA`
+	local=$roaming/../Local/
+	if [ -d $roaming/wsltty ]; then
+		echo "wsltty dir already exists - not copying over"
+	else
+		cp -R ~/projects/my-enviroment/wsl/wsltty $roaming
+	fi
+	if [ -d $local/nvim ]; then
+		echo "nvim dir already exists - not copying over"
+	else
+		mkdir -p $local/nvim/autoload
+		cp ~/projects/my-enviroment/vim/init.vim $local/nvim/init.vim
+		cp -R ~/projects/my-enviroment/vim/vim/snippets $local/nvim/
+		curl -fLo $local/autoload/plug.vim --create-dirs \
+	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+		sed -i "s@~/.vim/autoload/plug.vim@$local/autoload/plug.vim/" $local/nvim/init.vim
+	fi
+
+	A
+fi
