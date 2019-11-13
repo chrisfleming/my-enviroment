@@ -1,0 +1,16 @@
+#text/html; ~/.mutt/scripts/filter_email.py %{charset} | pandoc -f html -t markdown --columns=180 --reference-links; copiousoutput
+#text/html; ~/.mutt/scripts/filter_email.py %{charset} | pandoc -f html -t markdown  --wrap=none --reference-links --columns=${COLUMNS:-80}; copiousoutput
+#text/html; ~/.mutt/scripts/filter_email.py %{charset} | pandoc -f html -t markdown  --wrap=none --reference-links; copiousoutput
+#text/html; ~/.mutt/scripts/filter_email.py %{charset} | pandoc -f html -t markdown --reference-links; copiousoutput
+text/html; ~/.mutt/scripts/filter_email.py %{charset}; copiousoutput
+text/*; less '%s'; needsterminal
+text/*; view %s; edit=vim %s; compose=vim %s; test=test -x /usr/bin/vim; needsterminal
+application/msword; catdoc -s cp1252 %s; copiousoutput
+application/vnd.openxmlformats-officedocument.wordprocessingml.document; explorer.exe %s; copiousoutput
+application/vnd.openxmlformats-officedocument.wordprocessingml.document; "/mnt/c/Program Files (x86)/Microsoft Office/root/Office16/WINWORD.EXE %s"; copiousoutput
+application/pdf; "/mnt/c/Program Files\ (x86)/Foxit Software/Foxit Reader/FoxitReader.exe %s"; copiousoutput
+application/pdf; evince %s
+#image/jpeg; "/mnt/c/Program Files/ImageGlass/ImageGlass.exe" "%s"; copiousoutput
+#image/png; "/mnt/c/Program Files/ImageGlass/ImageGlass.exe" "%s"; copiousoutput
+image/*; ~/bin/open_file.py %s >/tmp/view.log 2>&1; copiousoutput
+application/octet-stream; ~/bin/mutt.octet.filter %s; copiousoutput
