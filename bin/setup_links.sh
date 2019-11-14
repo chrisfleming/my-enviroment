@@ -99,22 +99,21 @@ if grep -Fq Microsoft /proc/sys/kernel/osrelease
 then
 	echo "WSL Detected"
 	roaming=`wslpath -a $APPDATA`
-	local=$roaming/../Local/
+	locald=`wslpath -a $APPDATA/../Local`
+	nvimd=$locald/nvim
 	if [ -d $roaming/wsltty ]; then
 		echo "wsltty dir already exists - not copying over"
 	else
 		cp -R ~/projects/my-enviroment/wsl/wsltty $roaming
 	fi
-	if [ -d $local/nvim ]; then
+	if [ -d $nvimd ]; then
 		echo "nvim dir already exists - not copying over"
 	else
-		mkdir -p $local/nvim/autoload
-		cp ~/projects/my-enviroment/vim/init.vim $local/nvim/init.vim
-		cp -R ~/projects/my-enviroment/vim/vim/snippets $local/nvim/
-		curl -fLo $local/autoload/plug.vim --create-dirs \
-	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-		sed -i "s@~/.vim/autoload/plug.vim@$local/autoload/plug.vim/" $local/nvim/init.vim
+		mkdir -p $nvimd/autoload
+		cp ~/projects/my-enviroment/vim/init.vim $nvimd/init.vim
+		cp -R ~/projects/my-enviroment/vim/vim/snippets $nvimd/
+		curl -fLo $nvimd/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+		sed -i "s@~/.vim/autoload/plug.vim@$nvimd/autoload/plug.vim@" $nvimd/init.vim
 	fi
 
-	A
 fi
