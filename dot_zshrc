@@ -93,7 +93,7 @@ GEOMETRY_STATUS_COLOR_ROOT="red"       # root prompt symbol color
 GEOMETRY_STATUS_COLOR_HASH=true        # color status symbol based on hostname
 
 GEOMETRY_PROMPT=(geometry_echo geometry_status geometry_path)
-GEOMETRY_RPROMPT=( geometry_exec_time geometry_jobs geometry_git geometry_virtualenv geometry_node)
+GEOMETRY_RPROMPT=(geometry_exec_time geometry_jobs geometry_git geometry_virtualenv geometry_node)
 
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)

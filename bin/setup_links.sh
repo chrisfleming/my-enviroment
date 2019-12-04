@@ -34,6 +34,8 @@ makelink ~/projects/my-enviroment/inputrc ~/.inputrc
 makelink ~/projects/my-enviroment/dot_ssh/config ~/.ssh/config
 makelink ~/projects/my-enviroment/dot_gitconfig ~/.gitconfig
 
+makelink ~/projects/my-enviroment/dot_tmuxp ~/.tmuxp
+
 # VIM
 makelink ~/projects/my-enviroment/vim/vim ~/.vim
 makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
@@ -64,7 +66,7 @@ fi
 
 # If we have a migration guide then force a pull.
 if [ -f $geometry_theme_dir/migration-guide.md ]; then
-	rm -rf  $geometry_theme_di
+	rm -rf  $geometry_theme_dir
 fi
 
 
