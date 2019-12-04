@@ -20,7 +20,7 @@ set sort_aux = 'last-date-received'
 set auto_tag = yes
 set pager_index_lines=6
 
-set tmpdir = "~/tmp/"
+set tmpdir = "~/tmp/mutt/"
 
 #ignore "Authentication-Results:"
 ignore *
@@ -74,7 +74,7 @@ bind index B bounce-message
 bind index - collapse-thread
 bind index _ collapse-all
 
-
+bind index <ESC>t tag-pattern
 
 #SPam
 #spam "X-Spam-Score: (.*)"   "%1"

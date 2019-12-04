@@ -167,6 +167,12 @@ if find_alternatives ntfy > /dev/null; then eval "$(ntfy shell-integration -L30)
 
 test -f /etc/profile.d/npm.sh && source /etc/profile.d/npm.sh
 
+if [ -d $HOME/.dasht/bin ]; then
+  pathadd "$HOME/.dasht/bin"
+  export MANPATH=$HOME/.dasht/man:$MANPATH
+  fpath+=$HOME/.dasht/etc/zsh/completions/
+fi
+
 source $HOME/.keybinding
 
 # Make sure completions are all loaded needed for autojump completion to work
