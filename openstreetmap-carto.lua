@@ -295,6 +295,13 @@ function filter_tags_generic(tags)
 
     -- Convert layer to an integer
     tags['layer'] = layer(tags['layer'])
+
+    -- Convert names to English - other langugaes are available
+    if is_in("name:en", tags) and is_in("name", tags) then
+    	tags['name'] = tags['name:en']
+	end
+
+
     return 0, tags
 end
 
