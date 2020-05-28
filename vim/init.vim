@@ -11,51 +11,55 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim-plugged')
-Plug 'altercation/vim-colors-solarized'
-"Plug 'ervandew/supertab'
 Plug 'dhruvasagar/vim-table-mode'
+Plug 'vimwiki/vimwiki'
 
-" VIM SNippits
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-"Plug 'garbas/vim-snipmate'
-Plug 'honza/vim-snippets'
-Plug 'pangloss/vim-javascript'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-bundler'
-Plug 'tpope/vim-abolish'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'majutsushi/tagbar'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'sjl/gundo.vim'
+if !exists('g:vscode')
+	Plug 'altercation/vim-colors-solarized'
+	"Plug 'ervandew/supertab'
 
-" Completions
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'zchee/deoplete-jedi'
+	" VIM SNippits
+	Plug 'MarcWeber/vim-addon-mw-utils'
+	Plug 'tomtom/tlib_vim'
+	"Plug 'garbas/vim-snipmate'
+	Plug 'honza/vim-snippets'
+	Plug 'pangloss/vim-javascript'
+	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+	Plug 'tpope/vim-fugitive'
+	Plug 'tpope/vim-git'
+	Plug 'tpope/vim-rails'
+	Plug 'tpope/vim-bundler'
+	Plug 'tpope/vim-abolish'
+	Plug 'ctrlpvim/ctrlp.vim'
+	Plug 'majutsushi/tagbar'
+	Plug 'bling/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+	Plug 'sjl/gundo.vim'
 
-"Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-"Plug 'neoclide/coc.nvim', { 'tag': '0.0.71' }
+	" Completions
+	" Plug 'Shougo/deoplete.nvim'
+	" Plug 'zchee/deoplete-jedi'
 
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+	"Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+	"Plug 'neoclide/coc.nvim', { 'tag': '0.0.71' }
+
+	Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
 
-Plug 'neomake/neomake'
+	Plug 'neomake/neomake'
 
-" VOoM and vim notes for outlining and notes
-Plug 'vim-voom/VOoM'
-Plug 'chrisbra/NrrwRgn'
-" vim and tmux
-Plug 'christoomey/vim-tmux-navigator'
-" RST  Files
-Plug 'gu-fan/riv.vim'
-Plug 'gu-fan/InstantRst'
+	" VOoM and vim notes for outlining and notes
+	Plug 'vim-voom/VOoM'
+	Plug 'chrisbra/NrrwRgn'
+	" vim and tmux
+	Plug 'christoomey/vim-tmux-navigator'
+	" RST  Files
+	Plug 'gu-fan/riv.vim'
+	Plug 'gu-fan/InstantRst'
 
-"All the synatax
-Plug 'sheerun/vim-polyglot'
+	"All the synatax
+	Plug 'sheerun/vim-polyglot'
+endif
 
 call plug#end()
 
@@ -319,6 +323,10 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
+
+" vim wiki
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
 
 
 " Load project .vimrc
