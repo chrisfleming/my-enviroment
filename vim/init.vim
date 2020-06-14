@@ -144,7 +144,8 @@ call neomake#configure#automake('nrwi', 500)
 au FileType python setl sw=4 sts=4 et
 
 " Email Settings
-au FileType mail set tw=72 spell spelllang=en_gb fo+=aw
+"au FileType mail set tw=72 spell spelllang=en_gb fo+=aw
+au FileType mail set formatoptions-=t spell spelllang=en_gb fo+=aw
 
 " Enable Tagbar
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
