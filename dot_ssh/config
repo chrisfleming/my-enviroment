@@ -57,19 +57,31 @@ Host *
     GSSAPIAuthentication no
     GSSAPIDelegateCredentials no
 
-Host 10.192.*
+Host 10.20.*
     User root
     StrictHostKeyChecking no
     UserKnownHostsFile /dev/null
     # *should have good connections to labs* - timeout after 15 seconds
-    ServerAliveInterval 3
-    ServerAliveCountMax 5
+	# ServerAliveInterval 3
+	# ServerAliveCountMax 5
+	# No longer a good connection to labs...
+	ServerAliveInterval 3
+	ServerAliveCountMax 20
 
-Host 10.192.22.90
+Host 10.20.76.90
     User cfleming
 
-Host 10.192.22.90
-    User chflemin
+Host centos6
+    Hostname vlbld23.illuminate.solutions
+    User cfleming
+    ServerAliveInterval 60
+    ServerAliveCountMax 5
+
+Host centos7
+    Hostname vlbld22.illuminate.solutions
+    User cfleming
+    ServerAliveInterval 60
+    ServerAliveCountMax 5
 
 Host shell
     HostName shell.fleming.io
