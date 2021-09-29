@@ -11,52 +11,50 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim-plugged')
-Plug 'altercation/vim-colors-solarized'
-"Plug 'ervandew/supertab'
 Plug 'dhruvasagar/vim-table-mode'
 
-" VIM SNippits
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-"Plug 'garbas/vim-snipmate'
-Plug 'honza/vim-snippets'
-Plug 'pangloss/vim-javascript'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-bundler'
-Plug 'tpope/vim-abolish'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'majutsushi/tagbar'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'sjl/gundo.vim'
+if !exists('g:vscode')
+	Plug 'altercation/vim-colors-solarized'
+	"Plug 'ervandew/supertab'
 
-" Completions
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'zchee/deoplete-jedi'
+	" VIM SNippits
+	Plug 'MarcWeber/vim-addon-mw-utils'
+	Plug 'tomtom/tlib_vim'
+	"Plug 'garbas/vim-snipmate'
+	Plug 'honza/vim-snippets'
+	Plug 'pangloss/vim-javascript'
+	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+	Plug 'tpope/vim-fugitive'
+	Plug 'tpope/vim-git'
+	Plug 'tpope/vim-rails'
+	Plug 'tpope/vim-bundler'
+	Plug 'tpope/vim-abolish'
+	Plug 'ctrlpvim/ctrlp.vim'
+	Plug 'majutsushi/tagbar'
+	Plug 'bling/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+	Plug 'sjl/gundo.vim'
 
-"Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-"Plug 'neoclide/coc.nvim', { 'tag': '0.0.71' }
+	" Completions
+	" Plug 'Shougo/deoplete.nvim'
+	" Plug 'zchee/deoplete-jedi'
 
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
+	Plug 'neomake/neomake'
 
-Plug 'neomake/neomake'
+	" VOoM and vim notes for outlining and notes
+	Plug 'vim-voom/VOoM'
+	Plug 'chrisbra/NrrwRgn'
+	" vim and tmux
+	Plug 'christoomey/vim-tmux-navigator'
+	" RST  Files
+	Plug 'gu-fan/riv.vim'
+	Plug 'gu-fan/InstantRst'
 
-" VOoM and vim notes for outlining and notes
-Plug 'vim-voom/VOoM'
-Plug 'chrisbra/NrrwRgn'
-" vim and tmux
-Plug 'christoomey/vim-tmux-navigator'
-" RST  Files
-Plug 'gu-fan/riv.vim'
-Plug 'gu-fan/InstantRst'
-
-"All the synatax
-Plug 'sheerun/vim-polyglot'
-Plug 'psf/black', { 'branch': 'stable' }
+	"All the synatax
+	Plug 'sheerun/vim-polyglot'
+endif
 
 call plug#end()
 
@@ -141,7 +139,8 @@ call neomake#configure#automake('nrwi', 500)
 au FileType python setl sw=4 sts=4 et
 
 " Email Settings
-au FileType mail set tw=72 spell spelllang=en_gb fo+=aw
+"au FileType mail set tw=72 spell spelllang=en_gb fo+=aw
+au FileType mail set formatoptions-=t spell spelllang=en_gb fo+=aw
 
 " Enable Tagbar
 nnoremap <silent> <Leader>b :TagbarToggle<CR>

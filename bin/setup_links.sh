@@ -45,6 +45,7 @@ makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
 # NeoVIM
 mkdir -p ~/.config/nvim/
 makelink ~/projects/my-enviroment/vim/init.vim ~/.config/nvim/init.vim
+makelink ~/projects/my-enviroment/vim/ginit.vim ~/.config/nvim/ginit.vim
 makelink ~/.vim/snippets ~/.config/nvim/snippets
 
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
