@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+tmux rename-window "$*"
+command ssh "$@"
+tmux rename-window "bash (exit ssh)"
+
