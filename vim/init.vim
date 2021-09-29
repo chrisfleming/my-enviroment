@@ -56,6 +56,7 @@ Plug 'gu-fan/InstantRst'
 
 "All the synatax
 Plug 'sheerun/vim-polyglot'
+Plug 'psf/black', { 'branch': 'stable' }
 
 call plug#end()
 
@@ -258,6 +259,12 @@ nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
+" Remap for do codeAction of sleected region:
+vmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
+
+
+
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -319,6 +326,11 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
+
+" Black
+" Set venv
+
+let g:black_virtualenv = "~/.virtualenvs/neovim3"
 
 
 " Load project .vimrc
