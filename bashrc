@@ -588,3 +588,4 @@ echo `date` ": Finished bashrc"
 pathadd "$HOME/.rvm/bin" append
 
 export PYTHONSTARTUP=$HOME/projects/my-enviroment/pythonstartup
+. "$HOME/.cargo/env"
