@@ -1,5 +1,5 @@
 
-echo "input rc"
+#echo "input rc"
 # Use Vi, not Emacs, style editing
 set editing-mode vi
 
@@ -18,8 +18,8 @@ set keymap vi-command
 # Insert the arguments from the last command
 "p": "i !!*\r"
 
-"\e[A": history-search-backward
-"\e[B": history-search-forward
+#"\e[A": history-search-backward
+#"\e[B": history-search-forward
 
 
 ###########################################################

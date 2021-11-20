@@ -5,7 +5,7 @@ set message_cachedir =~/.mutt/cache/bodies
 # set certificate_file =~/.mutt/certificates
 
 bind editor <space> noop
-set editor="vim -c 'set ft=mail'"
+set editor="nvim -c 'set ft=mail'"
 
 # Basic config, you can leave this as is
 set imap_check_subscribed
