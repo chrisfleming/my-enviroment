@@ -2,9 +2,7 @@
 
 # Get my IP address
 blacklist=(sit0 lo teql0 gre0 ip6tnl0 eql)
-
-if [ -d /Applications ]; then
-  # MAC
+function mac {
   for i in `ifconfig -l`; do
     ic=`ifconfig $i`
     y=`echo $ic | awk '/inet / {split ($2,A," "); print A[1]}'`
@@ -28,10 +26,10 @@ if [ -d /Applications ]; then
     done
 
   done
-fi
 
-if which ip > /dev/null; then
-	echo "IP"
+}
+
+function ip_cmd {
 	ip -br addr | while read i; do
 	    interface=`echo $i |  awk '{print $1}'`
 	    if ! [[ ${blacklist[*]} =~ $interface ]]; then
@@ -45,8 +43,9 @@ if which ip > /dev/null; then
 		    echo $i | cut -f3- -d " "
 		fi
 	done
-elif [ -d /sys/class/net ]; then
-	# LINUX
+}
+
+function linux {
     ls /sys/class/net | while read i; do
         if [[ -d /sys/class/net/$i && ! ${blacklist[*]} =~ $i ]]; then
 	    # Are we connected
@@ -69,4 +68,21 @@ elif [ -d /sys/class/net ]; then
 	
         fi
     done
+}
+
+
+if [ -d /Applications ]; then
+  # MAC
+  mac
 fi
+
+if which ip > /dev/null; then
+	echo "IP"
+	linux
+	ip_cmd
+elif [ -d /sys/class/net ]; then
+	# LINUX
+	linux
+fi
+
+

@@ -1,7 +1,7 @@
 "neovim config
 filetype off                   " required!
-let g:python3_host_prog = glob('~/.virtualenvs/neovim3/bin/python3')
-let g:python_host_prog = glob('~/.virtualenvs/neovim2/bin/python')
+let g:python3_host_prog = glob('~/.venv/neovim3/bin/python3')
+"let g:python_host_prog = glob('~/.virtualenvs/neovim2/bin/python')
 "let g:python2_host_prog = "$HOME/.pyenv/versions/neovim2/bin/python"
 
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -11,51 +11,50 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim-plugged')
-Plug 'altercation/vim-colors-solarized'
-"Plug 'ervandew/supertab'
 Plug 'dhruvasagar/vim-table-mode'
 
-" VIM SNippits
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-"Plug 'garbas/vim-snipmate'
-Plug 'honza/vim-snippets'
-Plug 'pangloss/vim-javascript'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-bundler'
-Plug 'tpope/vim-abolish'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'majutsushi/tagbar'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'sjl/gundo.vim'
+if !exists('g:vscode')
+	Plug 'altercation/vim-colors-solarized'
+	"Plug 'ervandew/supertab'
 
-" Completions
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'zchee/deoplete-jedi'
+	" VIM SNippits
+	Plug 'MarcWeber/vim-addon-mw-utils'
+	Plug 'tomtom/tlib_vim'
+	"Plug 'garbas/vim-snipmate'
+	Plug 'honza/vim-snippets'
+	Plug 'pangloss/vim-javascript'
+	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+	Plug 'tpope/vim-fugitive'
+	Plug 'tpope/vim-git'
+	Plug 'tpope/vim-rails'
+	Plug 'tpope/vim-bundler'
+	Plug 'tpope/vim-abolish'
+	Plug 'ctrlpvim/ctrlp.vim'
+	Plug 'majutsushi/tagbar'
+	Plug 'bling/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+	Plug 'sjl/gundo.vim'
 
-"Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-"Plug 'neoclide/coc.nvim', { 'tag': '0.0.71' }
+	" Completions
+	" Plug 'Shougo/deoplete.nvim'
+	" Plug 'zchee/deoplete-jedi'
 
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
+	Plug 'neomake/neomake'
 
-Plug 'neomake/neomake'
+	" VOoM and vim notes for outlining and notes
+	Plug 'vim-voom/VOoM'
+	Plug 'chrisbra/NrrwRgn'
+	" vim and tmux
+	Plug 'christoomey/vim-tmux-navigator'
+	" RST  Files
+	Plug 'gu-fan/riv.vim'
+	Plug 'gu-fan/InstantRst'
 
-" VOoM and vim notes for outlining and notes
-Plug 'vim-voom/VOoM'
-Plug 'chrisbra/NrrwRgn'
-" vim and tmux
-Plug 'christoomey/vim-tmux-navigator'
-" RST  Files
-Plug 'gu-fan/riv.vim'
-Plug 'gu-fan/InstantRst'
-
-"All the synatax
-Plug 'sheerun/vim-polyglot'
+	"All the synatax
+	Plug 'sheerun/vim-polyglot'
+endif
 
 call plug#end()
 
@@ -140,7 +139,8 @@ call neomake#configure#automake('nrwi', 500)
 au FileType python setl sw=4 sts=4 et
 
 " Email Settings
-au FileType mail set tw=72 spell spelllang=en_gb fo+=aw
+"au FileType mail set tw=72 spell spelllang=en_gb fo+=aw
+au FileType mail set formatoptions-=t spell spelllang=en_gb fo+=aw
 
 " Enable Tagbar
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
@@ -204,8 +204,14 @@ set updatetime=300
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
 
-" always show signcolumns
-set signcolumn=yes
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -221,11 +227,17 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[c` and `]c` to navigate diagnostics
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
@@ -243,12 +255,14 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
   else
-    call CocAction('doHover')
+    execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
 
-" Highlight symbol under cursor on CursorHold
+" Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
@@ -258,6 +272,8 @@ nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
+
+
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -266,9 +282,9 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+" Remap for do codeAction of sleected region:
+vmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
 nmap <leader>ac  <Plug>(coc-codeaction)
@@ -319,6 +335,11 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
+
+" Black
+" Set venv
+
+let g:black_virtualenv = "~/.venv/system/"
 
 
 " Load project .vimrc

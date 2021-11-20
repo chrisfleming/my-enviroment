@@ -36,6 +36,8 @@ makelink ~/projects/my-enviroment/inputrc ~/.inputrc
 makelink ~/projects/my-enviroment/dot_ssh/config ~/.ssh/config
 makelink ~/projects/my-enviroment/dot_gitconfig ~/.gitconfig
 
+makelink ~/projects/my-enviroment/dot_tmuxp ~/.tmuxp
+
 # VIM
 makelink ~/projects/my-enviroment/vim/vim ~/.vim
 makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
@@ -43,6 +45,7 @@ makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
 # NeoVIM
 mkdir -p ~/.config/nvim/
 makelink ~/projects/my-enviroment/vim/init.vim ~/.config/nvim/init.vim
+makelink ~/projects/my-enviroment/vim/ginit.vim ~/.config/nvim/ginit.vim
 makelink ~/.vim/snippets ~/.config/nvim/snippets
 
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
@@ -55,6 +58,10 @@ makelink ~/projects/my-enviroment/muttrc ~/.muttrc
 mkdir -p ~/bin
 makelink ~/projects/my-enviroment/bin/myip ~/bin/myip
 makelink ~/projects/my-enviroment/bin/tmux-vim-select-pane ~/bin/tmux-vim-select-pane
+
+makelink ~/projects/my-enviroment/bin/go ~/bin/go
+makelink ~/projects/my-enviroment/bin/tmux-nest ~/bin/tmux-nest
+makelink ~/projects/my-enviroment/bin/worldclock ~/bin/worldclock
 
 theme_dir=$HOME/projects/my-enviroment/zsh/custom/
 geometry_theme_dir=$theme_dir/geometry
