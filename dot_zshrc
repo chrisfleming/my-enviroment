@@ -11,7 +11,7 @@ setopt appendhistory autocd extendedglob
 
 # Generic local configs for work and stuff
 if [ -f $HOME/.rc_local ]; then
-echo "loading .rc_local"
+    #echo "loading .rc_local"
     source $HOME/.rc_local
 fi
 

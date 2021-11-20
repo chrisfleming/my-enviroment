@@ -43,7 +43,8 @@ if !exists('g:vscode')
 	"Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 	"Plug 'neoclide/coc.nvim', { 'tag': '0.0.71' }
 
-	Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+	"	Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
 	Plug 'neomake/neomake'
