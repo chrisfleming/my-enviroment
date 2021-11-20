@@ -39,7 +39,7 @@ if !exists('g:vscode')
 	" Plug 'Shougo/deoplete.nvim'
 	" Plug 'zchee/deoplete-jedi'
 
-	"Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 	Plug 'neomake/neomake'
 
