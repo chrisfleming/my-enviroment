@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Command-line world clock
 # Taken from  http://stackoverflow.com/questions/370075/command-line-world-clock
 
@@ -9,13 +9,39 @@
 
 : ${WORLDCLOCK_ZONES:=$HOME/.worldclock.zones}
 : ${WORLDCLOCK_FORMAT:='+%Y-%m-%d %H:%M:%S %Z'}
+: ${LOCAL_TZ:='Europe/London'}
 
-while true
-do
-    clear
-    while read zone
-    do echo $zone '!' $(TZ=$zone date "$WORLDCLOCK_FORMAT")
-    done < $WORLDCLOCK_ZONES |
-    awk -F '!' '{ printf "%-20s  %s\n", $1, $2;}'
-    sleep 1
-done
+if [ $# -eq 0 ]; then
+
+	while true
+	do
+		clear
+		while read zone
+		do echo $zone '!' $(TZ=$zone date "$WORLDCLOCK_FORMAT")
+		done < $WORLDCLOCK_ZONES |
+     		awk -F '!' '{ printf "%-20s  %s\n", $1, $2;}'
+		sleep 1
+	done
+else 
+	if [ $# -eq 2 ]; then
+		LOCAL_TZ=$2
+	fi
+
+	TIME=$1
+
+	if [ $TIME == "now" ]; then
+		echo "unset now"
+		while read zone
+		do echo $zone '!'  $(TZ="$LOCAL_TZ" date"")
+		done < $WORLDCLOCK_ZONES |
+				awk -F '!' '{ printf "%-20s\n", $2;}'
+    else
+   	echo "$LOCAL_TZ  $TIME"
+
+	while read zone
+#    	do echo $zone '!' $(TZ=$zone date "$2")
+     do echo $zone '!'  $(TZ="$zone" date --date="TZ=\"$LOCAL_TZ\" $TIME")
+	done < $WORLDCLOCK_ZONES |
+     		awk -F '!' '{ printf "%-20s  %s\n", $TIME, $2;}'
+	fi
+fi

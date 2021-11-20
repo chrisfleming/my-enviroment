@@ -59,6 +59,10 @@ mkdir -p ~/bin
 makelink ~/projects/my-enviroment/bin/myip ~/bin/myip
 makelink ~/projects/my-enviroment/bin/tmux-vim-select-pane ~/bin/tmux-vim-select-pane
 
+makelink ~/projects/my-enviroment/bin/go ~/bin/go
+makelink ~/projects/my-enviroment/bin/tmux-nest ~/bin/tmux-nest
+makelink ~/projects/my-enviroment/bin/worldclock ~/bin/worldclock
+
 theme_dir=$HOME/projects/my-enviroment/zsh/custom/
 geometry_theme_dir=$theme_dir/geometry
 

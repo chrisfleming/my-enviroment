@@ -1,0 +1,20 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+THIS_SESSION=`tmux display-message -p '#S'`
+
+if [ "${1}" == "${THIS_SESSION}" ]; then
+    echo "This session!"
+    exit
+fi
+
+unset TMUX
+
+TEMP_TERM=$TERM
+TEMP_TERM_SUFFIX=${TERM#$(echo $TERM | cut -f 1 -d'-')}
+TERM="xterm${TEMP_TERM_SUFFIX}"
+
+tmux new-session -s $1 || tmux attach-session -t $1
+
+export TERM=$TEMP_TERM

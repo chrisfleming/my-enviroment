@@ -1,3 +1,4 @@
+Include config.d/*
 
 # This is the ssh client system-wide configuration file.  See
 # ssh_config(5) for more information.  This file provides defaults for
@@ -51,37 +52,11 @@ Host *
 #   ProxyCommand ssh -q -W %h:%p gateway.example.com
 #   RekeyLimit 1G 1h
     ServerAliveInterval 300
-    ServerAliveCountMax 2
+    ServerAliveCountMax 3
     SendEnv LANG LC_*
     HashKnownHosts yes
     GSSAPIAuthentication no
-    GSSAPIDelegateCredentials no
-
-Host 10.20.*
-    User root
-    StrictHostKeyChecking no
-    UserKnownHostsFile /dev/null
-    # *should have good connections to labs* - timeout after 15 seconds
-	# ServerAliveInterval 3
-	# ServerAliveCountMax 5
-	# No longer a good connection to labs...
-	ServerAliveInterval 3
-	ServerAliveCountMax 20
-
-Host 10.20.76.90
-    User cfleming
-
-Host centos6
-    Hostname vlbld23.illuminate.solutions
-    User cfleming
-    ServerAliveInterval 60
-    ServerAliveCountMax 5
-
-Host centos7
-    Hostname vlbld22.illuminate.solutions
-    User cfleming
-    ServerAliveInterval 60
-    ServerAliveCountMax 5
+	GSSAPIDelegateCredentials no
 
 Host shell
     HostName shell.fleming.io
@@ -92,4 +67,6 @@ Host wifi
     HostName wifi.coherentbits.co.uk
     Port 2000
     User chrisfl
+
+
 
