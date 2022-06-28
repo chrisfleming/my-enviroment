@@ -24,6 +24,7 @@ fi
 pathadd $HOME/bin
 pathadd "$HOME/.rvm/bin" append
 pathadd "$HOME/.local/bin" append
+pathadd "$HOME/go/bin/" append
 
 
 
@@ -125,6 +126,7 @@ if find_alternatives tmux > /dev/null; then plugins+=(tmux); fi
 if find_alternatives tmuxinator > /dev/null; then plugins+=(tmuxinator); fi
 
 if [ -d $HOME/.asdf ]; then plugins+=(asdf); fi
+if find_alternatives todoist > /dev/null; then plugins+=(todoist); fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -182,3 +184,4 @@ autoload -U compinit && compinit
 
 # Testing out mcfly - if it works well need to download automatically in ansible and keep here.
 eval "$(mcfly init zsh)"
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1
