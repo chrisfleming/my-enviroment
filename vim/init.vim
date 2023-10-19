@@ -15,6 +15,7 @@ Plug 'dhruvasagar/vim-table-mode'
 
 if !exists('g:vscode')
 	Plug 'altercation/vim-colors-solarized'
+	Plug 'lifepillar/vim-solarized8', { 'branch': 'neovim' }
 	"Plug 'ervandew/supertab'
 
 	" VIM SNippits
@@ -107,13 +108,13 @@ au BufRead,BufNewFile *.py set expandtab
 "paste on F9
 set pastetoggle=<F9>
 
-set t_Co=256
+"set t_Co=256
 
 
 syntax on
-
+set termguicolors
 set background=dark
-colorscheme solarized
+colorscheme solarized8
 
 " Reselect text after indent/oudent
 vnoremap < <gv
