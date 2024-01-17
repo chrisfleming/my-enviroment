@@ -9,6 +9,7 @@ if [ "${1}" == "${THIS_SESSION}" ]; then
     exit
 fi
 
+tmux rename-window $1
 unset TMUX
 
 TEMP_TERM=$TERM

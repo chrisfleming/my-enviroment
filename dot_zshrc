@@ -128,7 +128,7 @@ source $ZSH/oh-my-zsh.sh
 
 if (find_alternatives cleartool > /dev/null); then
     source $ZSH_CUSTOM/geometry_plugins/clearcase_prompt.zsh;
-	GEOMETRY_PROMPT_PLUGINS+=clearcase;
+    GEOMETRY_PROMPT_PLUGINS+=clearcase_prompt;
 fi
 
 source $ZSH_CUSTOM/geometry_plugins/display_prompt.zsh;
@@ -177,3 +177,6 @@ source $HOME/.keybinding
 
 # Make sure completions are all loaded needed for autojump completion to work
 autoload -U compinit && compinit
+
+# Testing out mcfly - if it works well need to download automatically in ansible and keep here.
+eval "$(mcfly init zsh)"

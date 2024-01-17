@@ -61,7 +61,7 @@ fi
 case "${TERM}" in
   xterm*)
      export TERM=xterm-256color
-     cache_term_colours=256
+	 cache_term_colours=256
   ;;
   screen*)
     cache_term_colours=256
@@ -124,7 +124,7 @@ cache_colour_mrk=${cache_colour_m_yell}
 cache_colour_lda=${cache_colour_m_yell}
 cache_colour_scr=${cache_colour_l_blue}
 cache_colour_scm=${cache_colour_m_orng}
-
+cache_colour_ven=${cache_colour_m_teal}
 
 
 
@@ -337,6 +337,12 @@ ps_scr_f() {
     fi
 }
 
+ps_ven_f() {
+	if [[ $VIRTUAL_ENV ]] ; then
+		echo "[$(basename $VIRTUAL_ENV)] "
+	fi
+}
+
 ps_scm_f() {
     local s=
     if [[ -f $CLEARCASE_ROOT ]] ; then
@@ -421,8 +427,9 @@ ps_lda="\[${cache_colour_lda}\]\$(ps_lda_f)"
 ps_dir="\[${cache_colour_dir}\]\$(ps_dir_f)"
 ps_scr="\[${cache_colour_scr}\]\$(ps_scr_f)"
 ps_scm="\[${cache_colour_scm}\]\$(ps_scm_f)"
+ps_ven="\[${cache_colour_ven}\]\$(ps_ven_f)"
 #export PS1="${ps_sav}${ps_usr}${ps_hst}${ps_cwd}${ps_ret}${ps_lda}${ps_job}${ps_dir}${ps_scr}${ps_scm}"
-export PS1="${ps_usr}${ps_hst}${ps_cwd}${ps_ret}${ps_job}${ps_dir}${ps_scr}${ps_scm}"
+export PS1="${ps_usr}${ps_hst}${ps_cwd}${ps_ret}${ps_job}${ps_dir}${ps_scr}${ps_scm}${ps_ven}"
 export PS1="${PS1}${ps_mrk}${ps_end}"
 
 
