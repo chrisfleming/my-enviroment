@@ -62,7 +62,7 @@ set t_Co=256
 syntax on
 
 set background=dark
-colorscheme solarized
+colorscheme solarized8
 
 " Reselect text after indent/oudent
 vnoremap < <gv

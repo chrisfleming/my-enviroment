@@ -100,13 +100,30 @@ pushd ~/projects/my-enviroment >/dev/null
 git remote  update
 popd >/dev/null
 
+## Clone the vim-solarized8 repo and checkout neovim
+if [ -d ~/.vim/pack/themes/start/solarized8 ]; then
+	cd ~/.vim/pack/themes/start/solarized8
+	git checkout neovim
+	git pull
+else
+    git clone https://github.com/lifepillar/vim-solarized8.git \
+        ~/.vim/pack/themes/start/solarized8
+    cd ~/.vim/pack/themes/start/solarized8
+    git checkout neovim
+fi
+
 # Are we is WSL?
 
-if grep -Fq Microsoft /proc/sys/kernel/osrelease
+if grep -Fqi Microsoft /proc/sys/kernel/osrelease
 then
 	echo "WSL Detected"
-	roaming=`wslpath -a $APPDATA`
-	locald=`wslpath -a $APPDATA/../Local`
+	pushd /mnt/c
+	APPDATA=$(wslpath -au "$(cmd.exe /c 'echo %APPDATA%')")
+	popd
+
+	set -x
+	roaming=$APPDATA
+	locald=$APPDATA/../Local
 	nvimd=$locald/nvim
 	if [ -d $roaming/wsltty ]; then
 		echo "wsltty dir already exists - not copying over"
