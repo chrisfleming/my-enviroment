@@ -78,11 +78,12 @@ fi
 
 if which ip > /dev/null; then
 	echo "IP"
-	linux
+	#linux
 	ip_cmd
 elif [ -d /sys/class/net ]; then
 	# LINUX
 	linux
 fi
 
+echo "External IP:" `curl -s whatismyip.akamai.com`
 
