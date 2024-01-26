@@ -1,0 +1,92 @@
+" Reset
+" This resets all default settings
+"sanitize tridactyllocal tridactylsync
+
+
+set newtab about:newtab
+"set browser firefox-developer-edition
+"set allowautofocus false
+set editorcmd neovide
+set smoothscroll true
+set newtabfocus page
+
+set hintchars neiohtsrad
+
+" Add helper commands that Mozillians think make Firefox irredeemably
+" insecure. For details, read the comment at the top of this file.
+command fixamo_quiet jsb tri.excmds.setpref("privacy.resistFingerprinting.block_mozAddonManager", "true").then(tri.excmds.setpref("extensions.webextensions.restrictedDomains", '""'))
+command fixamo js tri.excmds.setpref("privacy.resistFingerprinting.block_mozAddonManager", "true").then(tri.excmds.setpref("extensions.webextensions.restrictedDomains", '""').then(tri.excmds.fillcmdline_tmp(3000, "Permissions added to user.js. Please restart Firefox to make them take affect.")))
+fixamo_quiet
+
+" We remove the sandbox directive
+" https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/sandbox
+" which allows our iframe (and anyone else's) to run on any website.
+"
+" We weaken the style-src directive
+" https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src
+" to allow us to theme our elements.
+" This exposes you to 'cross site styling' attacks
+jsb browser.webRequest.onHeadersReceived.addListener(tri.request.clobberCSP,{urls:["<all_urls>"],types:["main_frame"]},["blocking","responseHeaders"])
+
+quickmark e about:blank
+quickmark J https://oneilluminatedev.atlassian.net/jira/your-work
+quickmark C https://oneilluminatedev.atlassian.net/jira/your-work
+quickmark d https://old.reddit.com/
+
+set searchurls.r       https://old.reddit.com/r/%s
+set searchurls.u       https://old.reddit.com/u/%s
+set searchurls.g       https://www.google.com/search?tbs=li:1&q=%s
+set searchurls.s       https://duckduckgo.com/lite/?q=%s
+set searchurls.d       https://www.websters1913.com/words/%s
+set searchurls.caniuse https://caniuse.com/#search=%s
+
+set searchengine g
+
+"""""""""""
+"  Binds  "
+"""""""""""
+"
+" Ctrl-F should use the browser's native 'find' functionality.
+unbind <C-f>
+
+bind / fillcmdline find
+bind ? fillcmdline find -?
+bind n findnext 1
+bind N findnext -1
+
+bind w tabprev
+bind e tabnext_gt
+bind --mode=visual w tabprev
+bind --mode=visual e tabnext_gt
+bind x back
+bind c forward
+bind j scrollline +3
+bind k scrollline -3
+
+" Site Specifig
+autocmd DocStart outlook.office365.us mode ignore
+autocmd DocStart newsblur.com mode ignore
+
+
+
+"""""""""""""""
+"  Redirects  "
+"""""""""""""""
+" Redirect medium articlues to a paywall alternative
+command mediumredirect autocmd BeforeRequest *://medium.com/* (e)=>{\
+	if ( e.type == "main_frame" && null == e.url.match("[?|&]noredirect=1") ){\
+		return {redirectUrl: e.url.replace("medium.com", "scribe.rip")};\
+	} return {}\
+}
+command stopmediumredirect autocmddelete BeforeRequest *://medium.com/*
+mediumredirect
+
+
+
+
+
+set editorcmd neovide -f "+set ft=markdown spell"
+
+" Use selection keyboard (requires native messenger)
+set yankto both
+set putfrom selection
