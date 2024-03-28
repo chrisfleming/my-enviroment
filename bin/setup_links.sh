@@ -2,25 +2,23 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-
 function makelink() {
-   sourcef=$1
-   destf=$2
+	sourcef=$1
+	destf=$2
 
-   if [[ -e $destf && (`readlink $destf` == $sourcef) ]]; then
-       echo "$destf is already linked to $sourcef"
-       return
-   fi
+	if [[ -e $destf && ($(readlink $destf) == $sourcef) ]]; then
+		echo "$destf is already linked to $sourcef"
+		return
+	fi
 
-   if [[ -e $destf || -h $destf ]]; then
-       echo "backing up $destf"
-       mv $destf "$destf.myenvbak"
-   fi
+	if [[ -e $destf || -L $destf ]]; then
+		echo "backing up $destf"
+		mv $destf "$destf.myenvbak"
+	fi
 
-   echo "creating link $sourcef $destf"
-   ln -s $sourcef $destf
+	echo "creating link $sourcef $destf"
+	ln -s $sourcef $destf
 }
-
 
 chmod 600 ~/projects/my-enviroment/dot_ssh/config
 
@@ -43,15 +41,9 @@ makelink ~/projects/my-enviroment/vim/vim ~/.vim
 makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
 
 # NeoVIM
-mkdir -p ~/.config/nvim/
-makelink ~/projects/my-enviroment/vim/init.vim ~/.config/nvim/init.vim
-makelink ~/projects/my-enviroment/vim/ginit.vim ~/.config/nvim/ginit.vim
-makelink ~/.vim/snippets ~/.config/nvim/snippets
+makelink ~/projects/my-enviroment/nvim ~/.config/nvim
 
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-makelink  ~/projects/my-enviroment/mutt ~/.mutt
+makelink ~/projects/my-enviroment/mutt ~/.mutt
 makelink ~/projects/my-enviroment/muttrc ~/.muttrc
 
 # link bin files
@@ -73,7 +65,7 @@ fi
 
 # If we have a migration guide then force a pull.
 if [ -f $geometry_theme_dir/migration-guide.md ]; then
-	rm -rf  $geometry_theme_dir
+	rm -rf $geometry_theme_dir
 fi
 
 set -x
@@ -84,7 +76,7 @@ if [ -d $geometry_theme_dir ]; then
 else
 	cd $theme_dir
 	git clone https://github.com/fribmendes/geometry.git geometry
-	cd  geometry
+	cd geometry
 	git submodule update --init --recursive
 fi
 
@@ -92,12 +84,12 @@ if [ -d ~/.tmux/plugins/tpm ]; then
 	cd ~/.tmux/plugins/tpm
 	git pull origin master
 else
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
 # Do an initial remote update which populates .git/FETCH_HEAD and prevents errors
 pushd ~/projects/my-enviroment >/dev/null
-git remote  update
+git remote update
 popd >/dev/null
 
 ## Clone the vim-solarized8 repo and checkout neovim
@@ -106,16 +98,15 @@ if [ -d ~/.vim/pack/themes/start/solarized8 ]; then
 	git checkout neovim
 	git pull
 else
-    git clone https://github.com/lifepillar/vim-solarized8.git \
-        ~/.vim/pack/themes/start/solarized8
-    cd ~/.vim/pack/themes/start/solarized8
-    git checkout neovim
+	git clone https://github.com/lifepillar/vim-solarized8.git \
+		~/.vim/pack/themes/start/solarized8
+	cd ~/.vim/pack/themes/start/solarized8
+	git checkout neovim
 fi
 
 # Are we is WSL?
 
-if grep -Fqi Microsoft /proc/sys/kernel/osrelease
-then
+if grep -Fqi Microsoft /proc/sys/kernel/osrelease; then
 	echo "WSL Detected"
 	pushd /mnt/c
 	APPDATA=$(wslpath -au "$(cmd.exe /c 'echo %APPDATA%')")
