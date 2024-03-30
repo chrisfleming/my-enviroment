@@ -95,8 +95,8 @@ else
 fi
 
 # Powerline10k Theme
-pk10_dir = ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-if [ -d $p10k_dir ]; then
+p10k_dir=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+if [ -d ${p10k_dir} ]; then
 	echo "Upodating p10k repo"
 	cd $p10k_dir
 	git pull origin master
@@ -130,8 +130,7 @@ else
 fi
 
 # Are we is WSL?
-
-if grep -Fqi Microsoft /proc/sys/kernel/osrelease; then
+if [ -f /proc/sys/kernel/isrelease ] && grep -Fqi Microsoft /proc/sys/kernel/osrelease; then
 	echo "WSL Detected"
 	pushd /mnt/c
 	APPDATA=$(wslpath -au "$(cmd.exe /c 'echo %APPDATA%')")
