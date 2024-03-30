@@ -2,6 +2,9 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+MYENV_HOME=${SCRIPT_DIR}/../
+
 function makelink() {
 	sourcef=$1
 	destf=$2
@@ -28,7 +31,7 @@ makelink ~/projects/my-enviroment/tmux.conf ~/.tmux.conf
 makelink ~/projects/my-enviroment/bashrc ~/.bashrc
 makelink ~/projects/my-enviroment/bash_profile ~/.bash_profile
 makelink ~/projects/my-enviroment/dot_zshrc ~/.zshrc
-makelink ~/projects/my-enviroment/dot_p10k.zsh ~/.zshrc
+makelink ~/projects/my-enviroment/dot_p10k.zsh ~/.p10k.zsh
 makelink ~/projects/my-enviroment/dot_keybinding ~/.keybinding
 makelink ~/projects/my-enviroment/inputrc ~/.inputrc
 
@@ -95,7 +98,7 @@ else
 fi
 
 # Powerline10k Theme
-p10k_dir=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+p10k_dir=$MYENV_HOME/zsh/custom/themes/powerlevel10k
 if [ -d ${p10k_dir} ]; then
 	echo "Upodating p10k repo"
 	cd $p10k_dir

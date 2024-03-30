@@ -1,3 +1,18 @@
+# Generic local configs for work and stuff
+if [ -f $HOME/.rc_local ]; then
+    #echo "loading .rc_local"
+    source $HOME/.rc_local
+fi
+
+# Source aliases
+. $HOME/projects/my-enviroment/bin/aliases.sh
+. $HOME/projects/my-enviroment/bin/common.sh
+
+if find_alternatives ssh-agent > /dev/null; then 
+  zstyle :omz:plugins:ssh-agent identities `ls ~/.ssh/id* | grep -v -E '\.[a-z]{3}$'`
+  source .oh-my-zsh/plugins/ssh-agent/ssh-agent.plugin.zsh
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -12,16 +27,6 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory autocd extendedglob
 
-# Source aliases
-. $HOME/projects/my-enviroment/bin/aliases.sh
-. $HOME/projects/my-enviroment/bin/common.sh
-
-# Generic local configs for work and stuff
-if [ -f $HOME/.rc_local ]; then
-    #echo "loading .rc_local"
-    source $HOME/.rc_local
-fi
-
 # Setup Browser if not already set.
 if [ -z "$BROWSER" ]
 then
@@ -32,8 +37,6 @@ pathadd $HOME/bin
 pathadd "$HOME/.rvm/bin" append
 pathadd "$HOME/.local/bin" append
 pathadd "$HOME/go/bin/" append
-
-
 
 export SHELL=`which zsh`
 
@@ -104,7 +107,6 @@ GEOMETRY_STATUS_COLOR_HASH=true        # color status symbol based on hostname
 GEOMETRY_PROMPT=(geometry_hostname geometry_echo geometry_status geometry_path)
 GEOMETRY_RPROMPT=(geometry_exec_time geometry_jobs geometry_git geometry_virtualenv geometry_node)
 
-zstyle :omz:plugins:ssh-agent identities `ls ~/.ssh/id* | grep -v -E '\.[a-z]{3}$'`
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
