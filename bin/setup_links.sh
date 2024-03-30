@@ -83,7 +83,6 @@ if [ -f $geometry_theme_dir/migration-guide.md ]; then
 	rm -rf $geometry_theme_dir
 fi
 
-set -x
 if [ -d $geometry_theme_dir ]; then
 	cd $geometry_theme_dir
 	git pull origin
@@ -93,6 +92,17 @@ else
 	git clone https://github.com/fribmendes/geometry.git geometry
 	cd geometry
 	git submodule update --init --recursive
+fi
+
+# Powerline10k Theme
+pk10_dir = ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+if [ -d $p10k_dir ]; then
+	echo "Upodating p10k repo"
+	cd $p10k_dir
+	git pull origin master
+else
+	echo "Setting up p10k repo"
+	git clone https://github.com/romkatv/powerlevel10k.git ${p10k_dir}
 fi
 
 if [ -d ~/.tmux/plugins/tpm ]; then
