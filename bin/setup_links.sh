@@ -28,6 +28,7 @@ makelink ~/projects/my-enviroment/tmux.conf ~/.tmux.conf
 makelink ~/projects/my-enviroment/bashrc ~/.bashrc
 makelink ~/projects/my-enviroment/bash_profile ~/.bash_profile
 makelink ~/projects/my-enviroment/dot_zshrc ~/.zshrc
+makelink ~/projects/my-enviroment/dot_p10k.zsh ~/.zshrc
 makelink ~/projects/my-enviroment/dot_keybinding ~/.keybinding
 makelink ~/projects/my-enviroment/inputrc ~/.inputrc
 
@@ -41,8 +42,20 @@ makelink ~/projects/my-enviroment/vim/vim ~/.vim
 makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
 
 # NeoVIM
+# If nvim is a plain directory, then rename before we create a symlink to
+# our new version
+
+if test -d ~/.config/nvim; then
+	if test -L ~/.config/nvim; then
+		echo "nvim is already a symlink to a directory, not changing"
+	else
+		echo "nvim is just a plain directory, renaming"
+		mv ~/.config/nvim ~/.config/nvim-before-lazyvim-changes
+	fi
+fi
 makelink ~/projects/my-enviroment/nvim ~/.config/nvim
 
+# Email
 makelink ~/projects/my-enviroment/mutt ~/.mutt
 makelink ~/projects/my-enviroment/muttrc ~/.muttrc
 
@@ -54,7 +67,9 @@ makelink ~/projects/my-enviroment/bin/tmux-vim-select-pane ~/bin/tmux-vim-select
 makelink ~/projects/my-enviroment/bin/go ~/bin/go
 makelink ~/projects/my-enviroment/bin/tmux-nest ~/bin/tmux-nest
 makelink ~/projects/my-enviroment/bin/worldclock ~/bin/worldclock
+makelink ~/projects/my-enviroment/bin/mtu_size.sh ~/bin/mtu_size
 
+# Geometery theme
 theme_dir=$HOME/projects/my-enviroment/zsh/custom/
 geometry_theme_dir=$theme_dir/geometry
 
@@ -112,7 +127,6 @@ if grep -Fqi Microsoft /proc/sys/kernel/osrelease; then
 	APPDATA=$(wslpath -au "$(cmd.exe /c 'echo %APPDATA%')")
 	popd
 
-	set -x
 	roaming=$APPDATA
 	locald=$APPDATA/../Local
 	nvimd=$locald/nvim
@@ -121,6 +135,9 @@ if grep -Fqi Microsoft /proc/sys/kernel/osrelease; then
 	else
 		cp -R ~/projects/my-enviroment/wsl/wsltty $roaming
 	fi
+
+	# This section, is linking in for Windows version of running vim.
+	# Will need a revisit for Lazyvim changes
 	if [ -d $nvimd ]; then
 		echo "nvim dir already exists - not copying over"
 	else

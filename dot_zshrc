@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 HISTFILE=~/.histfilezsh
@@ -42,8 +49,9 @@ fi
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="geometry/geometry"
+#ZSH_THEME="geometry/geometry"
 #ZSH_THEME="pygmalion"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -93,11 +101,10 @@ GEOMETRY_STATUS_COLOR="default"        # prompt symbol color
 GEOMETRY_STATUS_COLOR_ROOT="red"       # root prompt symbol color
 GEOMETRY_STATUS_COLOR_HASH=true        # color status symbol based on hostname
 
-GEOMETRY_PROMPT=(geometry_echo geometry_status geometry_path)
+GEOMETRY_PROMPT=(geometry_hostname geometry_echo geometry_status geometry_path)
 GEOMETRY_RPROMPT=(geometry_exec_time geometry_jobs geometry_git geometry_virtualenv geometry_node)
 
 zstyle :omz:plugins:ssh-agent identities `ls ~/.ssh/id* | grep -v -E '\.[a-z]{3}$'`
-
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -163,6 +170,7 @@ export LANG=${LANG-en_GB.UTF-8}
 export EDITOR=$(find_alternatives "nvim" "vim" "vi")
 export VISUAL=$EDITOR
 alias vim="$EDITOR"
+alias v="$EDITOR"
 
 
 # nfty if possible
@@ -200,3 +208,6 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
