@@ -57,7 +57,7 @@ if test -d ~/.config/nvim; then
 	fi
 fi
 makelink ~/projects/my-enviroment/nvim ~/.config/nvim
-
+makelink ~/projects/my-enviroment/vim/vim/snippets/ ~/.snippets
 # Email
 makelink ~/projects/my-enviroment/mutt ~/.mutt
 makelink ~/projects/my-enviroment/muttrc ~/.muttrc
