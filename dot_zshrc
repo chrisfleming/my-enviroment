@@ -120,9 +120,6 @@ plugins=(history autojump vi-mode wd)
 
 if find_alternatives git > /dev/null; then plugins+=git; fi
 if find_alternatives brew > /dev/null; then plugins+=brew; fi
-if find_alternatives ssh-agent > /dev/null; then 
-    plugins+=ssh-agent
-fi
 if find_alternatives gpg-agent > /dev/null; then plugins+=gpg-agent; fi
 # TODO: osx
 #
