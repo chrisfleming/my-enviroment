@@ -6,6 +6,10 @@ return {
     keys = function()
       return {}
     end,
+    config = function()
+      require("luasnip.loaders.from_snipmate").lazy_load()
+      require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.snippets/" } })
+    end,
   },
   -- then: setup supertab in cmp
   {
@@ -23,6 +27,7 @@ return {
 
       local luasnip = require("luasnip")
       local cmp = require("cmp")
+      luasnip.filetype_extend("all", { "_" })
 
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
         ["<Tab>"] = cmp.mapping(function(fallback)

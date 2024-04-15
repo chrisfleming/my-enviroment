@@ -2,6 +2,9 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+MYENV_HOME=${SCRIPT_DIR}/../
+
 function makelink() {
 	sourcef=$1
 	destf=$2
@@ -28,7 +31,7 @@ makelink ~/projects/my-enviroment/tmux.conf ~/.tmux.conf
 makelink ~/projects/my-enviroment/bashrc ~/.bashrc
 makelink ~/projects/my-enviroment/bash_profile ~/.bash_profile
 makelink ~/projects/my-enviroment/dot_zshrc ~/.zshrc
-makelink ~/projects/my-enviroment/dot_p10k.zsh ~/.zshrc
+makelink ~/projects/my-enviroment/dot_p10k.zsh ~/.p10k.zsh
 makelink ~/projects/my-enviroment/dot_keybinding ~/.keybinding
 makelink ~/projects/my-enviroment/inputrc ~/.inputrc
 
@@ -54,7 +57,7 @@ if test -d ~/.config/nvim; then
 	fi
 fi
 makelink ~/projects/my-enviroment/nvim ~/.config/nvim
-
+makelink ~/projects/my-enviroment/vim/vim/snippets/ ~/.snippets
 # Email
 makelink ~/projects/my-enviroment/mutt ~/.mutt
 makelink ~/projects/my-enviroment/muttrc ~/.muttrc
@@ -68,6 +71,9 @@ makelink ~/projects/my-enviroment/bin/go ~/bin/go
 makelink ~/projects/my-enviroment/bin/tmux-nest ~/bin/tmux-nest
 makelink ~/projects/my-enviroment/bin/worldclock ~/bin/worldclock
 makelink ~/projects/my-enviroment/bin/mtu_size.sh ~/bin/mtu_size
+makelink ~/projects/my-enviroment/bin/wait-for-host.sh ~/bin/wait-for-host
+makelink ~/projects/my-enviroment/bin/stay-connected ~/bin/stay-connected
+makelink ~/projects/my-enviroment/bin/stay-connected-tmux ~/bin/stay-connected-tmux
 
 # Geometery theme
 theme_dir=$HOME/projects/my-enviroment/zsh/custom/
@@ -95,8 +101,8 @@ else
 fi
 
 # Powerline10k Theme
-pk10_dir = ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-if [ -d $p10k_dir ]; then
+p10k_dir=$MYENV_HOME/zsh/custom/themes/powerlevel10k
+if [ -d ${p10k_dir} ]; then
 	echo "Upodating p10k repo"
 	cd $p10k_dir
 	git pull origin master
@@ -130,8 +136,7 @@ else
 fi
 
 # Are we is WSL?
-
-if grep -Fqi Microsoft /proc/sys/kernel/osrelease; then
+if [ -f /proc/sys/kernel/isrelease ] && grep -Fqi Microsoft /proc/sys/kernel/osrelease; then
 	echo "WSL Detected"
 	pushd /mnt/c
 	APPDATA=$(wslpath -au "$(cmd.exe /c 'echo %APPDATA%')")
