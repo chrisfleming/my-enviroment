@@ -71,6 +71,9 @@ makelink ~/projects/my-enviroment/bin/go ~/bin/go
 makelink ~/projects/my-enviroment/bin/tmux-nest ~/bin/tmux-nest
 makelink ~/projects/my-enviroment/bin/worldclock ~/bin/worldclock
 makelink ~/projects/my-enviroment/bin/mtu_size.sh ~/bin/mtu_size
+makelink ~/projects/my-enviroment/bin/wait-for-host.sh ~/bin/wait-for-host
+makelink ~/projects/my-enviroment/bin/stay-connected ~/bin/stay-connected
+makelink ~/projects/my-enviroment/bin/stay-connected-tmux ~/bin/stay-connected-tmux
 
 # Geometery theme
 theme_dir=$HOME/projects/my-enviroment/zsh/custom/

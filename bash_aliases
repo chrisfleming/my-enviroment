@@ -33,28 +33,42 @@ function gmtime2epoch() {
        -e 'print "$time\n";' $1 $2
 }
 
+function waitForHost {
+	reachable=0
+	while [ $reachable -eq 0 ]; do
+		$PING -q -c 1 $1
+		if [ "$?" -eq 0 ]; then
+      echo "reachable"
+			reachable=1
+		fi
+	done
+	sleep 1
+}
+
+
+
 # Get my IP address
 function myip() {
 
-if [ -d /Applications ]; then
-  for i in `ifconfig -l`; do
-    y=`ifconfig $i | awk '/inet / {split ($2,A," "); print A[1]}'`
-    test "$y"  && echo $i: $y
-  done
-fi
+  if [ -d /Applications ]; then
+    for i in `ifconfig -l`; do
+      y=`ifconfig $i | awk '/inet / {split ($2,A," "); print A[1]}'`
+      test "$y"  && echo $i: $y
+    done
+  fi
 
-if [ -d /sys/class/net ]; then
-  il=`ls /sys/class/net`
-  for i in $il; do
-  	  echo $i
-  done
-fi
+  if [ -d /sys/class/net ]; then
+    il=`ls /sys/class/net`
+    for i in $il; do
+        echo $i
+    done
+  fi
 
 
 
-if [ -d /proc ]; then
-  ifconfig | awk '/inet addr/ {split ($2,A,":"); print A[2]}'
-fi
+  if [ -d /proc ]; then
+    ifconfig | awk '/inet addr/ {split ($2,A,":"); print A[2]}'
+  fi
 
 }
 
