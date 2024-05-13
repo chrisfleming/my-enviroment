@@ -542,7 +542,8 @@ fi
 SSH_ENV="$HOME/.ssh/environment"
 # Source SSH settings, if applicable
 
-if [ -f "${SSH_ENV}" ]; then
+if [[ -z "${SSH_AUTH_SOCK}" ]]; then
+  if [ -f "${SSH_ENV}" ]; then
      . "${SSH_ENV}" > /dev/null
      #ps ${SSH_AGENT_PID} doesn't work under cywgin
      ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
@@ -550,6 +551,7 @@ if [ -f "${SSH_ENV}" ]; then
      }
 else
      start_agent;
+fi
 fi
 
 # GPG_ENV="$HOME/.gpg-agent-info"
