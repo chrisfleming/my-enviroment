@@ -5,6 +5,9 @@ IFS=$'\n\t'
 tmux rename-window $3
 
 while true; do
-	ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "tmux new-session -s $3 || tmux attach-session -t $3"
+	{
+		set +e
+		ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "tmux new-session -s $3 || tmux attach-session -t $3"
+	}
 	wait-for-host $2
 done
