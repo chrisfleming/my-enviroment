@@ -107,6 +107,7 @@ GEOMETRY_STATUS_COLOR_HASH=true        # color status symbol based on hostname
 GEOMETRY_PROMPT=(geometry_hostname geometry_echo geometry_status geometry_path)
 GEOMETRY_RPROMPT=(geometry_exec_time geometry_jobs geometry_git geometry_virtualenv geometry_node)
 
+ZOXIDE_CMD_OVERRIDE="cd"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -116,7 +117,7 @@ fpath=($fpath $ZSH_CUSTOM/functions/)
 
 #plugins=(git brew autojump gpg-agent history osx pass python rails rvm sudo tmux tmuxinator wd)
 
-plugins=(history autojump vi-mode wd)
+plugins=(history zoxide vi-mode wd)
 
 if find_alternatives git > /dev/null; then plugins+=git; fi
 if find_alternatives brew > /dev/null; then plugins+=brew; fi
