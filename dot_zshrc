@@ -1,12 +1,22 @@
+# Source aliases
+. $HOME/projects/my-enviroment/bin/aliases.sh
+. $HOME/projects/my-enviroment/bin/common.sh
+
 # Generic local configs for work and stuff
 if [ -f $HOME/.rc_local ]; then
     #echo "loading .rc_local"
     source $HOME/.rc_local
 fi
 
-# Source aliases
-. $HOME/projects/my-enviroment/bin/aliases.sh
-. $HOME/projects/my-enviroment/bin/common.sh
+# ssh-agent requires SHORT_HOST so working this out here:
+
+# Figure out the SHORT hostname
+if [[ "$OSTYPE" = darwin* ]]; then
+  # macOS's $HOST changes with dhcp, etc. Use ComputerName if possible.
+  SHORT_HOST=$(scutil --get ComputerName 2>/dev/null) || SHORT_HOST="${HOST/.*/}"
+else
+  SHORT_HOST="${HOST/.*/}"
+fi
 
 if find_alternatives ssh-agent > /dev/null; then 
   zstyle :omz:plugins:ssh-agent identities `ls ~/.ssh/id* | grep -v -E '\.[a-z]{3}$'`
@@ -117,7 +127,7 @@ fpath=($fpath $ZSH_CUSTOM/functions/)
 
 #plugins=(git brew autojump gpg-agent history osx pass python rails rvm sudo tmux tmuxinator wd)
 
-plugins=(history zoxide vi-mode wd)
+plugins=(history zoxide vi-mode wd fzf)
 
 if find_alternatives git > /dev/null; then plugins+=git; fi
 if find_alternatives brew > /dev/null; then plugins+=brew; fi
