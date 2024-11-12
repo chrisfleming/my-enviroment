@@ -40,6 +40,8 @@ makelink ~/projects/my-enviroment/dot_gitconfig ~/.gitconfig
 
 makelink ~/projects/my-enviroment/dot_tmuxp ~/.tmuxp
 
+makelink ~/projects/my-enviroment/config/alacritty/ ~/.config/alacritty
+
 # VIM
 makelink ~/projects/my-enviroment/vim/vim ~/.vim
 makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
