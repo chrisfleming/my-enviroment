@@ -145,6 +145,8 @@ if find_alternatives tmuxinator > /dev/null; then plugins+=(tmuxinator); fi
 if [ -d $HOME/.asdf ]; then plugins+=(asdf); fi
 if find_alternatives todoist > /dev/null; then plugins+=(todoist); fi
 
+if find_alternatives timew > /dev/null; then plugins+=(timewarrior); fi
+
 source $ZSH/oh-my-zsh.sh
 
 if (find_alternatives cleartool > /dev/null); then

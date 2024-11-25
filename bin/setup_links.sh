@@ -115,11 +115,15 @@ else
 	git clone https://github.com/romkatv/powerlevel10k.git ${p10k_dir}
 fi
 
-if [ -d ~/.tmux/plugins/tpm ]; then
-	cd ~/.tmux/plugins/tpm
+# Time Warrior zsh plugins
+zsh_timew_dir=$MYENV_HOME/zsh/custom/plugins/timewarrior
+git clone https://github.com/svenXY/timewarrior ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/timewarrior
+
+if [ -d ${zsh_timew_dir} ]; then
+	cd $zsh_timew_dir
 	git pull origin master
 else
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	git clone https://github.com/svenXY/timewarrior ${zsh_timew_dir}
 fi
 
 # Do an initial remote update which populates .git/FETCH_HEAD and prevents errors
