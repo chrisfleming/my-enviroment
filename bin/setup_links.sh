@@ -6,21 +6,21 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 MYENV_HOME=${SCRIPT_DIR}/../
 
 function makelink() {
-  sourcef=$1
-  destf=$2
+	sourcef=$1
+	destf=$2
 
-  if [[ -e $destf && ($(readlink $destf) == $sourcef) ]]; then
-    echo "$destf is already linked to $sourcef"
-    return
-  fi
+	if [[ -e $destf && ($(readlink $destf) == $sourcef) ]]; then
+		echo "$destf is already linked to $sourcef"
+		return
+	fi
 
-  if [[ -e $destf || -L $destf ]]; then
-    echo "backing up $destf"
-    mv $destf "$destf.myenvbak"
-  fi
+	if [[ -e $destf || -L $destf ]]; then
+		echo "backing up $destf"
+		mv $destf "$destf.myenvbak"
+	fi
 
-  echo "creating link $sourcef $destf"
-  ln -s $sourcef $destf
+	echo "creating link $sourcef $destf"
+	ln -s $sourcef $destf
 }
 
 chmod 600 ~/projects/my-enviroment/dot_ssh/config
@@ -41,6 +41,7 @@ makelink ~/projects/my-enviroment/dot_gitconfig ~/.gitconfig
 makelink ~/projects/my-enviroment/dot_tmuxp ~/.tmuxp
 
 makelink ~/projects/my-enviroment/config/alacritty/ ~/.config/alacritty
+makelink ~/projects/my-enviroment/timew.yml ~/.config/tmuxp/timew.yml
 
 # VIM
 makelink ~/projects/my-enviroment/vim/vim ~/.vim
@@ -51,12 +52,12 @@ makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
 # our new version
 
 if test -d ~/.config/nvim; then
-  if test -L ~/.config/nvim; then
-    echo "nvim is already a symlink to a directory, not changing"
-  else
-    echo "nvim is just a plain directory, renaming"
-    mv ~/.config/nvim ~/.config/nvim-before-lazyvim-changes
-  fi
+	if test -L ~/.config/nvim; then
+		echo "nvim is already a symlink to a directory, not changing"
+	else
+		echo "nvim is just a plain directory, renaming"
+		mv ~/.config/nvim ~/.config/nvim-before-lazyvim-changes
+	fi
 fi
 makelink ~/projects/my-enviroment/nvim ~/.config/nvim
 makelink ~/projects/my-enviroment/vim/vim/snippets/ ~/.snippets
@@ -84,41 +85,41 @@ geometry_theme_dir=$theme_dir/geometry
 
 # Remove old custom/themes if it exists
 if [ -d $theme_dir/themes ]; then
-  rm -rf $theme_dir/themes
+	rm -rf $theme_dir/themes
 fi
 
 # If we have a migration guide then force a pull.
 if [ -f $geometry_theme_dir/migration-guide.md ]; then
-  rm -rf $geometry_theme_dir
+	rm -rf $geometry_theme_dir
 fi
 
 if [ -d $geometry_theme_dir ]; then
-  cd $geometry_theme_dir
-  git pull origin
-  git submodule update --init --recursive
+	cd $geometry_theme_dir
+	git pull origin
+	git submodule update --init --recursive
 else
-  cd $theme_dir
-  git clone https://github.com/fribmendes/geometry.git geometry
-  cd geometry
-  git submodule update --init --recursive
+	cd $theme_dir
+	git clone https://github.com/fribmendes/geometry.git geometry
+	cd geometry
+	git submodule update --init --recursive
 fi
 
 # Powerline10k Theme
 p10k_dir=$MYENV_HOME/zsh/custom/themes/powerlevel10k
 if [ -d ${p10k_dir} ]; then
-  echo "Upodating p10k repo"
-  cd $p10k_dir
-  git pull origin master
+	echo "Upodating p10k repo"
+	cd $p10k_dir
+	git pull origin master
 else
-  echo "Setting up p10k repo"
-  git clone https://github.com/romkatv/powerlevel10k.git ${p10k_dir}
+	echo "Setting up p10k repo"
+	git clone https://github.com/romkatv/powerlevel10k.git ${p10k_dir}
 fi
 
 if [ -d ~/.tmux/plugins/tpm ]; then
-  cd ~/.tmux/plugins/tpm
-  git pull origin master
+	cd ~/.tmux/plugins/tpm
+	git pull origin master
 else
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
 # Do an initial remote update which populates .git/FETCH_HEAD and prevents errors
@@ -128,42 +129,42 @@ popd >/dev/null
 
 ## Clone the vim-solarized8 repo and checkout neovim
 if [ -d ~/.vim/pack/themes/start/solarized8 ]; then
-  cd ~/.vim/pack/themes/start/solarized8
-  git checkout neovim
-  git pull
+	cd ~/.vim/pack/themes/start/solarized8
+	git checkout neovim
+	git pull
 else
-  git clone https://github.com/lifepillar/vim-solarized8.git \
-    ~/.vim/pack/themes/start/solarized8
-  cd ~/.vim/pack/themes/start/solarized8
-  git checkout neovim
+	git clone https://github.com/lifepillar/vim-solarized8.git \
+		~/.vim/pack/themes/start/solarized8
+	cd ~/.vim/pack/themes/start/solarized8
+	git checkout neovim
 fi
 
 # Are we is WSL?
 if [ -f /proc/sys/kernel/isrelease ] && grep -Fqi Microsoft /proc/sys/kernel/osrelease; then
-  echo "WSL Detected"
-  pushd /mnt/c
-  APPDATA=$(wslpath -au "$(cmd.exe /c 'echo %APPDATA%')")
-  popd
+	echo "WSL Detected"
+	pushd /mnt/c
+	APPDATA=$(wslpath -au "$(cmd.exe /c 'echo %APPDATA%')")
+	popd
 
-  roaming=$APPDATA
-  locald=$APPDATA/../Local
-  nvimd=$locald/nvim
-  if [ -d $roaming/wsltty ]; then
-    echo "wsltty dir already exists - not copying over"
-  else
-    cp -R ~/projects/my-enviroment/wsl/wsltty $roaming
-  fi
+	roaming=$APPDATA
+	locald=$APPDATA/../Local
+	nvimd=$locald/nvim
+	if [ -d $roaming/wsltty ]; then
+		echo "wsltty dir already exists - not copying over"
+	else
+		cp -R ~/projects/my-enviroment/wsl/wsltty $roaming
+	fi
 
-  # This section, is linking in for Windows version of running vim.
-  # Will need a revisit for Lazyvim changes
-  if [ -d $nvimd ]; then
-    echo "nvim dir already exists - not copying over"
-  else
-    mkdir -p $nvimd/autoload
-    cp ~/projects/my-enviroment/vim/init.vim $nvimd/init.vim
-    cp -R ~/projects/my-enviroment/vim/vim/snippets $nvimd/
-    curl -fLo $nvimd/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    sed -i "s@~/.vim/autoload/plug.vim@$nvimd/autoload/plug.vim@" $nvimd/init.vim
-  fi
+	# This section, is linking in for Windows version of running vim.
+	# Will need a revisit for Lazyvim changes
+	if [ -d $nvimd ]; then
+		echo "nvim dir already exists - not copying over"
+	else
+		mkdir -p $nvimd/autoload
+		cp ~/projects/my-enviroment/vim/init.vim $nvimd/init.vim
+		cp -R ~/projects/my-enviroment/vim/vim/snippets $nvimd/
+		curl -fLo $nvimd/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+		sed -i "s@~/.vim/autoload/plug.vim@$nvimd/autoload/plug.vim@" $nvimd/init.vim
+	fi
 
 fi
