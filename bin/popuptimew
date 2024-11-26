@@ -1,0 +1,5 @@
+if [ "$(tmux display-message -p -F "#{session_name}")" = "timew" ];then
+    tmux detach-client
+else
+   tmux popup -E "sh -c 'unset TMUX && tmuxp load timew --yes'" 
+fi

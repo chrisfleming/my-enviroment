@@ -1,0 +1,5 @@
+session_name: timew
+windows:
+  - window_name: popup
+    panes:
+      - stay-connected-bs-tmux cfleming timew timew

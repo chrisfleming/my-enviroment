@@ -47,6 +47,8 @@ mutt/scripts
 # Instaled via git 
 zsh/custom/geometry
 zsh/custom/themes/powerlevel10k
+zsh/themes/powerlevel10k
+zsh/custom/plugins/timewarrior/
 
 # Ignore modules - should bget installed elsewhere
 vim/vim/autoload/plug.vim
