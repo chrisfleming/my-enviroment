@@ -1,0 +1,19 @@
+working_directory = "/home/cfleming"
+
+[env]
+TERM = "xterm-256color"
+
+[shell]
+program = "/home/cfleming/bin/tmuxp"
+args = ["load", "local-work"]
+
+[window]
+padding.x = 16
+padding.y = 14
+decorations = "None"
+opacity = 0.98
+
+[keyboard]
+bindings = [
+{ key = "F11", action = "ToggleFullscreen" }
+]
