@@ -117,12 +117,13 @@ fi
 
 # Time Warrior zsh plugins
 zsh_timew_dir=$MYENV_HOME/zsh/custom/plugins/timewarrior
-git clone https://github.com/svenXY/timewarrior ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/timewarrior
 
 if [ -d ${zsh_timew_dir} ]; then
+	echo "Updating zsh timewarrior plugin"
 	cd $zsh_timew_dir
 	git pull origin master
 else
+	echo "Installing zsh timewarrior plugin"
 	git clone https://github.com/svenXY/timewarrior ${zsh_timew_dir}
 fi
 
