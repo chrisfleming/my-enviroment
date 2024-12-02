@@ -53,3 +53,6 @@ zsh/custom/plugins/timewarrior/
 # Ignore modules - should bget installed elsewhere
 vim/vim/autoload/plug.vim
 vim/vim/pack
+
+# We ignore the alacritty os specific Files
+config/alacritty/os.toml

@@ -23,6 +23,35 @@ function makelink() {
 	ln -s $sourcef $destf
 }
 
+# Get OS:
+#
+os=""
+case "$(uname -sr)" in
+
+Darwin*)
+	os='Mac'
+	;;
+
+Linux*Microsoft*)
+	os='WSL' # Windows Subsystem for Linux
+	;;
+
+Linux*)
+	os='Linux'
+	;;
+
+CYGWIN* | MINGW* | MINGW32* | MSYS*)
+	os='Windows'
+	;;
+
+# Add here more strings to compare
+# See correspondence table at the bottom of this answer
+
+*)
+	echo 'Other OS'
+	;;
+esac
+
 chmod 600 ~/projects/my-enviroment/dot_ssh/config
 
 makelink ~/projects/my-enviroment/bash_aliases ~/.bash_aliases
@@ -40,8 +69,12 @@ makelink ~/projects/my-enviroment/dot_gitconfig ~/.gitconfig
 
 makelink ~/projects/my-enviroment/dot_tmuxp ~/.tmuxp
 
-makelink ~/projects/my-enviroment/config/alacritty/ ~/.config/alacritty
 makelink ~/projects/my-enviroment/timew.yml ~/.config/tmuxp/timew.yml
+
+makelink ~/projects/my-enviroment/config/alacritty/ ~/.config/alacritty
+if [[ $os = "Linux" ]]; then
+	makelink ~/.config/alacritty/linux.toml ~/.config/alacritty/os.toml
+fi
 
 # VIM
 makelink ~/projects/my-enviroment/vim/vim ~/.vim
