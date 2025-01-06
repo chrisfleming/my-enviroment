@@ -71,6 +71,7 @@ makelink ~/projects/my-enviroment/dot_tmuxp ~/.tmuxp
 
 makelink ~/projects/my-enviroment/timew.yml ~/.config/tmuxp/timew.yml
 
+makelink ~/projects/my-enviroment/config/ghostty/ ~/.config/ghostty
 makelink ~/projects/my-enviroment/config/alacritty/ ~/.config/alacritty
 if [[ $os = "Linux" ]]; then
 	makelink ~/.config/alacritty/linux.toml ~/.config/alacritty/os.toml
