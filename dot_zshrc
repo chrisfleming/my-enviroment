@@ -1,3 +1,11 @@
+# Fig pre block. Keep at the top of this file.
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+HISTFILE=~/.histfilezsh
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory autocd extendedglob
+
 # Source aliases
 . $HOME/projects/my-enviroment/bin/aliases.sh
 . $HOME/projects/my-enviroment/bin/common.sh
@@ -146,7 +154,6 @@ if find_alternatives tmuxinator > /dev/null; then plugins+=(tmuxinator); fi
 
 if [ -d $HOME/.asdf ]; then plugins+=(asdf); fi
 if find_alternatives todoist > /dev/null; then plugins+=(todoist); fi
-
 if find_alternatives timew > /dev/null; then plugins+=(timewarrior); fi
 
 if [ -d $HOME/.nvm ]; then plugins+=(nvm); fi
@@ -203,6 +210,10 @@ fi
 
 source $HOME/.keybinding
 
+# TODOIST 
+
+
+
 # Make sure completions are all loaded needed for autojump completion to work
 autoload -U compinit && compinit > /dev/null 2<&1
 
@@ -229,3 +240,6 @@ unset __conda_setup
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
