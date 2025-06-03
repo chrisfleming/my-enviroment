@@ -69,6 +69,7 @@ makelink ~/projects/my-enviroment/dot_gitconfig ~/.gitconfig
 
 makelink ~/projects/my-enviroment/dot_tmuxp ~/.tmuxp
 
+mkdir -p ~/.config/tmuxp/timew.yml
 makelink ~/projects/my-enviroment/timew.yml ~/.config/tmuxp/timew.yml
 
 makelink ~/projects/my-enviroment/config/ghostty/ ~/.config/ghostty
@@ -167,16 +168,16 @@ git remote update
 popd >/dev/null
 
 ## Clone the vim-solarized8 repo and checkout neovim
-if [ -d ~/.vim/pack/themes/start/solarized8 ]; then
-	cd ~/.vim/pack/themes/start/solarized8
-	git checkout neovim
-	git pull
-else
-	git clone https://github.com/lifepillar/vim-solarized8.git \
-		~/.vim/pack/themes/start/solarized8
-	cd ~/.vim/pack/themes/start/solarized8
-	git checkout neovim
-fi
+#if [ -d ~/.vim/pack/themes/start/solarized8 ]; then
+#	cd ~/.vim/pack/themes/start/solarized8
+#	git checkout neovim
+#	git pull
+#else
+#	git clone https://github.com/lifepillar/vim-solarized8.git \
+#		~/.vim/pack/themes/start/solarized8
+#	cd ~/.vim/pack/themes/start/solarized8
+#	git checkout neovim
+#fi
 
 # Are we is WSL?
 if [ -f /proc/sys/kernel/isrelease ] && grep -Fqi Microsoft /proc/sys/kernel/osrelease; then
