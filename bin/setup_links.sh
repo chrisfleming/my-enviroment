@@ -69,7 +69,7 @@ makelink ~/projects/my-enviroment/dot_gitconfig ~/.gitconfig
 
 makelink ~/projects/my-enviroment/dot_tmuxp ~/.tmuxp
 
-mkdir -p ~/.config/tmuxp/timew.yml
+mkdir -p ~/.config/tmuxp/
 makelink ~/projects/my-enviroment/timew.yml ~/.config/tmuxp/timew.yml
 
 makelink ~/projects/my-enviroment/config/ghostty/ ~/.config/ghostty
