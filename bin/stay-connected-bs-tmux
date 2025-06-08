@@ -1,0 +1,12 @@
+#!/bin/bash
+#set -euo pipefail
+IFS=$'\n\t'
+
+#tmux rename-window $3
+
+while true; do
+	{
+		ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "source ~/bin/.find_zsh_path && zsh ~/projects/my-enviroment/bin/setup-ssh-agent.zsh && ~/bin/tmuxp load $3 -y"
+	}
+	wait-for-host $2
+done

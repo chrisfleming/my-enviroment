@@ -1,20 +1,34 @@
 "neovim config
 filetype off                   " required!
-let g:python3_host_prog = glob('~/.venv/neovim3/bin/python3')
-"let g:python_host_prog = glob('~/.virtualenvs/neovim2/bin/python')
-"let g:python2_host_prog = "$HOME/.pyenv/versions/neovim2/bin/python"
 
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+if has('win32')
+  let g:python3_host_prog = glob('~\\AppData\\Local\\Programs\\Python\\Python310\\python.exe')
+else
+  let g:python3_host_prog = glob('~/.venv/neovim3/bin/python3')
+  "let g:python_host_prog = glob('~/.virtualenvs/neovim2/bin/python')
+  "let g:python2_host_prog = "$HOME/.pyenv/versions/neovim2/bin/python"
+
+  "if empty(glob('/mnt/c/Users/Chris_Fleming/AppData/Roaming/../Local/nvim/autoload/plug.vim'))
+  "  silent !curl -fLo /mnt/c/Users/Chris_Fleming/AppData/Roaming/../Local/nvim/autoload/plug.vim --create-dirs
+  "    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  "  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  "endif
+endif
+
+" From https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+
 
 call plug#begin('~/.vim-plugged')
 Plug 'dhruvasagar/vim-table-mode'
 
 if !exists('g:vscode')
 	Plug 'altercation/vim-colors-solarized'
+	Plug 'lifepillar/vim-solarized8', { 'branch': 'neovim' }
 	"Plug 'ervandew/supertab'
 
 	" VIM SNippits

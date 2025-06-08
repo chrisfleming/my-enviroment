@@ -1,0 +1,9 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+while true; do
+	wait-for-host $1
+	ssh $1
+	sleep 1
+done

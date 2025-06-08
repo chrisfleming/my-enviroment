@@ -1,14 +1,6 @@
-# clearcase_prompy.zsh
+# clearcase_prompt.zsh
 
-geometry_prompt_clearcase_setup() {}
-
-geometry_prompt_clearcase_check() {
+clearcase_prompt() {
 	[ -f $CLEARCASE_ROOT ] || return 0
-	return 1
-}
-
-geometry_prompt_clearcase_render() {
 	echo $(basename $CLEARCASE_ROOT)
 }
-
-geometry_plugin_register clearcase
