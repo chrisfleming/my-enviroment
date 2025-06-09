@@ -72,3 +72,7 @@ Host vlbld29
     HostName 10.20.20.29
     User cfleming
 
+Host alderbank
+    HostName flat.chrisfleming.org
+    Port 2222
+    User chrisfl
