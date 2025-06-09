@@ -156,7 +156,7 @@ if [ -d $HOME/.asdf ]; then plugins+=(asdf); fi
 if find_alternatives todoist > /dev/null; then plugins+=(todoist); fi
 if find_alternatives timew > /dev/null; then plugins+=(timewarrior); fi
 
-if [ -d $HOME/.nvm ]; then plugins+=(nvm); fi
+#if [ -d $HOME/.nvm ]; then plugins+=(nvm); fi
 
 source $ZSH/oh-my-zsh.sh
 
