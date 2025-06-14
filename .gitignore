@@ -56,3 +56,5 @@ vim/vim/pack
 
 # We ignore the alacritty os specific Files
 config/alacritty/os.toml
+
+nvim/lazy-lock.json
