@@ -6,7 +6,8 @@ IFS=$'\n\t'
 
 while true; do
   {
-    ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "source ~/bin/.find_zsh_path && zsh ~/projects/my-enviroment/bin/setup-ssh-agent.zsh && ~/bin/tmuxp load $3 -y"
+    #ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "source ~/bin/.find_zsh_path && zsh ~/projects/my-enviroment/bin/setup-ssh-agent.zsh && ~/bin/tmuxp load $3 -y"
+    ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "source ~/bin/.find_zsh_path && /users/cfleming/.local/bin/keychain id_rsa id_ed25519 id_sftp && exec ~/bin/tmuxp load $3 -y"
     if [ $? -eq 0 ]; then
       echo "Succesfull exit "
       exit 0
