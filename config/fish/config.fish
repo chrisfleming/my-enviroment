@@ -3,3 +3,6 @@ if status is-interactive
   bind delete backward-delete-char
   keychain --eval id_rsa id_ed25519 id_sftp | source
 end
+
+
+starship init fish | source

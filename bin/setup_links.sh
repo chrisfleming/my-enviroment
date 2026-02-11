@@ -101,8 +101,17 @@ makelink ~/projects/my-enviroment/mutt ~/.mutt
 makelink ~/projects/my-enviroment/muttrc ~/.muttrc
 
 # Fish
+mkdir -p ~/.config/fish
 makelink ~/projects/my-enviroment/config/fish/config.fish ~/.config/fish/config.fish
 makelink ~/projects/my-enviroment/config/fish/fish_plugins ~/.config/fish/fish_plugins
+
+mkdir -p ~/.config/fish/functions
+for i in $(ls ~/projecys/my-enviroment/config/fish/functions); do
+  makelink ~/projects/my-enviroment/config/fish/functions/$i ~/.config/fish/functions/$i
+dot_keybinding
+
+# Starship Prompt
+makelink ~/projects/my-enviroment/config/starship.toml ~/.config/starship.toml
 
 # link bin files
 mkdir -p ~/bin
