@@ -108,7 +108,7 @@ makelink ~/projects/my-enviroment/config/fish/fish_plugins ~/.config/fish/fish_p
 mkdir -p ~/.config/fish/functions
 for i in $(ls ~/projecys/my-enviroment/config/fish/functions); do
   makelink ~/projects/my-enviroment/config/fish/functions/$i ~/.config/fish/functions/$i
-dot_keybinding
+done
 
 # Starship Prompt
 makelink ~/projects/my-enviroment/config/starship.toml ~/.config/starship.toml
@@ -219,5 +219,4 @@ if [ -f /proc/sys/kernel/isrelease ] && grep -Fqi Microsoft /proc/sys/kernel/osr
     curl -fLo $nvimd/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     sed -i "s@~/.vim/autoload/plug.vim@$nvimd/autoload/plug.vim@" $nvimd/init.vim
   fi
-
 fi
