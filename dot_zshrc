@@ -241,7 +241,7 @@ unset __conda_setup
 
 export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1
 
-. ~/.cargo/bin/env
+[[ -f "$HOME/.cargo/env" ]] && builtin source "$HOME/.cargo/env"
 
 eval "$(starship init zsh)"
 
