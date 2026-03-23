@@ -26,11 +26,6 @@ else
   SHORT_HOST="${HOST/.*/}"
 fi
 
-if find_alternatives ssh-agent > /dev/null; then 
-  zstyle :omz:plugins:ssh-agent identities `ls ~/.ssh/id* | grep -v -E '\.[a-z]{3}$'`
-  source ~/.oh-my-zsh/plugins/ssh-agent/ssh-agent.plugin.zsh
-fi
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -138,6 +133,14 @@ fpath=($fpath $ZSH_CUSTOM/functions/)
 #plugins=(git brew autojump gpg-agent history osx pass python rails rvm sudo tmux tmuxinator wd)
 
 plugins=(history zoxide vi-mode wd fzf asdf)
+
+if find_alternatives keychain > /dev/null; then
+  zstyle :omz:plugins:keychain identities `ls ~/.ssh/id* | grep -v -E '\.[a-z]{3}$'`
+  plugins+=keychain
+elif find_alternatives ssh-agent > /dev/null; then 
+  zstyle :omz:plugins:ssh-agent identities `ls ~/.ssh/id* | grep -v -E '\.[a-z]{3}$'`
+  plugins+=ssh-agent
+fi
 
 if find_alternatives git > /dev/null; then plugins+=git; fi
 if find_alternatives brew > /dev/null; then plugins+=brew; fi
