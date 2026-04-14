@@ -40,8 +40,8 @@ if [ $last_good -gt 0 ]; then
   mtu=$((last_good + 28))
   echo ""
   echo "Maximum MTU: $mtu bytes"
-  echo "Maximum MSS (no options): $((mtu - 40)) bytes"
-  echo "Maximum MSS (with timestamps): $((mtu - 52)) bytes"
+  #echo "Maximum MSS (no options): $((mtu - 40)) bytes"
+  #echo "Maximum MSS (with timestamps): $((mtu - 52)) bytes"
   exit 0
 else
   echo ""
