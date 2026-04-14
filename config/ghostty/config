@@ -8,3 +8,5 @@ clipboard-read = allow
 clipboard-write = allow
 
 app-notifications = no-clipboard-copy
+
+macos-titlebar-style = tabs
