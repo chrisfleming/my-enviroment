@@ -17,6 +17,10 @@ Include config.d/*
 # list of available options, their meanings and defaults, please see the
 # ssh_config(5) man page.
 
+ Host albld30.corp.oneilluminate.com
+   HostName albld30.corp.oneilluminate.com
+   User cfleming
+
 Host *
    ForwardAgent yes
 #   ForwardX11 no
