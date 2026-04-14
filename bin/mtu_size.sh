@@ -6,6 +6,9 @@ myhost=$1
 # Overhead is 28 - so lets subtact that before we start
 size=$((size-28))
 
+echo $size
+echo $myhost
+
 limit=0
 
 while true; do
