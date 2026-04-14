@@ -58,3 +58,4 @@ vim/vim/pack
 config/alacritty/os.toml
 
 nvim/lazy-lock.json
+nvim/lazyvim.json

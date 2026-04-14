@@ -116,6 +116,7 @@ makelink ~/projects/my-enviroment/config/starship.toml ~/.config/starship.toml
 # link bin files
 mkdir -p ~/bin
 makelink ~/projects/my-enviroment/bin/myip ~/bin/myip
+makelink ~/projects/my-enviroment/bin/dms_to_decimal ~/bin/dms_to_decimal
 makelink ~/projects/my-enviroment/bin/tmux-vim-select-pane ~/bin/tmux-vim-select-pane
 
 makelink ~/projects/my-enviroment/bin/go ~/bin/go
