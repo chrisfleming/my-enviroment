@@ -2,12 +2,25 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-tmux rename-window $3
+if [ -n "$1" ] && [ -n "${3:-}" ]; then
+  tmux rename-window $3
+fi
 
 while true; do
   {
-    set +e
-    ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "tmux new-session -s $3 || tmux attach-session -t $3"
+    if [ -n "$1" ] && [ -n "${3:-}" ]; then
+      ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "source ~/bin/.find_zsh_path && tmux new-session -s $3 || tmux attach-session -t $3"
+    else
+      ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "source ~/bin/.find_zsh_path && tmux new-session || tmux attach-session"
+    fi
+
+    if [ $? -eq 0 ]; then
+      echo "Succesfull exit "
+      exit 0
+    else
+      echo "SSH FAILED"
+    fi
+
   }
   wait-for-host $2
 done
