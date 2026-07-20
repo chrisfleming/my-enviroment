@@ -4,16 +4,88 @@ IFS=$'\n\t'
 
 #tmux rename-window $3
 
+backoff=1
+max_backoff=60
+min_connected_secs=15
+
+ping_monitor_dir="$HOME/projects/ping-monitor"
+ping_monitor_py="$ping_monitor_dir/.venv/bin/python"
+ping_monitor_url="http://localhost:8765"
+
+# $3 is "[type:]name". No type prefix defaults to "tmux" (tmuxp session, unchanged behavior).
+# e.g. "timew" -> tmux session "timew"; "shpool:timew" -> shpool session "timew".
+TARGET=$3
+TYPE="tmux"
+NAME="$TARGET"
+if [[ "$TARGET" == *:* ]]; then
+  TYPE="${TARGET%%:*}"
+  NAME="${TARGET#*:}"
+fi
+
+# Wait for $1 to come back up. If ping-monitor is available, make sure its
+# server is running, register the host with it, and show the live dashboard
+# instead of blocking silently. Falls back to the plain ping loop otherwise.
+wait_for_target() {
+  local host=$1
+
+  if [ ! -x "$ping_monitor_py" ] || [ ! -f "$ping_monitor_dir/wait_for_host.py" ]; then
+    wait-for-host "$host"
+    return
+  fi
+
+  if ! curl -sf --max-time 1 "$ping_monitor_url/health" >/dev/null 2>&1; then
+    echo "ping_server not running, starting it..."
+    mkdir -p "$HOME/.cache/ping-monitor"
+    nohup "$ping_monitor_py" "$ping_monitor_dir/ping_server.py" "$host" \
+      >>"$HOME/.cache/ping-monitor/server.log" 2>&1 &
+    disown
+
+    for _ in $(seq 1 20); do
+      curl -sf --max-time 1 "$ping_monitor_url/health" >/dev/null 2>&1 && break
+      sleep 0.25
+    done
+  fi
+
+  "$ping_monitor_py" "$ping_monitor_dir/wait_for_host.py" --server "$ping_monitor_url" "$host"
+}
+
 while true; do
   {
     #ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "source ~/bin/.find_zsh_path && zsh ~/projects/my-enviroment/bin/setup-ssh-agent.zsh && ~/bin/tmuxp load $3 -y"
-    ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "source ~/bin/.find_zsh_path && /users/cfleming/.local/bin/keychain id_rsa id_ed25519 id_sftp && tmux new-session -s $3 || tmux attach-session -t $3"
-    if [ $? -eq 0 ]; then
+    start=$SECONDS
+
+    case "$TYPE" in
+    tmux)
+      #ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "source ~/bin/.find_zsh_path && zsh ~/projects/my-enviroment/bin/setup-ssh-agent.zsh && ~/bin/tmuxp load $NAME -y"
+      ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "source ~/bin/.find_zsh_path && /users/cfleming/.local/bin/keychain id_rsa id_ed25519 id_sftp && exec ~/bin/tmuxp load $NAME -y"
+      ;;
+    shpool)
+      ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 -o RemoteCommand="/users/cfleming/.cargo/bin/shpool attach -f $NAME" -t $1@$2
+      ;;
+    *)
+      echo "Unknown connection type: $TYPE"
+      exit 1
+      ;;
+    esac
+
+    status=$?
+    elapsed=$((SECONDS - start))
+    if [ $status -eq 0 ]; then
       echo "Succesfull exit "
       exit 0
+    elif [ $elapsed -ge $min_connected_secs ]; then
+      # Connection held for a while before dropping, so this wasn't an
+      # immediate/persistent failure - reset the backoff.
+      echo "SSH FAILED after ${elapsed}s, reconnecting"
+      backoff=1
     else
-      echo "SSH FAILED"
+      echo "SSH FAILED, backing off ${backoff}s before retrying"
+      sleep $backoff
+      backoff=$((backoff * 2))
+      if [ $backoff -gt $max_backoff ]; then
+        backoff=$max_backoff
+      fi
     fi
   }
-  wait-for-host $2
+  wait_for_target $2
 done
