@@ -100,6 +100,9 @@ alias calc=$(find_alternatives qalc bc gcalccmd)
 # Various things it's useful just to run from docker...
 alias get-iplayer='docker run -v $(pwd)/data:/data barwell/get-iplayer'
 
+# Drop asdf from PATH so the system python is used (must be sourced)
+alias noasdf="source $HOME/projects/my-enviroment/bin/remove-asdf-path.sh"
+
 
 # Screen can loose connections to the root ssh-agent. Either we could create and agent for
 # every screen or just try and dink it out again.
