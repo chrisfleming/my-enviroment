@@ -49,6 +49,13 @@ wait_for_target() {
   "$ping_monitor_py" "$ping_monitor_dir/wait_for_host.py" --server "$ping_monitor_url" "$host"
 }
 
+# If monitor is running then add the host now.
+if curl -sf --max-time 1 "$ping_monitor_url/health" >/dev/null 2>&1; then
+  curl -s -X POST "http://localhost:8765/hosts" \
+    -H "Content-Type: application/json" \
+    -d "{\"host\": \"$2\"}"
+fi
+
 while true; do
   {
     #ssh -o ConnectTimeout=10 -o ServerAliveInterval=2 -o ServerAliveCountMax=4 $1@$2 -t "source ~/bin/.find_zsh_path && zsh ~/projects/my-enviroment/bin/setup-ssh-agent.zsh && ~/bin/tmuxp load $3 -y"
