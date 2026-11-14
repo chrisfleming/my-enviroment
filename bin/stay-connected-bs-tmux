@@ -32,9 +32,19 @@ while true; do
     if [ $? -eq 0 ]; then
       echo "Succesfull exit "
       exit 0
+    elif [ $elapsed -ge $min_connected_secs ]; then
+      # Connection held for a while before dropping, so this wasn't an
+      # immediate/persistent failure - reset the backoff.
+      echo "SSH FAILED after ${elapsed}s, reconnecting"
+      backoff=1
     else
-      echo "SSH FAILED"
+      echo "SSH FAILED, backing off ${backoff}s before retrying"
+      sleep $backoff
+      backoff=$((backoff * 2))
+      if [ $backoff -gt $max_backoff ]; then
+        backoff=$max_backoff
+      fi
     fi
   }
-  wait-for-host $2
+  wait_for_target $2
 done

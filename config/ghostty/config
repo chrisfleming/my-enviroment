@@ -10,3 +10,8 @@ clipboard-write = allow
 app-notifications = no-clipboard-copy
 
 macos-titlebar-style = tabs
+window-decoration = server
+background-opacity = 0.85
+#window-blur = true
+#clipboard-paste-bracketed = true
+#rendering-backend = metal

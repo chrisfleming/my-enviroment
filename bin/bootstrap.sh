@@ -18,18 +18,31 @@ else
     MYGITHUB=https://github.com/chrisfleming
 fi
 
-# Currently assume apt based systems
-if [[ ! `dpkg-query --status git-core` ]]; then
-    echo "Fetching git"
-    if [ `id -u` = 0 ] ; then
-        apt-get update
-        apt-get install -y git-core
-    else
-        sudo apt-get update
-        sudo apt-get install -y git-core
-    fi
-else
+# Make sure we have git. Needs root (or sudo) only if git is missing.
+if command -v git >/dev/null 2>&1; then
     echo "Already have git, good"
+else
+    SUDO=""
+    if [ "$(id -u)" != 0 ]; then
+        if command -v sudo >/dev/null 2>&1; then
+            SUDO=sudo
+        else
+            echo "git is missing and there is no root/sudo - install git and re-run" >&2
+            exit 1
+        fi
+    fi
+    echo "Fetching git"
+    if command -v apt-get >/dev/null 2>&1; then
+        $SUDO apt-get update
+        $SUDO apt-get install -y git
+    elif command -v dnf >/dev/null 2>&1; then
+        $SUDO dnf install -y git
+    elif command -v pacman >/dev/null 2>&1; then
+        $SUDO pacman -S --noconfirm --needed git
+    else
+        echo "Don't know how to install git on this system" >&2
+        exit 1
+    fi
 fi
 
 # keep my stff here

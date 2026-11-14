@@ -3,7 +3,17 @@ set -euo pipefail
 IFS=$'\n\t'
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-MYENV_HOME=${SCRIPT_DIR}/../
+MYENV_HOME=$(cd -- "${SCRIPT_DIR}/.." &>/dev/null && pwd)
+
+# Many dotfiles still refer to $HOME/projects/my-enviroment. If this checkout
+# lives somewhere else (e.g. ~/Projects on a case-sensitive filesystem), provide
+# that path as a symlink so those references keep working.
+CANONICAL=$HOME/projects/my-enviroment
+if [[ "$MYENV_HOME" != "$CANONICAL" && ! -e "$CANONICAL" ]]; then
+  echo "linking $CANONICAL -> $MYENV_HOME"
+  mkdir -p "$HOME/projects"
+  ln -s "$MYENV_HOME" "$CANONICAL"
+fi
 
 function makelink() {
   sourcef=$1
@@ -44,92 +54,148 @@ CYGWIN* | MINGW* | MINGW32* | MSYS*)
   os='Windows'
   ;;
 
-# Add here more strings to compare
-# See correspondence table at the bottom of this answer
-
 *)
   echo 'Other OS'
   ;;
 esac
 
-chmod 600 ~/projects/my-enviroment/dot_ssh/config
+# Omarchy (Arch based) owns the bash, terminal, nvim, tmux and starship
+# configuration and themes them dynamically. On Omarchy we layer on top of
+# those rather than replacing them.
+omarchy=false
+if [[ -r /etc/os-release ]] && grep -qx 'ID=omarchy' /etc/os-release; then
+  omarchy=true
+  echo "Omarchy detected: keeping Omarchy managed bash/terminal/nvim/tmux/starship config"
+fi
 
-makelink ~/projects/my-enviroment/bash_aliases ~/.bash_aliases
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+chmod 600 $MYENV_HOME/dot_ssh/config
 
-makelink ~/projects/my-enviroment/tmux.conf ~/.tmux.conf
-makelink ~/projects/my-enviroment/bashrc ~/.bashrc
-makelink ~/projects/my-enviroment/bash_profile ~/.bash_profile
-makelink ~/projects/my-enviroment/dot_zshrc ~/.zshrc
-makelink ~/projects/my-enviroment/dot_p10k.zsh ~/.p10k.zsh
-makelink ~/projects/my-enviroment/dot_keybinding ~/.keybinding
-makelink ~/projects/my-enviroment/inputrc ~/.inputrc
+makelink $MYENV_HOME/bash_aliases ~/.bash_aliases
 
-makelink ~/projects/my-enviroment/dot_ssh/config ~/.ssh/config
-makelink ~/projects/my-enviroment/dot_gitconfig ~/.gitconfig
+makelink $MYENV_HOME/dot_zshrc ~/.zshrc
+makelink $MYENV_HOME/dot_p10k.zsh ~/.p10k.zsh
+makelink $MYENV_HOME/dot_keybinding ~/.keybinding
+makelink $MYENV_HOME/inputrc ~/.inputrc
 
-makelink ~/projects/my-enviroment/dot_tmuxp ~/.tmuxp
+if $omarchy; then
+  # ~/.bashrc belongs to Omarchy (it sets up PATH, mise and its aliases).
+  # Link ours alongside and source it from the end of Omarchy's file.
+  makelink $MYENV_HOME/bashrc ~/.bashrc_myenv
+  if ! grep -q 'bashrc_myenv' ~/.bashrc; then
+    echo "adding my-enviroment hook to ~/.bashrc"
+    cat >>~/.bashrc <<'HOOK'
+
+# my-enviroment: layer on top of Omarchy, keeping Omarchy's prompt. ls stays
+# GNU ls (not Omarchy's eza alias) so flags like ls -lrt work.
+if [[ -r ~/.bashrc_myenv ]]; then
+  _omarchy_ps1=$PS1 _omarchy_pc=$PROMPT_COMMAND
+  source ~/.bashrc_myenv
+  PS1=$_omarchy_ps1
+  PROMPT_COMMAND="${_omarchy_pc:+$_omarchy_pc; }_bash_history_sync"
+  unset _omarchy_ps1 _omarchy_pc
+fi
+HOOK
+  fi
+  # Migrate hooks written by earlier versions, which restored Omarchy's ls alias
+  if grep -q '_omarchy_ls' ~/.bashrc; then
+    echo "updating my-enviroment hook in ~/.bashrc (ls is GNU ls again)"
+    sed -i \
+      -e 's/ _omarchy_ls=\$(alias ls 2>\/dev\/null)//' \
+      -e '/_omarchy_ls" \]\] && eval/d' \
+      -e '/\[\[ -n \$_omarchy_ls \]\]/d' \
+      -e 's/unset _omarchy_ps1 _omarchy_pc _omarchy_ls/unset _omarchy_ps1 _omarchy_pc/' \
+      -e "s/keeping Omarchy's prompt and ls/keeping Omarchy's prompt, ls stays GNU ls/" \
+      ~/.bashrc
+  fi
+else
+  makelink $MYENV_HOME/tmux.conf ~/.tmux.conf
+  makelink $MYENV_HOME/bashrc ~/.bashrc
+  makelink $MYENV_HOME/bash_profile ~/.bash_profile
+fi
+
+makelink $MYENV_HOME/dot_ssh/config ~/.ssh/config
+makelink $MYENV_HOME/dot_gitconfig ~/.gitconfig
+
+makelink $MYENV_HOME/dot_tmuxp ~/.tmuxp
 
 mkdir -p ~/.config/tmuxp/
-makelink ~/projects/my-enviroment/timew.yml ~/.config/tmuxp/timew.yml
-
-makelink ~/projects/my-enviroment/config/ghostty/ ~/.config/ghostty
-makelink ~/projects/my-enviroment/config/alacritty/ ~/.config/alacritty
-if [[ $os = "Linux" ]]; then
-  makelink ~/.config/alacritty/linux.toml ~/.config/alacritty/os.toml
-fi
+makelink $MYENV_HOME/timew.yml ~/.config/tmuxp/timew.yml
 
 # VIM
-makelink ~/projects/my-enviroment/vim/vim ~/.vim
-makelink ~/projects/my-enviroment/vim/vimrc ~/.vimrc
+makelink $MYENV_HOME/vim/vim ~/.vim
+makelink $MYENV_HOME/vim/vimrc ~/.vimrc
+makelink $MYENV_HOME/vim/vim/snippets/ ~/.snippets
 
-# NeoVIM
-# If nvim is a plain directory, then rename before we create a symlink to
-# our new version
-
-if test -d ~/.config/nvim; then
-  if test -L ~/.config/nvim; then
-    echo "nvim is already a symlink to a directory, not changing"
-  else
-    echo "nvim is just a plain directory, renaming"
-    mv ~/.config/nvim ~/.config/nvim-before-lazyvim-changes
+if ! $omarchy; then
+  makelink $MYENV_HOME/config/ghostty/ ~/.config/ghostty
+  makelink $MYENV_HOME/config/alacritty/ ~/.config/alacritty
+  if [[ $os = "Linux" ]]; then
+    makelink ~/.config/alacritty/linux.toml ~/.config/alacritty/os.toml
   fi
-fi
-makelink ~/projects/my-enviroment/nvim ~/.config/nvim
-makelink ~/projects/my-enviroment/vim/vim/snippets/ ~/.snippets
-# Email
-makelink ~/projects/my-enviroment/mutt ~/.mutt
-makelink ~/projects/my-enviroment/muttrc ~/.muttrc
 
-# Fish
+  # NeoVIM
+  # If nvim is a plain directory, then rename before we create a symlink to
+  # our new version
+  if test -d ~/.config/nvim; then
+    if test -L ~/.config/nvim; then
+      echo "nvim is already a symlink to a directory, not changing"
+    else
+      echo "nvim is just a plain directory, renaming"
+      mv ~/.config/nvim ~/.config/nvim-before-lazyvim-changes
+    fi
+  fi
+  makelink $MYENV_HOME/nvim ~/.config/nvim
+
+  # Starship Prompt
+  makelink $MYENV_HOME/config/starship.toml ~/.config/starship.toml
+fi
+
+# Email
+makelink $MYENV_HOME/mutt ~/.mutt
+makelink $MYENV_HOME/muttrc ~/.muttrc
+
+# Fish (optional shell - harmless if fish isn't installed)
 mkdir -p ~/.config/fish
-makelink ~/projects/my-enviroment/config/fish/config.fish ~/.config/fish/config.fish
-makelink ~/projects/my-enviroment/config/fish/fish_plugins ~/.config/fish/fish_plugins
+makelink $MYENV_HOME/config/fish/config.fish ~/.config/fish/config.fish
+makelink $MYENV_HOME/config/fish/fish_plugins ~/.config/fish/fish_plugins
 
 mkdir -p ~/.config/fish/functions
-for i in $(ls ~/projecys/my-enviroment/config/fish/functions); do
-  makelink ~/projects/my-enviroment/config/fish/functions/$i ~/.config/fish/functions/$i
+for i in $(ls $MYENV_HOME/config/fish/functions); do
+  makelink $MYENV_HOME/config/fish/functions/$i ~/.config/fish/functions/$i
 done
 
-# Starship Prompt
-makelink ~/projects/my-enviroment/config/starship.toml ~/.config/starship.toml
+# Omarchy shell (bar, dock, idle) and Hyprland keybindings.
+# monitors.lua is deliberately not managed: it is per-machine.
+if $omarchy; then
+  mkdir -p ~/.config/omarchy ~/.config/hypr
+  makelink $MYENV_HOME/config/omarchy/shell.json ~/.config/omarchy/shell.json
+  makelink $MYENV_HOME/config/hypr/bindings.lua ~/.config/hypr/bindings.lua
+  # Electron apps (Element etc.): use gnome-keyring and native Wayland
+  makelink $MYENV_HOME/config/electron-flags.conf ~/.config/electron-flags.conf
+fi
 
 # link bin files
 mkdir -p ~/bin
-makelink ~/projects/my-enviroment/bin/myip ~/bin/myip
-makelink ~/projects/my-enviroment/bin/dms_to_decimal ~/bin/dms_to_decimal
-makelink ~/projects/my-enviroment/bin/tmux-vim-select-pane ~/bin/tmux-vim-select-pane
-
-makelink ~/projects/my-enviroment/bin/go ~/bin/go
-makelink ~/projects/my-enviroment/bin/tmux-nest ~/bin/tmux-nest
-makelink ~/projects/my-enviroment/bin/worldclock ~/bin/worldclock
-makelink ~/projects/my-enviroment/bin/mtu_size.sh ~/bin/mtu_size
-makelink ~/projects/my-enviroment/bin/wait-for-host.sh ~/bin/wait-for-host
-makelink ~/projects/my-enviroment/bin/stay-connected ~/bin/stay-connected
-makelink ~/projects/my-enviroment/bin/stay-connected-tmux ~/bin/stay-connected-tmux
-makelink ~/projects/my-enviroment/bin/stay-connected-bs-tmux ~/bin/stay-connected-bs-tmux
+bin_links=(
+  myip:myip
+  dms_to_decimal:dms_to_decimal
+  tmux-vim-select-pane:tmux-vim-select-pane
+  tmux-nest:tmux-nest
+  worldclock:worldclock
+  mtu_size.sh:mtu_size
+  wait-for-host.sh:wait-for-host
+  stay-connected:stay-connected
+  stay-connected-tmux:stay-connected-tmux
+  stay-connected-bs-tmux:stay-connected-bs-tmux
+)
+for pair in "${bin_links[@]}"; do
+  makelink $MYENV_HOME/bin/${pair%%:*} ~/bin/${pair##*:}
+done
 
 # Geometery theme
-theme_dir=$HOME/projects/my-enviroment/zsh/custom/
+theme_dir=$MYENV_HOME/zsh/custom/
 geometry_theme_dir=$theme_dir/geometry
 
 # Remove old custom/themes if it exists
@@ -177,7 +243,7 @@ else
 fi
 
 # Do an initial remote update which populates .git/FETCH_HEAD and prevents errors
-pushd ~/projects/my-enviroment >/dev/null
+pushd $MYENV_HOME >/dev/null
 git remote update
 popd >/dev/null
 
@@ -206,7 +272,7 @@ if [ -f /proc/sys/kernel/isrelease ] && grep -Fqi Microsoft /proc/sys/kernel/osr
   if [ -d $roaming/wsltty ]; then
     echo "wsltty dir already exists - not copying over"
   else
-    cp -R ~/projects/my-enviroment/wsl/wsltty $roaming
+    cp -R $MYENV_HOME/wsl/wsltty $roaming
   fi
 
   # This section, is linking in for Windows version of running vim.
@@ -215,8 +281,8 @@ if [ -f /proc/sys/kernel/isrelease ] && grep -Fqi Microsoft /proc/sys/kernel/osr
     echo "nvim dir already exists - not copying over"
   else
     mkdir -p $nvimd/autoload
-    cp ~/projects/my-enviroment/vim/init.vim $nvimd/init.vim
-    cp -R ~/projects/my-enviroment/vim/vim/snippets $nvimd/
+    cp $MYENV_HOME/vim/init.vim $nvimd/init.vim
+    cp -R $MYENV_HOME/vim/vim/snippets $nvimd/
     curl -fLo $nvimd/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     sed -i "s@~/.vim/autoload/plug.vim@$nvimd/autoload/plug.vim@" $nvimd/init.vim
   fi
