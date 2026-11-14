@@ -36,3 +36,12 @@ o.bind("SUPER + SHIFT + D", "Teams", { webapp = "https://teams.microsoft.com/", 
 
 -- OpenStreetMap (replaces Google Maps)
 o.rebind("SUPER + SHIFT + S", "OpenStreetMap", { webapp = "https://www.openstreetmap.org/", focus = true })
+
+-- Cloudflare WARP VPN toggle. Only bound where WARP is installed (work
+-- machines; see the "warp" tag in ansible-playbook-development).
+local warp = io.open("/usr/bin/warp-cli", "r")
+if warp then
+  warp:close()
+  o.bind("SUPER + ALT + W", "WARP VPN toggle",
+    "sh -c 'if warp-cli status | grep -q Connected; then warp-cli disconnect; else warp-cli connect; fi'")
+end
