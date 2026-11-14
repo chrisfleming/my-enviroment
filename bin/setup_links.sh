@@ -172,6 +172,8 @@ if $omarchy; then
   mkdir -p ~/.config/omarchy ~/.config/hypr
   makelink $MYENV_HOME/config/omarchy/shell.json ~/.config/omarchy/shell.json
   makelink $MYENV_HOME/config/hypr/bindings.lua ~/.config/hypr/bindings.lua
+  # Electron apps (Element etc.): use gnome-keyring and native Wayland
+  makelink $MYENV_HOME/config/electron-flags.conf ~/.config/electron-flags.conf
 fi
 
 # link bin files
