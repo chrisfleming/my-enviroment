@@ -87,16 +87,27 @@ if $omarchy; then
     echo "adding my-enviroment hook to ~/.bashrc"
     cat >>~/.bashrc <<'HOOK'
 
-# my-enviroment: layer on top of Omarchy, keeping Omarchy's prompt and ls
+# my-enviroment: layer on top of Omarchy, keeping Omarchy's prompt. ls stays
+# GNU ls (not Omarchy's eza alias) so flags like ls -lrt work.
 if [[ -r ~/.bashrc_myenv ]]; then
-  _omarchy_ps1=$PS1 _omarchy_pc=$PROMPT_COMMAND _omarchy_ls=$(alias ls 2>/dev/null)
+  _omarchy_ps1=$PS1 _omarchy_pc=$PROMPT_COMMAND
   source ~/.bashrc_myenv
   PS1=$_omarchy_ps1
   PROMPT_COMMAND="${_omarchy_pc:+$_omarchy_pc; }_bash_history_sync"
-  [[ -n $_omarchy_ls ]] && eval "$_omarchy_ls"
-  unset _omarchy_ps1 _omarchy_pc _omarchy_ls
+  unset _omarchy_ps1 _omarchy_pc
 fi
 HOOK
+  fi
+  # Migrate hooks written by earlier versions, which restored Omarchy's ls alias
+  if grep -q '_omarchy_ls' ~/.bashrc; then
+    echo "updating my-enviroment hook in ~/.bashrc (ls is GNU ls again)"
+    sed -i \
+      -e 's/ _omarchy_ls=\$(alias ls 2>\/dev\/null)//' \
+      -e '/_omarchy_ls" \]\] && eval/d' \
+      -e '/\[\[ -n \$_omarchy_ls \]\]/d' \
+      -e 's/unset _omarchy_ps1 _omarchy_pc _omarchy_ls/unset _omarchy_ps1 _omarchy_pc/' \
+      -e "s/keeping Omarchy's prompt and ls/keeping Omarchy's prompt, ls stays GNU ls/" \
+      ~/.bashrc
   fi
 else
   makelink $MYENV_HOME/tmux.conf ~/.tmux.conf
