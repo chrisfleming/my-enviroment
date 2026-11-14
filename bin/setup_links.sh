@@ -155,6 +155,14 @@ for i in $(ls $MYENV_HOME/config/fish/functions); do
   makelink $MYENV_HOME/config/fish/functions/$i ~/.config/fish/functions/$i
 done
 
+# Omarchy shell (bar, dock, idle) and Hyprland keybindings.
+# monitors.lua is deliberately not managed: it is per-machine.
+if $omarchy; then
+  mkdir -p ~/.config/omarchy ~/.config/hypr
+  makelink $MYENV_HOME/config/omarchy/shell.json ~/.config/omarchy/shell.json
+  makelink $MYENV_HOME/config/hypr/bindings.lua ~/.config/hypr/bindings.lua
+fi
+
 # link bin files
 mkdir -p ~/bin
 bin_links=(
