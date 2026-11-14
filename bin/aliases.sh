@@ -53,34 +53,35 @@ case "${TERM}" in
 esac
 }
 
-# Search through a list of alternative binaries, returning the first match
+# Search through a list of alternative binaries, returning the first match.
+# Uses "command -v" rather than "which" (not installed everywhere, e.g. minimal
+# containers) and only accepts real executables, not aliases or functions.
 function find_alternatives ()
 {
+    local arg file
     for arg in "$@"
     do
-        # --skip-alias only works with GNU which
-        # file=`which --skip-alias $arg 2> /dev/null`
-        file=`which $arg 2> /dev/null`
-        if [ -x "$file" ]; then
+        file=$(command -v "$arg" 2>/dev/null)
+        if [ "${file#/}" != "$file" ] && [ -x "$file" ]; then
             echo "$file"
-            return
+            return 0
         fi
     done
     return 1
 }
 
-function pathadd () 
+# pathadd DIR [after|append]: add DIR to PATH if it exists and isn't there already.
+# Prepends by default; "after" (or "append") puts it at the end.
+function pathadd ()
 {
-    if [[ -d "$1" ]]; then
-        if ! echo $PATH | grep -Eq "(^|:)$1($|:)" 
-        then 
-            if [ "$2" = "after" ] ; then
-                PATH=$PATH:$1
-            else
-                PATH=$1:$PATH
-            fi
-        fi
-    fi
+    [ -d "$1" ] || return 0
+    case ":$PATH:" in
+        *":$1:"*) return 0 ;;
+    esac
+    case "$2" in
+        after|append) PATH="$PATH:$1" ;;
+        *)            PATH="$1:$PATH" ;;
+    esac
 }
 
 # Calculator
