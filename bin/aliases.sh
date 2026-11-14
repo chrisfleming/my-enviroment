@@ -72,7 +72,7 @@ function find_alternatives ()
 function pathadd () 
 {
     if [[ -d "$1" ]]; then
-        if ! echo $PATH | egrep -q "(^|:)$1($|:)" 
+        if ! echo $PATH | grep -Eq "(^|:)$1($|:)" 
         then 
             if [ "$2" = "after" ] ; then
                 PATH=$PATH:$1

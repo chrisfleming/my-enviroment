@@ -499,8 +499,8 @@ if [ -x /usr/bin/dircolors ]; then
   #alias vdir='vdir --color=auto'
 
   alias grep='grep --color=auto'
-  alias fgrep='fgrep --color=auto'
-  alias egrep='egrep --color=auto'
+  alias fgrep='grep -F --color=auto'
+  alias egrep='grep -E --color=auto'
 fi
 
 # Pull in bash completion stuff is possible...
