@@ -116,12 +116,14 @@ find_ssh_agent()
 
 
 function start_agent {
+     # SSH_ENV is set by bashrc; ~/.ssh may not exist yet on a fresh machine
+     local env_file="${SSH_ENV:-$HOME/.ssh/environment}"
+     mkdir -p "$(dirname "$env_file")" && chmod 700 "$(dirname "$env_file")"
      echo "Initialising new SSH agent..."
-     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-     echo succeeded
-     chmod 600 "${SSH_ENV}"
-     . "${SSH_ENV}" > /dev/null
-     /usr/bin/ssh-add;
+     ssh-agent | sed 's/^echo/#echo/' > "$env_file" || return 1
+     chmod 600 "$env_file"
+     . "$env_file" > /dev/null
+     ssh-add
 }
 
 function working_display {
