@@ -14,6 +14,7 @@ min_mtu=500
 low=$((min_mtu - 28))
 high=$((max_mtu - 28))
 
+limit=0
 echo "Binary search for MTU to $myhost between $min_mtu and $max_mtu..."
 echo ""
 

@@ -4,5 +4,5 @@ if status is-interactive
   keychain --eval id_rsa id_ed25519 id_sftp | source
 end
 
-
+zoxide init fish | source
 starship init fish | source

@@ -36,3 +36,5 @@
 [core]
 	autocrlf = false
 	eol = lf
+[init]
+	defaultBranch = main
