@@ -518,9 +518,25 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 SSH_ENV="$HOME/.ssh/environment"
-# Source SSH settings, if applicable
 
-if [[ -z "${SSH_AUTH_SOCK}" ]]; then
+# If the desktop session provides gcr-ssh-agent (Omarchy: Setup > Security > SSH Agent),
+# use it as-is. Otherwise prefer keychain (shares one agent across shells, and adopts an
+# existing/forwarded agent); fall back to a hand-rolled ssh-agent if it isn't installed.
+if [[ "${SSH_AUTH_SOCK}" == */gcr/ssh ]]; then
+  :
+elif command -v keychain >/dev/null 2>&1; then
+  _ssh_keys=()
+  for _k in id_rsa id_ed25519 id_sftp; do
+    [[ -f "$HOME/.ssh/$_k" ]] && _ssh_keys+=("$_k")
+  done
+  if [[ ${#_ssh_keys[@]} -gt 0 ]]; then
+    eval "$(keychain --quiet --eval --inherit any "${_ssh_keys[@]}" 2>/dev/null)"
+  else
+    eval "$(keychain --quiet --eval --inherit any 2>/dev/null)"
+  fi
+  unset _ssh_keys _k
+elif [[ -z "${SSH_AUTH_SOCK}" ]]; then
+  # Fallback: source saved agent settings, or start a new agent
   if [ -f "${SSH_ENV}" ]; then
     . "${SSH_ENV}" >/dev/null
     #ps ${SSH_AGENT_PID} doesn't work under cywgin
