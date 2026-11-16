@@ -1,0 +1,151 @@
+#!/bin/bash
+# Save and restore Hyprland monitor layouts as named profiles.
+#
+# Profiles live in this repo under config/hypr/monitors/<name>.lua and are
+# complete copies of ~/.config/hypr/monitors.lua. On save, external outputs are
+# rewritten from connector names (DP-3) to "desc:<make model serial>", so a
+# profile follows the physical monitors whichever laptop or dock port they are
+# plugged into. The laptop panel keeps its connector name (eDP-1).
+#
+# monitors.lua is copied, not symlinked, because Omarchy edits it in place
+# (e.g. when changing the monitor scale).
+set -euo pipefail
+
+SCRIPT=$(readlink -f "${BASH_SOURCE[0]}")
+MYENV_HOME=$(cd -- "$(dirname -- "$SCRIPT")/.." &>/dev/null && pwd)
+PROFILE_DIR=$MYENV_HOME/config/hypr/monitors
+LIVE=$HOME/.config/hypr/monitors.lua
+
+usage() {
+  cat <<EOF
+Usage: monitor-setup <command> [profile]
+
+  list              list saved profiles (* = matches the connected monitors)
+  save <profile>    save the current monitors.lua as a profile
+  restore [profile] apply a profile; with no name, pick the one matching the
+                    connected monitors
+  current           show the profile matching the connected monitors
+EOF
+}
+
+hypr_running() {
+  [[ -n ${HYPRLAND_INSTANCE_SIGNATURE:-} ]] && hyprctl monitors -j &>/dev/null
+}
+
+# "name<TAB>description" for every connected output
+connected() {
+  hyprctl monitors all -j | jq -r '.[] | "\(.name)\t\(.description)"'
+}
+
+# The "desc:" outputs a profile configures, one per line (comments skipped)
+profile_descs() {
+  grep -v '^[[:space:]]*--' "$1" | grep -oP 'output\s*=\s*"desc:\K[^"]+' || true
+}
+
+# Print the profile whose monitors are all connected. If several match, the one
+# naming the most monitors wins.
+detect() {
+  hypr_running || return 1
+  local descs best="" best_count=0 profile count ok d
+  descs=$(connected | cut -f2)
+  for profile in "$PROFILE_DIR"/*.lua; do
+    [[ -e $profile ]] || continue
+    count=0 ok=true
+    while IFS= read -r d; do
+      [[ -z $d ]] && continue
+      if grep -qxF -- "$d" <<<"$descs"; then
+        count=$((count + 1))
+      else
+        ok=false
+      fi
+    done < <(profile_descs "$profile")
+    if $ok && ((count > best_count)); then
+      best=$(basename "$profile" .lua)
+      best_count=$count
+    fi
+  done
+  [[ -n $best ]] && echo "$best"
+}
+
+cmd_list() {
+  local match profile name
+  match=$(detect || true)
+  for profile in "$PROFILE_DIR"/*.lua; do
+    [[ -e $profile ]] || continue
+    name=$(basename "$profile" .lua)
+    if [[ $name == "$match" ]]; then echo "* $name"; else echo "  $name"; fi
+  done
+}
+
+cmd_save() {
+  local name=$1 content output desc
+  [[ $name =~ ^[A-Za-z0-9_-]+$ ]] || { echo "Profile names may only use letters, digits, - and _" >&2; exit 1; }
+  [[ -f $LIVE ]] || { echo "$LIVE not found" >&2; exit 1; }
+  content=$(<"$LIVE")
+
+  if hypr_running; then
+    while IFS=$'\t' read -r output desc; do
+      # Laptop panels stay matched by connector; anything without a
+      # description can't be matched by one.
+      [[ $output =~ ^(eDP|LVDS|DSI) || -z $desc ]] && continue
+      content=${content//"output = \"$output\""/"output = \"desc:$desc\""}
+    done < <(connected)
+  else
+    echo "Hyprland isn't running: saving connector names as they are" >&2
+  fi
+
+  mkdir -p "$PROFILE_DIR"
+  printf '%s\n' "$content" >"$PROFILE_DIR/$name.lua"
+  echo "Saved $PROFILE_DIR/$name.lua"
+}
+
+cmd_restore() {
+  local name=${1:-} profile
+  if [[ -z $name ]]; then
+    name=$(detect || true)
+    [[ -n $name ]] || { echo "No saved profile matches the connected monitors. Profiles:" >&2; cmd_list >&2; exit 1; }
+    echo "Connected monitors match profile: $name"
+  fi
+  profile=$PROFILE_DIR/$name.lua
+  [[ -f $profile ]] || { echo "No such profile: $name" >&2; exit 1; }
+
+  if [[ -f $LIVE ]] && cmp -s "$profile" "$LIVE"; then
+    echo "$name is already active"
+    return
+  fi
+
+  mkdir -p "$(dirname "$LIVE")"
+  local backup=""
+  if [[ -f $LIVE ]]; then
+    backup=$LIVE.bak.$(date +%s)
+    cp "$LIVE" "$backup"
+  fi
+  cp "$profile" "$LIVE"
+  echo "Applied $name${backup:+ (previous layout kept as $backup)}"
+
+  if hypr_running; then
+    hyprctl reload >/dev/null
+    local errors
+    errors=$(hyprctl configerrors)
+    if [[ -n ${errors//[[:space:]]/} ]]; then
+      echo "Hyprland reported config errors:" >&2
+      echo "$errors" >&2
+      exit 1
+    fi
+  fi
+}
+
+case "${1:-}" in
+list) cmd_list ;;
+save)
+  [[ $# -eq 2 ]] || { usage >&2; exit 1; }
+  cmd_save "$2"
+  ;;
+restore) cmd_restore "${2:-}" ;;
+current) detect || { echo "No saved profile matches the connected monitors" >&2; exit 1; } ;;
+-h | --help | help) usage ;;
+*)
+  usage >&2
+  exit 1
+  ;;
+esac

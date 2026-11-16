@@ -22,6 +22,12 @@ if [[ "$TARGET" == *:* ]]; then
   NAME="${TARGET#*:}"
 fi
 
+# $2 may be an ssh_config alias (e.g. one defined in ~/.ssh/config.d/), which
+# ping can't resolve. Ask ssh for the real hostname to ping and monitor; a
+# plain hostname comes back unchanged.
+PING_HOST=$(ssh -G "$2" 2>/dev/null | awk '$1 == "hostname" { print $2; exit }')
+PING_HOST=${PING_HOST:-$2}
+
 # Wait for $1 to come back up. If ping-monitor is available, make sure its
 # server is running, register the host with it, and show the live dashboard
 # instead of blocking silently. Falls back to the plain ping loop otherwise.
@@ -53,7 +59,7 @@ wait_for_target() {
 if curl -sf --max-time 1 "$ping_monitor_url/health" >/dev/null 2>&1; then
   curl -s -X POST "http://localhost:8765/hosts" \
     -H "Content-Type: application/json" \
-    -d "{\"host\": \"$2\"}"
+    -d "{\"host\": \"$PING_HOST\"}"
 fi
 
 while true; do
@@ -94,5 +100,5 @@ while true; do
       fi
     fi
   }
-  wait_for_target $2
+  wait_for_target "$PING_HOST"
 done

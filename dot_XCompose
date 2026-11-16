@@ -1,0 +1,11 @@
+# Run omarchy-restart-xcompose to apply changes
+
+# Include fast emoji access
+include "/usr/share/omarchy/default/xcompose"
+
+# Identification
+<Multi_key> <space> <n> : "Chris Fleming"
+<Multi_key> <space> <e> : "chris.fleming@oneilluminate.com"
+
+# Illuminate
+<Multi_key> <space> <i> : "oneilluminate.com"

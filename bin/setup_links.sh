@@ -15,6 +15,28 @@ if [[ "$MYENV_HOME" != "$CANONICAL" && ! -e "$CANONICAL" ]]; then
   ln -s "$MYENV_HOME" "$CANONICAL"
 fi
 
+# Always link through the canonical path, however this script was reached
+# (~/Projects/... and ~/projects/... are the same checkout). Otherwise every
+# existing link looks wrong and gets needlessly backed up and recreated.
+if [[ "$CANONICAL" -ef "$MYENV_HOME" ]]; then
+  MYENV_HOME=$CANONICAL
+fi
+
+# Copy a file into place only if it isn't there yet. For files that Omarchy
+# rewrites itself (replacing any symlink), so the repo copy is just a seed.
+function seedfile() {
+  sourcef=$1
+  destf=$2
+
+  if [[ -e $destf || -L $destf ]]; then
+    echo "$destf already exists, not seeding"
+    return
+  fi
+
+  echo "seeding $destf from $sourcef"
+  cp $sourcef $destf
+}
+
 function makelink() {
   sourcef=$1
   destf=$2
@@ -25,8 +47,13 @@ function makelink() {
   fi
 
   if [[ -e $destf || -L $destf ]]; then
-    echo "backing up $destf"
-    mv $destf "$destf.myenvbak"
+    # Never overwrite an earlier backup: that one holds the original file
+    backup="$destf.myenvbak"
+    if [[ -e $backup || -L $backup ]]; then
+      backup="$backup.$(date +%s)"
+    fi
+    echo "backing up $destf to $backup"
+    mv -T $destf "$backup"
   fi
 
   echo "creating link $sourcef $destf"
@@ -122,6 +149,15 @@ makelink $MYENV_HOME/dot_tmuxp ~/.tmuxp
 
 mkdir -p ~/.config/tmuxp/
 makelink $MYENV_HOME/timew.yml ~/.config/tmuxp/timew.yml
+makelink $MYENV_HOME/config/tmuxp/quake.yml ~/.config/tmuxp/quake.yml
+
+# Per-machine ssh hosts (not tracked) go in ~/.ssh/config.d/, which
+# dot_ssh/config includes. tmuxp/quake.yml expects a "quake" alias there.
+mkdir -p ~/.ssh/config.d
+chmod 700 ~/.ssh/config.d
+if [[ $(ssh -G quake 2>/dev/null | awk '$1 == "hostname" { print $2 }') == quake ]]; then
+  echo "NOTE: no 'quake' ssh alias yet - add a Host quake entry in ~/.ssh/config.d/quake"
+fi
 
 # VIM
 makelink $MYENV_HOME/vim/vim ~/.vim
@@ -167,9 +203,22 @@ for i in $(ls $MYENV_HOME/config/fish/functions); do
 done
 
 # Omarchy shell (bar, dock, idle) and Hyprland keybindings.
-# monitors.lua is deliberately not managed: it is per-machine.
+# monitors.lua is deliberately not linked: it depends on what is plugged in.
+# Saved layouts live in config/hypr/monitors/; apply one with
+# "monitor-setup restore".
 if $omarchy; then
-  mkdir -p ~/.config/omarchy ~/.config/hypr
+  mkdir -p ~/.config/omarchy ~/.config/hypr ~/.config/kitty ~/.config/environment.d
+  # Text size: Omarchy rewrites this file when the size is changed
+  seedfile $MYENV_HOME/config/omarchy/shell.toml ~/.config/omarchy/shell.toml
+  makelink $MYENV_HOME/config/kitty/kitty.conf ~/.config/kitty/kitty.conf
+  makelink $MYENV_HOME/config/xdg-terminals.list ~/.config/xdg-terminals.list
+  # Compose key shortcuts (includes Omarchy's emoji sequences)
+  makelink $MYENV_HOME/dot_XCompose ~/.XCompose
+  # ssh-agent as a systemd user socket, with SSH_AUTH_SOCK set for the session
+  makelink $MYENV_HOME/config/environment.d/90-ssh-agent.conf ~/.config/environment.d/90-ssh-agent.conf
+  if systemctl --user cat ssh-agent.socket &>/dev/null; then
+    systemctl --user enable --now ssh-agent.socket
+  fi
   makelink $MYENV_HOME/config/omarchy/shell.json ~/.config/omarchy/shell.json
   makelink $MYENV_HOME/config/hypr/bindings.lua ~/.config/hypr/bindings.lua
   # Electron apps (Element etc.): use gnome-keyring and native Wayland
@@ -189,6 +238,7 @@ bin_links=(
   stay-connected:stay-connected
   stay-connected-tmux:stay-connected-tmux
   stay-connected-bs-tmux:stay-connected-bs-tmux
+  monitor-setup:monitor-setup
 )
 for pair in "${bin_links[@]}"; do
   makelink $MYENV_HOME/bin/${pair%%:*} ~/bin/${pair##*:}

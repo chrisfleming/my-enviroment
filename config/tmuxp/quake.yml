@@ -1,0 +1,11 @@
+# "quake" is an ssh alias, defined per machine in ~/.ssh/config.d/timew (not
+# tracked), so the real hostname stays out of this repo:
+#
+#   Host timew
+#       HostName <real hostname>
+#       User <user>
+session_name: quake
+windows:
+  - window_name: timew
+    panes:
+      - stay-connected-bs-tmux cfleming timew shpool:timew
