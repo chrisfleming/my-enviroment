@@ -22,6 +22,7 @@ Include config.d/*
    User cfleming
 
 Host *
+   AddKeysToAgent yes
    ForwardAgent yes
 #   ForwardX11 no
 #   ForwardX11Trusted yes
