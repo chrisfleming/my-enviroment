@@ -8,7 +8,7 @@
 # Targets bash 4.4+ (RHEL/Rocky 8 is the oldest system this runs on), so avoid
 # newer features such as EPOCHSECONDS, ${var@U} or `wait -n`.
 #
-# Machine specific overrides go in ~/.bashrc_local and ~/.bashrc_$(hostname),
+# Machine specific overrides go in ~/.rc_local (shared with zsh), ~/.bashrc_local and ~/.bashrc_$(hostname),
 # which are sourced near the end so they can override anything here.
 #
 # Various bits borrowed from:
@@ -329,6 +329,7 @@ fi
 
 # Generic local config for work and stuff, then anything machine specific.
 # These come late so they can override anything above.
+[[ -f $HOME/.rc_local ]] && source "$HOME/.rc_local"
 [[ -f $HOME/.bashrc_local ]] && source "$HOME/.bashrc_local"
 for _h in "$(hostname 2>/dev/null)" "$(hostname -s 2>/dev/null)"; do
   if [[ -n $_h && -f $HOME/.bashrc_$_h ]]; then
