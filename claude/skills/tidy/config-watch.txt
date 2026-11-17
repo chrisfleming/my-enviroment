@@ -1,0 +1,25 @@
+# Config paths /tidy watches for changes that my-enviroment doesn't track.
+# One path per line (~ allowed); directories are scanned recursively.
+# Files that are symlinks into my-enviroment are skipped (git covers them).
+# Edit freely: add what you care about, remove what's noisy.
+
+~/.config/hypr
+~/.config/omarchy
+~/.config/foot
+~/.config/ghostty
+~/.config/kitty
+~/.config/alacritty
+~/.config/environment.d
+~/.config/fish
+~/.config/git
+~/.config/tmux
+~/.config/uwsm
+~/.config/systemd/user
+~/.config/nvim/lua
+~/.config/starship.toml
+~/.config/mimeapps.list
+~/.config/user-dirs.dirs
+~/.config/chromium-flags.conf
+~/.ssh/config.d
+~/.bashrc
+~/.rc_local

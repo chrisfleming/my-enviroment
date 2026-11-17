@@ -225,6 +225,10 @@ if $omarchy; then
   makelink $MYENV_HOME/config/electron-flags.conf ~/.config/electron-flags.conf
 fi
 
+# Claude Code skills
+mkdir -p ~/.claude/skills
+makelink $MYENV_HOME/claude/skills/tidy ~/.claude/skills/tidy
+
 # link bin files
 mkdir -p ~/bin
 bin_links=(
