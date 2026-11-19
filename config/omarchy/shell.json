@@ -17,7 +17,6 @@
       ],
       "centerEnd": [
         {
-          "id": "omarchy.elsewhen",
           "cities": [
             {
               "name": "Edinburgh",
@@ -32,13 +31,14 @@
               "zone": "Asia/Tel_Aviv"
             },
             {
-              "name": "Berlin",
-              "zone": "Europe/Berlin",
               "lat": 52.52437,
               "lon": 13.41053,
-              "region": "State of Berlin, DE"
+              "name": "Berlin",
+              "region": "State of Berlin, DE",
+              "zone": "Europe/Berlin"
             }
           ],
+          "id": "omarchy.elsewhen",
           "units": "C"
         },
         {
@@ -60,6 +60,15 @@
       "right": [
         {
           "id": "omarchy.tray"
+        },
+        {
+          "id": "io.github.andrecards.voicefilters",
+          "preset": "meeting",
+          "meetingEq": "warm",
+          "meetingEqBodyDb": 0,
+          "meetingEqPresenceDb": 0,
+          "meetingEqAirDb": 0,
+          "enabled": true
         },
         {
           "id": "omarchy.keyboard-layout"
@@ -89,7 +98,7 @@
         }
       ]
     },
-    "position": "left"
+    "position": "top"
   },
   "dock": {
     "pinned": [

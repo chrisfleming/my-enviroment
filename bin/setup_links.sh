@@ -220,6 +220,7 @@ if $omarchy; then
     systemctl --user enable --now ssh-agent.socket
   fi
   makelink $MYENV_HOME/config/omarchy/shell.json ~/.config/omarchy/shell.json
+  makelink $MYENV_HOME/config/omarchy/themes/illuminate-dark/colors.toml ~/.config/omarchy/themes/illuminate-dark/colors.toml
   makelink $MYENV_HOME/config/hypr/bindings.lua ~/.config/hypr/bindings.lua
   # Electron apps (Element etc.): use gnome-keyring and native Wayland
   makelink $MYENV_HOME/config/electron-flags.conf ~/.config/electron-flags.conf
