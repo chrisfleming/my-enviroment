@@ -24,3 +24,9 @@ hl.monitor({ output = "desc:Dell Inc. DELL P2720D JV69F9C40TWL",  mode = "2560x1
 -- app for a change to reach it.
 local omarchy_gdk_scale = 1
 hl.env("GDK_SCALE", tostring(omarchy_gdk_scale))
+
+-- Intel iGPU (i915): with tiled/compressed scanout buffers (Y_TILED_CCS), the
+-- GPU runs out of display memory driving the U3415W at 3440x1440 alongside the
+-- P2720D, and Hyprland falls back to 1720x1440. Turning off explicit buffer
+-- modifiers fixes it. Read at startup: log out and back in to apply.
+hl.env("AQ_NO_MODIFIERS", "1")
